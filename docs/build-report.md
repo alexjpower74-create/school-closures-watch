@@ -30,6 +30,18 @@ Draft, written as each round lands. Final numbers come from the last pinned QA r
 - **sc1 self-found (control G):** both 1.1 s spacing tests compared gaps to the imported constant, so setting it to 0
   still passed. Now a literal 1100.
 
+## sc2 round 2 (done 15:13, bff3486)
+- Today at 1280: regions with notices in the grid, empty ones on one line ("No notices: Avalon, Labrador"); the
+  hard-edged blue block was the aurora's third glow centred on the fixed layer's bottom edge (a straight line at
+  y ≈ 900 in full-page shots), now faded before the edge. My schools at 390: second applying notices compact, their
+  words behind "Show the notice's words" (new storm test taps it open and checks the verbatim quote).
+- sc2's own numbers at f03c7e8: 104 passed, 4 skipped; all five controls red → green again.
+- **Mistake caught by sc2:** its first controls run started before round 2 was committed, and the script's
+  `git checkout` restore silently reverted three uncommitted files. Caught because "restored" runs stayed red and
+  `git status` showed 3 of 6 files. Re-applied, committed, reran; `negative-controls.py` now refuses a dirty `app/`
+  (seen to refuse once before relying on it).
+- Lead looked at the retaken today-storm-1280 and my-storm-390: both fixes visible, nothing else wrong.
+
 ## Rounds
 - Round 1: sc1 steps 1–7 (b76085a), sc2 screens + mock + Playwright (f3bf596). Both merged into main (de28cd9, 6c221e8).
 - Round 2 (running): sc1 old-list guard, region phrase first, two regions → district, wording fixes, Worker fields for
