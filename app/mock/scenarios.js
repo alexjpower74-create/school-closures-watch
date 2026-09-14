@@ -258,7 +258,7 @@ function stale() {
     last_error: 'HTTP 503',
     stale: true,
     stale_reason: 'last_attempt_failed',
-    stale_text: `We couldn't reach NLSchools at ${fmtTime(failed)}. Statuses below are from ${fmtTime(lastOk)}.`,
+    stale_text: `We couldn't reach the NLSchools list at ${fmtTime(failed)}. Statuses below are from ${fmtTime(lastOk)}.`,
     next_due_at: at(failed, 60),
   }
   return { now, health: set, notices: todayRows('2026-09-14T16:40:05.000Z', lastOk) }

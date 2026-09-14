@@ -18,6 +18,8 @@ export const rankFor = (code) => (STATUS[code] || STATUS.other).rank
 
 export const REASON_TEXT = {
   stale: "We couldn't check NLSchools since {time}. Check nlschools.ca or call the school.",
+  // Same reason code when NLSchools was never checked (API.md §4.5, lead answer 14:50).
+  stale_never: "We haven't been able to check NLSchools yet. Check nlschools.ca or call the school.",
   list_date_old: 'The NLSchools list is still showing {list_date_text}.',
   list_date_missing: "We couldn't read which day the NLSchools list is for.",
   open_rule_missing:

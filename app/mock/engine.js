@@ -16,7 +16,9 @@ function httpError(status, code, message) {
 
 export function createEngine({ now, health, notices }) {
   const today_local = localDate(now)
-  const current = notices.filter((n) => !n.removed_at)
+  // Old lists never set today's status (API.md §4.5, lead fix 14:55): they only show under "earlier" on Today.
+  const isOld = (n) => n.list_date !== null && n.list_date !== undefined && n.list_date < today_local
+  const current = notices.filter((n) => !n.removed_at && !isOld(n))
   const byId = Object.fromEntries(notices.map((n) => [n.id, n]))
   const schoolById = Object.fromEntries(SCHOOLS.map((s) => [s.id, s]))
   const nls = health['nlschools-status']
@@ -85,7 +87,10 @@ export function createEngine({ now, health, notices }) {
       if (nls.stale) {
         st.stale = true
         if (worst) headline(worst)
-        else unknown('stale', { time: fmtTime(nls.last_ok_at) })
+        else if (!nls.last_ok_at) {
+          unknown('stale')
+          st.reason_text = REASON_TEXT.stale_never
+        } else unknown('stale', { time: fmtTime(nls.last_ok_at) })
       } else if (worst) headline(worst)
       else if (st.may_apply.length) {
         set('may_apply')
@@ -163,7 +168,7 @@ export function createEngine({ now, health, notices }) {
             .map(withAppliesTo),
           unmatched: current.filter((n) => n.scope === 'unmatched' && regionOf(n) === r.region),
           earlier: notices
-            .filter((n) => n.removed_at && n.list_date === nls.list_date && regionOf(n) === r.region)
+            .filter((n) => ((n.removed_at && n.list_date === nls.list_date) || (!n.removed_at && isOld(n))) && regionOf(n) === r.region)
             .map(withAppliesTo),
         })),
         csfp: current.filter((n) => n.source_id === 'csfp-news'),

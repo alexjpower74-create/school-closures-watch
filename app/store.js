@@ -17,12 +17,17 @@ function clean(list) {
 
 export function loadIds() {
   if (memory) return [...memory]
+  // A link may carry ?ids=a,b (the Done link when storage is off, or a shared link): shown, not saved.
+  if (params.get('ids')) {
+    memory = clean(params.get('ids').split(','))
+    return [...memory]
+  }
   try {
     const raw = localStorage.getItem(KEY)
     memory = clean(raw ? JSON.parse(raw) : [])
   } catch {
     ok = false
-    memory = clean((params.get('ids') || '').split(','))
+    memory = []
   }
   return [...memory]
 }

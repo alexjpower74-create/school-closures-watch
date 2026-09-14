@@ -2,7 +2,8 @@
 import { test, expect } from '@playwright/test'
 import { pickSchools, card, mockUrl } from './helpers.mjs'
 
-const BANNER = "We couldn't reach NLSchools at 2:55 PM. Statuses below are from 2:15 PM."
+// core/schedule.js staleText wording (API.md §5.2, lead answer 14:50).
+const BANNER = "We couldn't reach the NLSchools list at 2:55 PM. Statuses below are from 2:15 PM."
 
 async function expectBanner(page) {
   const banner = page.getByTestId('stale-banner')
