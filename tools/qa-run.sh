@@ -23,6 +23,7 @@ stage() {
   "$@" > "$LOG/$name.log" 2>&1
   local rc=$?
   tail -30 "$LOG/$name.log"
+  grep -E '^scenario .* EXIT=' "$LOG/$name.log" || true
   echo "STAGE=$name EXIT=$rc"
   [ $rc -ne 0 ] && overall=1
   return 0
