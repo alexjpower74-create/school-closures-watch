@@ -289,3 +289,58 @@ and Glovertown Academy (Glovertown, `closedAllDay` → closed, exact). `data/sou
   `counts.current`. **Lead: please add `unplaced` to §7, and sc2 should show it if it is ever non-empty.**
 - **Lead decision**: point 3 (two regions in one notice), and the NLSchools terms (DECISIONS.md, NEEDS ALEXANDER)
   before anything public.
+
+## Round 2 (lead 14:50 / 14:55 / 15:10 / 15:20) — DONE
+main is merged in (lead files only). Code and tests are in 734de73; this report and `data/sources.json` are in the
+next commit.
+
+**Test counts** (working tree = 734de73, on the **QA ports**):
+- core `SC_FIXTURE_PORT=8207`: **90/90**
+- Worker `SC_WORKER_PORT=8208 SC_WORKER_FIXTURE_PORT=8206`: phase 1 **1/1**, phase 2 **22/22**
+
+| # | Item | Where | Test |
+|---|---|---|---|
+| 1 | Old lists never set today's status | `core/status.js` `isOldList`: ignored for applies, may_apply and `unmatched_in_region`. `/api/today` leaves them out of current and lists them under `earlier` | core `old lists never set today's status … → open` (2026-09-11 closed exact notice, Monday 07:00 NDT, healthy list → `open`; also old may_apply, old region row, old unmatched). Worker `old list (lead fix 14:55): Monday's rows never set Tuesday's status; /api/today lists them under earlier` |
+| 2 | Region phrase before similarity (§4.2 3a) | `core/notice.js`: with no same-name school, `findRegionPhrase(school_text)` is checked before the similar-name result | core `§4.2 rule 3a: a region phrase is checked BEFORE similar names`: SAMPLE list with "Central High" (key `{central}`); "SAMPLE All schools in the Central region" → `region`, not may_apply |
+| 3 | More than one region named → `district` | `core/notice.js` `regionScope` (status rows and text notices) | core `§4.4 more than one distinct region named → district` (the same region named twice stays `region`) |
+| 4 | `name_same_community_differs` with no community | `mayApplyReasonText` | core `may_apply reason text when the row gives no community` |
+| 5 | `unmatched_in_region` for NLSchools schools only | `schoolStatus` | core `unmatched_in_region …`: École Sainte-Anne and a private school get 0; the storm-seed Worker test checks École Boréale 0 and Eastside 1 |
+| 6 | Stale text: never ok, an attempt failed | `staleText` (already worded this way) | core `stale_text when no check was ever good but an attempt failed` (NLSchools list and CSFP news feed) |
+| 7 | What sc2's screens need | `/api/today` `applies_to[]` gains `reason` (may_apply schools included); the notices map, `sources[]` fields, relative `raw_links` and CORS were already there | Worker `CORS: every GET (errors and raw copies too) …; preflight allows authorization`; Worker `storm seed (seed.mjs): /api/status notices map is complete; /api/today applies_to has may_apply with reason; sources fields` (runs `seed.mjs` as a child process; 9 references, all present; regions + district + region_wide + csfp + unplaced = `counts.current`) |
+| 9 | QA ports | `run.mjs` already used `SC_WORKER_PORT`/`SC_WORKER_FIXTURE_PORT` for the busy-port refusal; `pipeline.test` uses `SC_FIXTURE_PORT`; `seed.mjs`, `scan.mjs` and the Worker test helpers now default to the env ports | Busy-port check: holding 8216 with `SC_WORKER_FIXTURE_PORT=8216` → exit 1 "[run] port 8216 is already in use: refusing to reuse another server"; holding 8218 with `SC_WORKER_PORT=8218` → exit 1 "[run] port 8218 is already in use …" |
+
+Two existing tests changed because the rules changed, not to make them pass:
+- Worker `old list date → unknown list_date_old` asserted Glovertown stays `closed` on Tuesday. Under 14:55 it is
+  `unknown` / `list_date_old`, so the test says that now.
+- The new storm test first had a guessed `≥ 10` references. The storm seed has exactly 9, so the test pins 9.
+
+### Round 2 negative controls
+Each ran in a copy of the working tree under `test-results/r2-nc-*`: break, run, restore. Core copies were re-run
+after restoring. Worker "green again" is the QA-port run above.
+
+| Control | Break | Failing lines | Restored |
+|---|---|---|---|
+| A core: exact-name-only | `matchRow` returns no_school after rule 1 | 9 of 60: `SAMPLE storm fragment…`, `may_apply: "SAMPLE Glovertown" / "Gander, NL" → … name_similar (never exact)`, `may_apply: same name, different or missing community…`, `may_apply: a name shared by more than one school…`, `similar names: 1–5 candidates…`, `§4.2 rule 3a…`, `stale: applying notices keep their status…`, `may_apply: ambiguous row is NOT applied`, `may_apply reason text when the row gives no community` | 60/60 |
+| A Worker: exact-name-only | same | 3 of 22: `SAMPLE ambiguous → Glovertown may_apply (NOT closed)`, `a payload cannot bring its own matches or status…`, `storm seed (seed.mjs)…` | QA run green |
+| OL core: old-list guard removed | `isOldList` returns false | 1: `old lists never set today's status (lead fix 14:55): a 2026-09-11 closed exact notice on Monday 07:00 → open` | 60/60 |
+| OL Worker: old-list guard removed | same | 2: `old list date → unknown list_date_old`, `old list (lead fix 14:55): Monday's rows never set Tuesday's status…` | QA run green |
+| R3a core: region check back after similarity | `region = sameName \|\| m.matches.length ? null : findRegionPhrase(…)` | 1: `§4.2 rule 3a: a region phrase is checked BEFORE similar names (lead fix 14:55)` | 60/60 |
+| AMB core: ambiguous → district off | `regionScope` ignores `ambiguous` | 1: `§4.4 more than one distinct region named → district…` | 60/60 |
+
+The first-round controls (B, C, D, E, F, F2, G, H) cover code that round 2 didn't change; their record is in section 6.
+
+### PLAN steps 6 and 7
+- Step 6: every control is recorded (section 6 and above).
+- Step 7, the live `--dry --force` check: done in round 1 (section 7).
+- **`npm run demo`**, run once here at 15:14 NDT:
+  - It created `worker/.dev.vars` from the example, applied the local migrations and started the Worker on 8202.
+    There's no `app/serve.mjs` in this tree yet.
+  - It ran one forced live scan, ingested into the local Worker: nlschools-status ok, list 2026-09-14, 2 notices
+    (59,928 + 3,089 bytes); nlschools-notices ok, 0 notices (65 bytes); csfp-news ok, 0 notices (75,650 bytes).
+  - `--watch` then checked every minute and correctly skipped everything as `not_due`. Ctrl-C stopped every child,
+    and 8202 was free afterwards.
+  - `data/sources.json` from that scan is committed.
+
+### Still open
+- Nothing from round 2.
+- The NLSchools terms still need Alexander's sign-off before anything public (DECISIONS.md).

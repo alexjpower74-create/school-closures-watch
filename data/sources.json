@@ -1,6 +1,6 @@
 {
  "note": "Written by scripts/scan.mjs: the source registry (core/sources/registry.js) plus each used source's last scan result. Raw bodies are not stored here.",
- "updated_at": "2026-09-14T17:30:49.032Z",
+ "updated_at": "2026-09-14T17:45:34.489Z",
  "sources": [
   {
    "id": "nlschools-status",
@@ -29,9 +29,9 @@
     "result": "ok",
     "error": null,
     "sample": false,
-    "last_attempt_at": "2026-09-14T17:30:47.914Z",
-    "last_ok_at": "2026-09-14T17:30:47.914Z",
-    "next_due_at": "2026-09-14T18:30:47.914Z",
+    "last_attempt_at": "2026-09-14T17:44:33.182Z",
+    "last_ok_at": "2026-09-14T17:44:33.182Z",
+    "next_due_at": "2026-09-14T18:44:33.182Z",
     "list_date": "2026-09-14",
     "list_date_text": "Monday, September 14, 2026",
     "open_rule_quote": "If your school is not listed below, the status is normal and open as usual.",
@@ -43,14 +43,14 @@
      {
       "url": "https://www.nlschools.ca/schools/statusreport.jsp",
       "http_status": 200,
-      "bytes": 59925,
-      "raw_ref": "nlschools-status/2026-09-14T17-30-46-769Z-statusreport.html"
+      "bytes": 59928,
+      "raw_ref": "nlschools-status/2026-09-14T17-44-32-023Z-statusreport.html"
      },
      {
       "url": "https://www.nlschools.ca/schools/generated/schoolstatus.html",
       "http_status": 200,
       "bytes": 3089,
-      "raw_ref": "nlschools-status/2026-09-14T17-30-47-903Z-schoolstatus.html"
+      "raw_ref": "nlschools-status/2026-09-14T17-44-33-171Z-schoolstatus.html"
      }
     ]
    }
@@ -80,9 +80,9 @@
     "result": "ok",
     "error": null,
     "sample": false,
-    "last_attempt_at": "2026-09-14T17:30:49.032Z",
-    "last_ok_at": "2026-09-14T17:30:49.032Z",
-    "next_due_at": "2026-09-14T18:30:49.032Z",
+    "last_attempt_at": "2026-09-14T17:44:34.315Z",
+    "last_ok_at": "2026-09-14T17:44:34.315Z",
+    "next_due_at": "2026-09-14T18:44:34.315Z",
     "list_date": null,
     "list_date_text": null,
     "open_rule_quote": null,
@@ -95,7 +95,7 @@
       "url": "https://www.nlschools.ca/about/generated/newspostings_5.html",
       "http_status": 200,
       "bytes": 65,
-      "raw_ref": "nlschools-notices/2026-09-14T17-30-49-031Z-newspostings_5.html"
+      "raw_ref": "nlschools-notices/2026-09-14T17-44-34-315Z-newspostings_5.html"
      }
     ]
    }
@@ -125,9 +125,9 @@
     "result": "ok",
     "error": null,
     "sample": false,
-    "last_attempt_at": "2026-09-14T17:30:47.787Z",
-    "last_ok_at": "2026-09-14T17:30:47.787Z",
-    "next_due_at": "2026-09-14T18:30:47.787Z",
+    "last_attempt_at": "2026-09-14T17:44:32.939Z",
+    "last_ok_at": "2026-09-14T17:44:32.939Z",
+    "next_due_at": "2026-09-14T18:44:32.939Z",
     "list_date": null,
     "list_date_text": null,
     "open_rule_quote": null,
@@ -140,7 +140,7 @@
       "url": "https://csfp.nl.ca/feed/",
       "http_status": 200,
       "bytes": 75650,
-      "raw_ref": "csfp-news/2026-09-14T17-30-47-784Z-feed.xml"
+      "raw_ref": "csfp-news/2026-09-14T17-44-32-937Z-feed.xml"
      }
     ]
    }
