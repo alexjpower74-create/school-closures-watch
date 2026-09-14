@@ -1,6 +1,12 @@
 # Negative controls for the app suite (run from the repo root: python3 app/tests/negative-controls.py).
 # Each control patches one file, runs its specs (expect red), restores with git checkout, runs again (expect green).
 import subprocess, re, sys
+# Restores use `git checkout`, which would also wipe any uncommitted work in the patched files. Refuse to run then.
+_dirty = [l for l in subprocess.run(["git", "status", "--porcelain", "--", "app"], capture_output=True, text=True).stdout.splitlines()
+          if "app/tests/shots/" not in l]
+if _dirty:
+  sys.exit("negative-controls: commit app/ first (uncommitted: " + ", ".join(l[3:] for l in _dirty) + ")")
+
 CONTROLS = [
   ("C1 may_apply rendered as applied (exact-match-only bug)", "app/render.js",
    [("  const applied = (st.applies || [])", "  const applied = [...(st.applies || []), ...(st.may_apply || []).map((m) => ({ notice_id: m.notice_id, how: 'exact' }))]"),

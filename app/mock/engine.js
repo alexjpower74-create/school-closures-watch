@@ -14,6 +14,12 @@ function httpError(status, code, message) {
   return err
 }
 
+/** §5.4 may_apply reason_text, including the wording for a missing community (lead 15:10). */
+export function mayApplyText(reason, n) {
+  if (reason === 'name_same_community_differs' && !n.community_text) return MAY_APPLY_TEXT.name_same_community_differs_none
+  return fill(MAY_APPLY_TEXT[reason], n)
+}
+
 export function createEngine({ now, health, notices }) {
   const today_local = localDate(now)
   // Old lists never set today's status (API.md §4.5, lead fix 14:55): they only show under "earlier" on Today.
@@ -41,7 +47,7 @@ export function createEngine({ now, health, notices }) {
     for (const n of current) {
       if (sourceIds && !sourceIds.includes(n.source_id)) continue
       const m = n.matches?.find((x) => x.school_id === school.id && x.how === 'may_apply')
-      if (m) out.push({ notice_id: n.id, reason: m.reason, reason_text: fill(MAY_APPLY_TEXT[m.reason], n) })
+      if (m) out.push({ notice_id: n.id, reason: m.reason, reason_text: mayApplyText(m.reason, n) })
     }
     return out
   }
@@ -82,6 +88,7 @@ export function createEngine({ now, health, notices }) {
       st.applies = applying.map((x) => ({ notice_id: x.n.id, how: x.how }))
       st.may_apply = mayApplyEntries(school, ['nlschools-status', 'nlschools-notices'])
       st.as_of = nls.last_ok_at
+      // NLSchools schools only (API.md §5.4, lead 15:10); CSFP and other schools keep 0.
       st.unmatched_in_region = current.filter((n) => n.scope === 'unmatched' && regionOf(n) === school.region).length
       const worst = applying.map((x) => x.n).sort((a, b) => rankFor(a.status) - rankFor(b.status))[0]
       if (nls.stale) {
@@ -119,7 +126,7 @@ export function createEngine({ now, health, notices }) {
     applies_to: (n.matches || [])
       .map((m) => {
         const s = schoolById[m.school_id]
-        return s && { school_id: s.id, name: s.name, community: s.community, how: m.how }
+        return s && { school_id: s.id, name: s.name, community: s.community, how: m.how, ...(m.how === 'may_apply' ? { reason: m.reason } : {}) }
       })
       .filter(Boolean),
   })
@@ -185,7 +192,7 @@ export function createEngine({ now, health, notices }) {
         applies_to: SCHOOLS.map((school) => ({ school, how: howApplies(n, school) })).filter((x) => x.how),
         may_apply_to: (n.matches || [])
           .filter((m) => m.how === 'may_apply' && schoolById[m.school_id])
-          .map((m) => ({ school: schoolById[m.school_id], reason: m.reason, reason_text: fill(MAY_APPLY_TEXT[m.reason], n) })),
+          .map((m) => ({ school: schoolById[m.school_id], reason: m.reason, reason_text: mayApplyText(m.reason, n) })),
         raw_links: (n.raw_refs || []).map((raw_ref) => ({ raw_ref, href: null, fetched_at: n.last_seen_at })),
       }
     },
