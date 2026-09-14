@@ -1,0 +1,11 @@
+{
+  "name": "school-closures-watch-worker",
+  "private": true,
+  "type": "module",
+  "description": "School Closures Watch Worker + D1. Local only: never deploy from here.",
+  "scripts": {
+    "dev": "wrangler dev --local --port 8202",
+    "migrate:local": "wrangler d1 migrations apply school-closures-watch --local",
+    "test": "node tests/run.mjs"
+  }
+}

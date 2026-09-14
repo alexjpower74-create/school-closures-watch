@@ -1,0 +1,246 @@
+{
+ "note": "Written by scripts/scan.mjs: the source registry (core/sources/registry.js) plus each used source's last scan result. Raw bodies are not stored here.",
+ "updated_at": "2026-09-14T17:30:49.032Z",
+ "sources": [
+  {
+   "id": "nlschools-status",
+   "name": "NLSchools School Status Report",
+   "publisher": "NLSchools (Department of Education, Education Operations Branch)",
+   "kind": "used",
+   "covers": "NLSchools schools",
+   "human_url": "https://www.nlschools.ca/schools/statusreport.jsp",
+   "other_urls": [],
+   "fetch_urls": [
+    "https://www.nlschools.ca/schools/statusreport.jsp",
+    "https://www.nlschools.ca/schools/generated/schoolstatus.html"
+   ],
+   "fetch_names": [
+    "statusreport",
+    "schoolstatus"
+   ],
+   "format": "html",
+   "terms_url": "https://www.nlschools.ca/termsofuse.jsp",
+   "terms_quote": "The contents, but not any logo or other visual representation, of the NLSchools' website or related website may be used and reproduced solely for non-commercial, personal or educational purposes provided that it is not modified and that you do not delete any copyrights and other legal or proprietary notices contained therein.",
+   "robots_note": "robots.txt is a 404 page (no rules)",
+   "reason": null,
+   "attribution": "Source: NLSchools School Status Report",
+   "coverage_quote": "If your school is not listed below, the status is normal and open as usual.",
+   "last": {
+    "result": "ok",
+    "error": null,
+    "sample": false,
+    "last_attempt_at": "2026-09-14T17:30:47.914Z",
+    "last_ok_at": "2026-09-14T17:30:47.914Z",
+    "next_due_at": "2026-09-14T18:30:47.914Z",
+    "list_date": "2026-09-14",
+    "list_date_text": "Monday, September 14, 2026",
+    "open_rule_quote": "If your school is not listed below, the status is normal and open as usual.",
+    "notices": 2,
+    "quotes_dropped": 0,
+    "rows_skipped": 0,
+    "unmapped_classes": [],
+    "requests": [
+     {
+      "url": "https://www.nlschools.ca/schools/statusreport.jsp",
+      "http_status": 200,
+      "bytes": 59925,
+      "raw_ref": "nlschools-status/2026-09-14T17-30-46-769Z-statusreport.html"
+     },
+     {
+      "url": "https://www.nlschools.ca/schools/generated/schoolstatus.html",
+      "http_status": 200,
+      "bytes": 3089,
+      "raw_ref": "nlschools-status/2026-09-14T17-30-47-903Z-schoolstatus.html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "nlschools-notices",
+   "name": "NLSchools important notices",
+   "publisher": "NLSchools (Department of Education, Education Operations Branch)",
+   "kind": "used",
+   "covers": "Notices for all NLSchools schools (usually empty)",
+   "human_url": "https://www.nlschools.ca/",
+   "other_urls": [],
+   "fetch_urls": [
+    "https://www.nlschools.ca/about/generated/newspostings_5.html"
+   ],
+   "fetch_names": [
+    "newspostings_5"
+   ],
+   "format": "html",
+   "terms_url": "https://www.nlschools.ca/termsofuse.jsp",
+   "terms_quote": "The contents, but not any logo or other visual representation, of the NLSchools' website or related website may be used and reproduced solely for non-commercial, personal or educational purposes provided that it is not modified and that you do not delete any copyrights and other legal or proprietary notices contained therein.",
+   "robots_note": "robots.txt is a 404 page (no rules)",
+   "reason": null,
+   "attribution": "Source: NLSchools important notices",
+   "coverage_quote": null,
+   "last": {
+    "result": "ok",
+    "error": null,
+    "sample": false,
+    "last_attempt_at": "2026-09-14T17:30:49.032Z",
+    "last_ok_at": "2026-09-14T17:30:49.032Z",
+    "next_due_at": "2026-09-14T18:30:49.032Z",
+    "list_date": null,
+    "list_date_text": null,
+    "open_rule_quote": null,
+    "notices": 0,
+    "quotes_dropped": 0,
+    "rows_skipped": 0,
+    "unmapped_classes": [],
+    "requests": [
+     {
+      "url": "https://www.nlschools.ca/about/generated/newspostings_5.html",
+      "http_status": 200,
+      "bytes": 65,
+      "raw_ref": "nlschools-notices/2026-09-14T17-30-49-031Z-newspostings_5.html"
+     }
+    ]
+   }
+  },
+  {
+   "id": "csfp-news",
+   "name": "CSFP news feed",
+   "publisher": "Conseil scolaire francophone provincial (CSFP)",
+   "kind": "used",
+   "covers": "CSFP (French first-language) schools: news posts only, no closure list",
+   "human_url": "https://csfp.nl.ca/",
+   "other_urls": [],
+   "fetch_urls": [
+    "https://csfp.nl.ca/feed/"
+   ],
+   "fetch_names": [
+    "feed"
+   ],
+   "format": "xml",
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": "robots.txt allows everything except /wp-admin/",
+   "reason": "No terms of use found on csfp.nl.ca",
+   "attribution": "Source: CSFP news feed",
+   "coverage_quote": null,
+   "last": {
+    "result": "ok",
+    "error": null,
+    "sample": false,
+    "last_attempt_at": "2026-09-14T17:30:47.787Z",
+    "last_ok_at": "2026-09-14T17:30:47.787Z",
+    "next_due_at": "2026-09-14T18:30:47.787Z",
+    "list_date": null,
+    "list_date_text": null,
+    "open_rule_quote": null,
+    "notices": 0,
+    "quotes_dropped": 0,
+    "rows_skipped": 0,
+    "unmapped_classes": [],
+    "requests": [
+     {
+      "url": "https://csfp.nl.ca/feed/",
+      "http_status": 200,
+      "bytes": 75650,
+      "raw_ref": "csfp-news/2026-09-14T17-30-47-784Z-feed.xml"
+     }
+    ]
+   }
+  },
+  {
+   "id": "nlschools-busplanner",
+   "name": "NLSchools BusPlanner",
+   "publisher": "NLSchools (Department of Education, Education Operations Branch)",
+   "kind": "link_only",
+   "covers": "NLSchools school buses",
+   "human_url": "https://nlschools.mybusplanner.ca/",
+   "other_urls": [],
+   "fetch_urls": [],
+   "fetch_names": [],
+   "format": null,
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": null,
+   "reason": "Bus delays and cancellations aren't published publicly; the Parent Portal needs a login.",
+   "attribution": null,
+   "coverage_quote": null,
+   "last": null
+  },
+  {
+   "id": "nlschools-social",
+   "name": "NLSchools social media",
+   "publisher": "NLSchools (Department of Education, Education Operations Branch)",
+   "kind": "link_only",
+   "covers": "NLSchools announcements",
+   "human_url": "https://twitter.com/NLSchoolsCA",
+   "other_urls": [
+    "https://www.facebook.com/NLSCHOOLSCA"
+   ],
+   "fetch_urls": [],
+   "fetch_names": [],
+   "format": null,
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": null,
+   "reason": "Social posts need a login to read reliably; we don't copy them.",
+   "attribution": null,
+   "coverage_quote": null,
+   "last": null
+  },
+  {
+   "id": "nlschools-weather-protocol",
+   "name": "NLSchools weather protocol",
+   "publisher": "NLSchools (Department of Education, Education Operations Branch)",
+   "kind": "link_only",
+   "covers": "How closures are decided",
+   "human_url": "https://www.nlschools.ca/schools/weatherprotocol.jsp",
+   "other_urls": [],
+   "fetch_urls": [],
+   "fetch_names": [],
+   "format": null,
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": null,
+   "reason": "How NLSchools decides closures (announced 6:30–7:00 a.m.).",
+   "attribution": null,
+   "coverage_quote": null,
+   "last": null
+  },
+  {
+   "id": "csfp-transport",
+   "name": "CSFP school transport",
+   "publisher": "Conseil scolaire francophone provincial (CSFP)",
+   "kind": "link_only",
+   "covers": "CSFP schools",
+   "human_url": "https://csfp.nl.ca/transport-scolaire/",
+   "other_urls": [],
+   "fetch_urls": [],
+   "fetch_names": [],
+   "format": null,
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": null,
+   "reason": "CSFP principals decide closures and tell families directly.",
+   "attribution": null,
+   "coverage_quote": "C’est également à la direction que revient la décision de fermer l’école lorsque les conditions atmosphériques sont mauvaises et de prendre tous les moyens possibles pour en informer les élèves, leurs parents ou leurs tuteurs le plus rapidement possible.",
+   "last": null
+  },
+  {
+   "id": "radio-aggregators",
+   "name": "Radio stations and closure aggregators",
+   "publisher": null,
+   "kind": "not_used",
+   "covers": null,
+   "human_url": null,
+   "other_urls": [],
+   "fetch_urls": [],
+   "fetch_names": [],
+   "format": null,
+   "terms_url": null,
+   "terms_quote": null,
+   "robots_note": null,
+   "reason": "Not an official source.",
+   "attribution": null,
+   "coverage_quote": null,
+   "last": null
+  }
+ ]
+}

@@ -1,0 +1,18 @@
+# School Closures Watch Worker. LOCAL ONLY: run with `wrangler dev --local`. No deploys, no `--remote`, no secrets
+# put from a slice. database_id is set by the lead at deploy time.
+name = "school-closures-watch"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "school-closures-watch"
+database_id = "LOCAL-ONLY-set-at-deploy"
+migrations_dir = "migrations"
+
+[triggers]
+crons = ["*/5 * * * *"]
+
+[vars]
+SOURCE_ORIGIN_MAP = ""
+ALLOW_FAKE_NOW = "0"
