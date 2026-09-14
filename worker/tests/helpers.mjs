@@ -1,8 +1,9 @@
 import { scenarioPayloads } from './payloads.mjs'
 import { SCHOOLS, schoolsInRegion } from '../../core/schools.js'
 
-export const BASE = process.env.SC_WORKER_URL ?? 'http://127.0.0.1:8202'
-export const FX = process.env.SC_FIXTURE_URL ?? 'http://127.0.0.1:8204'
+// QA runs on other ports (SC_WORKER_PORT=8208, SC_WORKER_FIXTURE_PORT=8206); run.mjs also passes the URLs.
+export const BASE = process.env.SC_WORKER_URL ?? `http://127.0.0.1:${process.env.SC_WORKER_PORT ?? 8202}`
+export const FX = process.env.SC_FIXTURE_URL ?? `http://127.0.0.1:${process.env.SC_WORKER_FIXTURE_PORT ?? 8204}`
 export const TOKEN = process.env.SC_ADMIN_TOKEN ?? 'test-admin-token'
 
 const byName = n => SCHOOLS.find(s => s.name === n)

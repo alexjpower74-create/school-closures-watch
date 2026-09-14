@@ -153,24 +153,28 @@ async function handleToday (url, env) {
   const now = nowFrom(url, env)
   const includeSample = includeSampleFrom(url)
   const [health, all] = await Promise.all([healthRows(env), loadNotices(env, { includeSample, current: false })])
-  const current = all.filter(n => !n.removed_at)
+  const today = localDate(now)
+  // §4.5 (lead fix 14:55): notices from an older list are not current today; they are listed under `earlier`.
+  const old = n => n.list_date !== null && n.list_date !== undefined && n.list_date < today
+  const current = all.filter(n => !n.removed_at && !old(n))
   const sources = usedHealth(health, now, current)
   const nls = health['nlschools-status'] ?? null
-  const listDate = nls?.list_date ?? localDate(now)
+  const listDate = nls?.list_date ?? today
   const by_status = {}
   for (const n of current) by_status[n.status] = (by_status[n.status] ?? 0) + 1
   const withApplies = n => ({
     ...n,
     applies_to: (n.matches ?? []).map(m => ({ m, s: SCHOOL_BY_ID.get(m.school_id) })).filter(x => x.s)
-      .map(({ m, s }) => ({ school_id: s.id, name: s.name, community: s.community, how: m.how }))
+      .map(({ m, s }) => ({ school_id: s.id, name: s.name, community: s.community, how: m.how, reason: m.reason ?? null }))
   })
   const rows = current.filter(n => n.source_id === 'nlschools-status')
+  const isEarlier = n => n.source_id === 'nlschools-status' && ((n.removed_at && n.list_date === listDate) || (!n.removed_at && old(n)))
   const regions = REGIONS.map(region => ({
     region,
     region_name: REGION_NAMES[region],
     notices: rows.filter(n => n.scope === 'school' && regionOf(n) === region).sort(byRankThenText).map(withApplies),
     unmatched: rows.filter(n => n.scope === 'unmatched' && regionOf(n) === region).sort(byRankThenText),
-    earlier: all.filter(n => n.removed_at && n.source_id === 'nlschools-status' && n.list_date === listDate && regionOf(n) === region).sort(byRankThenText)
+    earlier: all.filter(n => isEarlier(n) && regionOf(n) === region).sort(byRankThenText)
   }))
   return json({
     now,

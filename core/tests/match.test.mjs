@@ -92,6 +92,35 @@ test('CSFP short names, accent- and case-insensitive, French elision', () => {
   assert.deepEqual(named('SAMPLE développement'), [])
 })
 
+test('§4.2 rule 3a: a region phrase is checked BEFORE similar names (lead fix 14:55)', () => {
+  const schools = [{ id: 'c1', name: 'Central High', community: 'Sample Cove', region: 'central', coverage: 'nlschools' }]
+  assert.deepEqual(nameKey('Central High'), ['central'])
+  const r = {
+    source_id: 'nlschools-status', kind: 'school_row', row_id: '1', list_date: '2026-09-14', status_class: 'closedAllDay',
+    status_text: 'CLOSED ALL DAY', quote: 'SAMPLE Closed due to storm', school_text: 'SAMPLE All schools in the Central region', community_text: null
+  }
+  // on its own the similar-name rule would make this "may apply" to Central High
+  assert.equal(matchRow(r, schools).matches[0]?.reason, 'name_similar')
+  const n = classifyNotice(r, schools).notice
+  assert.deepEqual([n.scope, n.scope_region, n.scope_evidence, n.matches], ['region', 'central', 'All schools in the Central region', []])
+  // a same-name row is still about that school, whatever its note says
+  const same = classifyNotice({ ...r, school_text: 'Central High', community_text: 'Sample Cove, NL' }, schools).notice
+  assert.deepEqual([same.scope, same.matches[0].how], ['school', 'exact'])
+})
+
+test('§4.4 more than one distinct region named → district (status rows and text notices; lead 14:50)', () => {
+  const r = classifyNotice({
+    source_id: 'nlschools-status', kind: 'school_row', row_id: '2', list_date: '2026-09-14', status_class: 'closedAllDay',
+    status_text: 'CLOSED ALL DAY', quote: 'SAMPLE Closed', school_text: 'SAMPLE All Central schools and all Western schools', community_text: null
+  }, SCHOOLS).notice
+  assert.deepEqual([r.scope, r.scope_region, r.scope_evidence, r.matches, r.unmatched_reason], ['district', null, null, [], null])
+  const t = classifyNotice({ source_id: 'nlschools-notices', kind: 'text_notice', row_id: 'x', quote: 'SAMPLE All Avalon schools and all Labrador schools will open late' }, SCHOOLS).notice
+  assert.deepEqual([t.scope, t.scope_region, t.status], ['district', null, 'delayed'])
+  // the same region named twice is still one region
+  const twice = classifyNotice({ source_id: 'nlschools-notices', kind: 'text_notice', row_id: 'y', quote: 'SAMPLE All Central schools are closed; Central region schools reopen tomorrow' }, SCHOOLS).notice
+  assert.deepEqual([twice.scope, twice.scope_region], ['region', 'central'])
+})
+
 test('noticeId follows §5.1', () => {
   const n = { source_id: 'nlschools-status', list_date: '2026-09-14', row_id: '468', status_class: 'closedAllDay', status_text: 'CLOSED ALL DAY', quote: 'q' }
   assert.match(noticeId(n), /^nlschools-status-2026-09-14-468-[0-9a-f]{8}$/)
