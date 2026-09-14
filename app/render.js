@@ -98,24 +98,43 @@ export function noticeLink(n, text = 'Read the notice') {
   return el('a', { class: 'button-link', href: href('notice.html', { id: n.id }) }, text)
 }
 
-/** One applying notice inside a school card. The first (worst) one is the card's headline. */
+/**
+ * One applying notice inside a school card. The first one is the card's headline and is shown in full. Any other
+ * applying notice is compact: label, the STATUS text verbatim, the region line if any, a Read the notice link, and
+ * its words behind a tap-to-show details.
+ */
 function noticeBlock(n, how, now, primary) {
   const region = how === 'region' || how === 'province' ? regionLineText(n) : null
+  const regionLine = region ? el('p', { class: 'region-line', 'data-testid': 'region-wide-line' }, region) : null
+  const attrs = { 'data-notice-id': n.id, 'data-notice-status': n.status }
+  if (primary) {
+    return el(
+      'div',
+      { class: 'notice-block is-headline', ...attrs },
+      quoteBlock(n),
+      regionLine,
+      el('p', { class: 'seen-line' }, seenLineText(n, now)),
+      noticeLink(n),
+    )
+  }
   return el(
     'div',
-    { class: `notice-block${primary ? ' is-headline' : ''}`, 'data-notice-id': n.id, 'data-notice-status': n.status },
-    primary
-      ? null
-      : el(
-          'p',
-          { class: `notice-mini-label tone-${n.status}` },
-          statusIcon(n.status, 22),
-          el('span', {}, labelFor(n.status)),
-          n.status_text ? el('span', { class: 'verbatim small' }, ` · ${n.status_text}`) : null,
-        ),
-    quoteBlock(n),
-    region ? el('p', { class: 'region-line', 'data-testid': 'region-wide-line' }, region) : null,
-    el('p', { class: 'seen-line' }, seenLineText(n, now)),
+    { class: 'notice-block is-compact', ...attrs },
+    el(
+      'p',
+      { class: `notice-mini-label tone-${n.status}` },
+      statusIcon(n.status, 22),
+      el('span', {}, labelFor(n.status)),
+      n.status_text ? el('span', { class: 'verbatim small' }, ` · ${n.status_text}`) : null,
+    ),
+    regionLine,
+    el(
+      'details',
+      { class: 'notice-words' },
+      el('summary', { class: 'notice-words-summary' }, "Show the notice's words"),
+      quoteBlock(n),
+      el('p', { class: 'seen-line' }, seenLineText(n, now)),
+    ),
     noticeLink(n),
   )
 }

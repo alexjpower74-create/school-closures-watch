@@ -37,6 +37,37 @@ function regionSection(r, now) {
   )
 }
 
+/** Anything to show for a region: current notices, unmatched notices or earlier (removed) ones. */
+function hasNotices(r) {
+  return guardNotices(r.notices).length + guardNotices(r.unmatched).length + guardNotices(r.earlier).length > 0
+}
+
+/**
+ * Regions with notices go in the grid, in the contract's order. Regions with none share one compact line
+ * ("No notices: Avalon, Labrador"), so an empty card never sits beside a tall one. Every region keeps its
+ * region-section hook and data-region.
+ */
+function regionsBlock(regions, now) {
+  const busy = regions.filter(hasNotices)
+  const quiet = regions.filter((r) => !hasNotices(r))
+  return [
+    busy.length
+      ? el('div', { class: `grid${busy.length > 1 ? ' two' : ''}` }, busy.map((r) => regionSection(r, now)))
+      : null,
+    quiet.length
+      ? el(
+          'p',
+          { class: 'empty-regions', 'data-testid': 'empty-regions' },
+          'No notices: ',
+          quiet.map((r, i) => [
+            i ? ', ' : '',
+            el('span', { class: 'verbatim', 'data-testid': 'region-section', 'data-region': r.region }, r.region_name),
+          ]),
+        )
+      : null,
+  ]
+}
+
 async function load() {
   let body
   try {
@@ -92,7 +123,7 @@ async function load() {
     regionWide.length
       ? [el('h2', { class: 'card-title' }, 'Notices for a whole region'), regionWide.map((n) => todayNotice(n, now))]
       : null,
-    el('div', { class: 'grid two' }, (body.regions || []).map((r) => regionSection(r, now))),
+    regionsBlock(body.regions || [], now),
     el(
       'section',
       { class: 'card', 'data-testid': 'csfp-section' },

@@ -59,7 +59,9 @@ body::before {
   background:
     radial-gradient(60% 40% at 15% 0%, #2bd6b4 0%, transparent 70%),
     radial-gradient(50% 40% at 85% 5%, #6d7cff 0%, transparent 70%),
-    radial-gradient(40% 30% at 50% 100%, #1e90ff 0%, transparent 70%);
+    radial-gradient(45% 30% at 50% 62%, #1e90ff 0%, transparent 70%);
+  /* Every glow fades out before the bottom edge of the layer, so no edge can show where the page is taller than
+     the viewport (a full-page capture, or anywhere the fixed layer ends). */
 }
 
 a {
@@ -383,6 +385,50 @@ main {
   gap: 6px;
   font-weight: 700;
   font-size: 20px;
+}
+
+.notice-words {
+  margin: 2px 0 0;
+}
+
+.notice-words-summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-inline: 2px;
+  color: var(--link);
+  font-weight: 650;
+  cursor: pointer;
+  list-style: none;
+}
+
+.notice-words-summary::-webkit-details-marker {
+  display: none;
+}
+
+.notice-words-summary::before {
+  content: '+';
+  display: inline-block;
+  width: 1em;
+  text-align: center;
+  font-weight: 800;
+}
+
+.notice-words[open] > .notice-words-summary::before {
+  content: '−';
+}
+
+.empty-regions {
+  margin: 0 0 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--hairline);
+  border-radius: var(--radius);
+  background: rgba(15, 26, 46, 0.55);
+  color: var(--muted);
+}
+
+.empty-regions .verbatim {
+  font-weight: 650;
 }
 
 .quote-figure {

@@ -30,6 +30,8 @@ export const REASON_TEXT = {
 
 export const MAY_APPLY_TEXT = {
   name_same_community_differs: 'The notice names this school but a different community: "{community_text}".',
+  // Used when community_text is null (API.md §5.4, lead 15:10).
+  name_same_community_differs_none: "The notice names this school but doesn't say which community.",
   name_shared: 'More than one school has this name.',
   name_similar: 'The notice names a similar school: "{school_text}".',
   board_feed_names_school: 'A CSFP news post mentions this school.',

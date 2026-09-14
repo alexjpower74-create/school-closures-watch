@@ -1,6 +1,6 @@
 // Storm scenario: worst first, verbatim words, region-wide closure, the ambiguous "may apply" row, unmatched count.
 import { test, expect } from '@playwright/test'
-import { pickSchools, card, openRegion, mockUrl } from './helpers.mjs'
+import { press, pickSchools, card, openRegion, mockUrl } from './helpers.mjs'
 
 const BAY = 'nls-300407' // Bay d'Espoir Academy: real row, CLOSED FOR MORNING
 const BISHOP = 'nls-400240' // Bishop White School: real row, DELAYED OPENING
@@ -45,6 +45,21 @@ test.describe('storm', () => {
     const bishop = card(page, BISHOP).locator('[data-notice-status="delayed"]')
     await expect(bishop).toContainText('Delayed opening')
     await expect(bishop.getByTestId('quote')).toHaveText('Delayed opening - 2 hours. NOTE: Delayed opening due to icy roads.')
+  })
+
+  test("a second applying notice is compact; its words open on tap, verbatim", async ({ page }, testInfo) => {
+    const own = card(page, BAY).locator('[data-notice-status="closed_part"]')
+    await expect(own).toHaveClass(/is-compact/)
+    await expect(own.locator('.notice-mini-label')).toHaveText('Closed part of the day · CLOSED FOR MORNING')
+    await expect(own.getByRole('link', { name: 'Read the notice' })).toBeVisible()
+    const quote = own.getByTestId('quote')
+    await expect(quote).toBeHidden()
+    await press(own.getByText("Show the notice's words"), testInfo)
+    await expect(quote).toBeVisible()
+    await expect(quote).toHaveText('School closed for the morning, further announcement at 11:00 a.m. NOTE: Water Outage')
+    await expect(own).toContainText("On the NLSchools list since 6:35 AM · NLSchools doesn't show a posted time")
+    // The headline (region-wide) notice is shown in full without a tap.
+    await expect(card(page, BAY).locator('.notice-block.is-headline').getByTestId('quote')).toBeVisible()
   })
 
   test('a Central school in no row is closed by the region-wide notice, and says so', async ({ page }) => {

@@ -150,3 +150,73 @@ Doesn't match, or needs a decision (sent to the lead here):
 
 ## Needs from other slices
 - sc1: items 1–3 and 6 of the cross-review.
+
+## Round 2 (lead decisions 15:10, polish): DONE
+Code at `f03c7e8`, screenshots at the next commit. The lead's decisions are in API.md `5a3e86f` (§4.5, §5.4, §8.2).
+
+**Contract decisions mirrored in the mock**
+- `name_same_community_differs` with `community_text: null` now gives "The notice names this school but doesn't say
+  which community." (`labels.js` `name_same_community_differs_none`, and `mayApplyText()` in `mock/engine.js`).
+  Checked in Node: null community gives the new text, "Gander, NL" keeps the quoted form.
+- `unmatched_in_region` is NLSchools schools only. The engine only ever set it in the NLSchools branch. Checked: the
+  CSFP and private schools give 0; C. C. Loughlin gives 1 in storm.
+- `/api/today` `applies_to` entries marked `may_apply` now carry `reason` in the mock. They still render as
+  "May apply to:".
+- Q1 (storm tests), Q2 (guard wording, `quote_check_failed`) and Q3–Q8 were accepted as built. No code change.
+
+**Polish**
+1. **Today regions.** Regions with any notice (current, unmatched or earlier) go in the grid. The grid is one column
+   when only one region has notices. Regions with none share one line: "No notices: Avalon, Labrador" (hook
+   `empty-regions`). Each name there is a `span` with `data-testid="region-section"` and `data-region`, so all four
+   regions still have the hook; the stale spec still counts 4.
+2. **Hard-edged blue rectangle.** The cause was the aurora's third glow, centred at the layer's bottom edge
+   (`50% 100%`). The fixed layer is one viewport tall (900 px on desktop), so in a full-page capture the glow stopped
+   in a straight line at y ≈ 900, visible wherever no card covered it. That is the hole beside Central. It is now
+   centred at `50% 62%`, and every glow reaches transparent before the layer edge. The layer is still `position:
+   fixed`, `pointer-events: none`, opacity 0.2. The retaken today-storm-1280 and my-storm-1280 have no edge.
+3. **Compact second notice on My schools.** The headline notice (API `headline_notice_id`) is shown in full. Each
+   other applying notice shows:
+   - its label and icon, and the STATUS text verbatim;
+   - the region line, if any;
+   - a details "Show the notice's words" holding the verbatim quote and its seen line;
+   - Read the notice.
+
+   `data-notice-id`, `data-notice-status` and the `quote` hook are unchanged. The summary is a 44 px tap target, and
+   the layout spec's hit-test covers it.
+
+   New storm test: "a second applying notice is compact; its words open on tap, verbatim". It checks the mini label
+   `Closed part of the day · CLOSED FOR MORNING`, that the quote is hidden, then taps the summary (`tap` on phone,
+   `click` on desktop). The quote is then visible with the exact text, and the headline quote was visible without a
+   tap.
+
+**Verified at `f03c7e8`:** `npm run test:app` gives **104 passed, 4 skipped** (integration, not run as asked) on
+chromium-390, chromium-1280, webkit-390 and webkit-1280.
+
+**Negative controls, rerun at `f03c7e8`** (chromium-390 + webkit-1280, `app/tests/negative-controls.py`):
+
+| # | Broken run | Failing line | Restored |
+|---|---|---|---|
+| C1 may_apply as applied | 4 failed, 12 passed | `…[data-school-id="nls-300422"]').locator('[data-testid="may-apply"][data-notice-id="nlschools-status-2024-01-10-sample-1-mock"]') Expected: visible`; Boréale `getByTestId('may-apply') Expected: 1 Received: 0` | 16 passed |
+| C2 banner removed | 2 failed, 2 passed | `getByTestId('stale-banner') Expected: visible` | 4 passed |
+| C3 sort broken | 2 failed, 12 passed | `storm › cards are worst first, then by name`: deep equality, Expected −1 / Received +1 | 14 passed |
+| C4 guard removed | 2 failed | `[data-school-id="nls-300417"] Expected: "unknown" Received: "closed"` | 2 passed |
+| C5 `.button-link` 30 px | 8 failed, 2 passed | `expectTargetsHittable` `toEqual([])` got 3 / 9 "< 44" entries | 10 passed |
+
+**A mistake in this round, caught and fixed.**
+- **What happened:** my first controls run went off before Round 2 was committed. The script restores each patched
+  file with `git checkout`, so it silently reverted my uncommitted edits to `render.js`, `labels.js` and `app.css`.
+  That run's numbers and the screenshots taken right after it came from a half-reverted tree. The same run also
+  exposed a real test bug: the new storm test used `press` without importing it.
+- **How it was caught:** the run showed 4 failures in the new test and C1/C3 "restored" runs that stayed red, and
+  `git status` listed only three of my six changed files.
+- **Fix:** I re-applied the three edits, fixed the import, ran the suite (104 passed), committed, then reran all five
+  controls on the committed tree (table above) and retook every screenshot.
+- **Guard added:** `negative-controls.py` now refuses to run while `app/` has uncommitted changes other than
+  screenshots. It printed "negative-controls: commit app/ first (…)" and exited 1 on that dirty tree, so the guard
+  was seen to work before it was relied on.
+
+**Screenshots retaken (all 16) and looked at:** my-storm 390 and 1280 (compact second notices, "Show the notice's
+words"), today-storm-1280 (Central and Western side by side, "No notices: Avalon, Labrador", no hard edge),
+today-quiet-390 ("No notices: Avalon, Central, Western, Labrador" under the empty card). Nothing else looked wrong.
+
+**Not done, as asked:** the integration spec was not run.
