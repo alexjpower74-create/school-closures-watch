@@ -1,0 +1,135 @@
+// School status per request (API.md §4.5 → §5.4). Pure: school + current notices + source health + now.
+import { rankOf, labelOf } from './labels.js'
+import { staleness } from './schedule.js'
+import { localDate, fmtTime } from './time.js'
+import { normName } from './text.js'
+
+export const REASON_TEXT = {
+  list_date_missing: "We couldn't read which day the NLSchools list is for.",
+  open_rule_missing: "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open.",
+  csfp_no_online_status: "CSFP schools don't post closures online. The school tells families directly.",
+  no_official_source: 'This school has no official online closure list. Call the school.'
+}
+
+export function reasonText (reason, { health, now } = {}) {
+  if (reason === 'stale') {
+    if (!health?.last_ok_at) return "We haven't been able to check NLSchools yet. Check nlschools.ca or call the school."
+    return `We couldn't check NLSchools since ${fmtTime(health.last_ok_at)}. Check nlschools.ca or call the school.`
+  }
+  if (reason === 'list_date_old') return `The NLSchools list is still showing ${health?.list_date_text ?? health?.list_date}.`
+  return REASON_TEXT[reason] ?? null
+}
+
+export function mayApplyReasonText (reason, notice) {
+  switch (reason) {
+    case 'name_same_community_differs': return `The notice names this school but a different community: "${notice.community_text ?? ''}".`
+    case 'name_shared': return 'More than one school has this name.'
+    case 'name_similar': return `The notice names a similar school: "${notice.school_text ?? ''}".`
+    case 'board_feed_names_school': return 'A CSFP news post mentions this school.'
+    case 'board_feed_no_school_named': return 'A CSFP news post mentions a closure but no school.'
+    default: return null
+  }
+}
+
+/** Current notices → lookups used by schoolStatus. Removed notices are ignored. */
+export function indexNotices (notices) {
+  const byId = new Map()
+  const bySchool = new Map() // school_id → [{notice, how, reason}]
+  const byRegion = new Map() // region → [notice]
+  const province = []
+  const unmatchedByRegion = new Map()
+  for (const n of notices) {
+    if (n.removed_at) continue
+    byId.set(n.id, n)
+    for (const m of n.matches ?? []) {
+      if (!bySchool.has(m.school_id)) bySchool.set(m.school_id, [])
+      bySchool.get(m.school_id).push({ notice: n, how: m.how, reason: m.reason ?? null })
+    }
+    if (n.scope === 'region' && n.scope_region) {
+      if (!byRegion.has(n.scope_region)) byRegion.set(n.scope_region, [])
+      byRegion.get(n.scope_region).push(n)
+    }
+    if (n.scope === 'province') province.push(n)
+    if (n.scope === 'unmatched' && n.source_id === 'nlschools-status') {
+      const r = normName(n.region_text)
+      unmatchedByRegion.set(r, (unmatchedByRegion.get(r) ?? 0) + 1)
+    }
+  }
+  return { byId, bySchool, byRegion, province, unmatchedByRegion }
+}
+
+const worstFirst = (a, b) => rankOf(a.notice.status) - rankOf(b.notice.status) ||
+  String(a.notice.first_seen_at ?? '').localeCompare(String(b.notice.first_seen_at ?? '')) ||
+  a.notice.id.localeCompare(b.notice.id)
+
+/**
+ * → SchoolStatus (§5.4).
+ * `health` = { [source_id]: SourceHealth-like row with last_attempt_at, last_ok_at, last_result, list_date,
+ * list_date_text, open_rule_quote }. `index` = indexNotices(currentNotices).
+ */
+export function schoolStatus (school, index, health, now) {
+  const today = localDate(now)
+  const mine = index.bySchool.get(school.id) ?? []
+  const may = mine.filter(m => m.how === 'may_apply')
+  const base = {
+    school,
+    source_status_text: null,
+    headline_notice_id: null,
+    applies: [],
+    may_apply: may.map(m => ({ notice_id: m.notice.id, reason: m.reason, reason_text: mayApplyReasonText(m.reason, m.notice) })),
+    reason: null,
+    reason_text: null,
+    as_of: null,
+    stale: false,
+    list_date_text: null,
+    unmatched_in_region: school.region ? (index.unmatchedByRegion.get(school.region) ?? 0) : 0
+  }
+  // §5.4 key order: school, status, label, rank, then the rest
+  const finish = (status, extra = {}) => ({ school, status, label: labelOf(status), rank: rankOf(status), ...base, ...extra })
+  const unknown = (reason, extra = {}) => finish('unknown', { ...extra, reason, reason_text: reasonText(reason, { health: extra._health, now }), _health: undefined })
+
+  if (school.coverage === 'nlschools') {
+    const h = health?.['nlschools-status'] ?? null
+    const { stale } = staleness('nlschools-status', now, h)
+    const applies = [
+      ...mine.filter(m => m.how === 'exact'),
+      ...(index.byRegion.get(school.region) ?? []).map(n => ({ notice: n, how: 'region' })),
+      ...index.province.map(n => ({ notice: n, how: 'province' }))
+    ].sort(worstFirst)
+    const common = { as_of: h?.last_ok_at ?? null, stale, list_date_text: h?.list_date_text ?? null }
+    if (applies.length) {
+      const head = applies[0].notice
+      return clean(finish(head.status, {
+        ...common,
+        applies: applies.map(a => ({ notice_id: a.notice.id, how: a.how })),
+        headline_notice_id: head.id,
+        source_status_text: head.status_text ?? null
+      }))
+    }
+    if (stale) return clean(unknown('stale', { ...common, _health: h }))
+    if (may.length) return clean(finish('may_apply', { ...common, headline_notice_id: may[0].notice.id }))
+    if (!h?.list_date) return clean(unknown('list_date_missing', { ...common, _health: h }))
+    if (h.list_date < today) return clean(unknown('list_date_old', { ...common, _health: h }))
+    if (!h.open_rule_quote) return clean(unknown('open_rule_missing', { ...common, _health: h }))
+    return clean(finish('open', common))
+  }
+
+  if (school.coverage === 'csfp') {
+    const h = health?.['csfp-news'] ?? null
+    const common = { as_of: h?.last_ok_at ?? null, stale: staleness('csfp-news', now, h).stale }
+    if (may.length) return clean(finish('may_apply', { ...common, headline_notice_id: may[0].notice.id }))
+    return clean(unknown('csfp_no_online_status', common))
+  }
+
+  return clean(unknown('no_official_source', { as_of: null }))
+}
+
+function clean (s) {
+  delete s._health
+  return s
+}
+
+/** §4.5 sort: rank ascending, then school name. */
+export function sortStatuses (list) {
+  return [...list].sort((a, b) => a.rank - b.rank || a.school.name.localeCompare(b.school.name, 'en'))
+}
