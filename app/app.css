@@ -45,7 +45,7 @@ body {
   font-size: 18px;
   line-height: 1.5;
   font-variant-numeric: tabular-nums;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 /* Faint aurora, behind everything, never hit by taps. */
@@ -484,6 +484,10 @@ main {
   gap: 12px;
   padding-block: 6px;
   border-bottom: 1px solid var(--hairline);
+}
+
+.selected-item .button {
+  flex: none;
 }
 
 .selected-item:last-child {
