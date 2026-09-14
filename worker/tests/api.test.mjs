@@ -5,8 +5,10 @@ import { readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import {
   get, post, reset, ingestScenario, adminScan, statuses, fixtureScenario, fixtureLog,
-  GLOVERTOWN, EASTSIDE, BOREALE, SAINTE_ANNE, PRIVATE, OTHER_CENTRAL, CENTRAL_IDS, WESTERN_IDS, T0, plus, FX
+  GLOVERTOWN, EASTSIDE, BOREALE, SAINTE_ANNE, PRIVATE, OTHER_CENTRAL, CENTRAL_IDS, WESTERN_IDS, T0, plus, FX, BASE, TOKEN
 } from './helpers.mjs'
+import { spawnSync } from 'node:child_process'
+import { SCHOOLS } from '../../core/schools.js'
 import { scenarioPayloads } from './payloads.mjs'
 
 const ROOT = fileURLToPath(new URL('../../', import.meta.url))
@@ -136,7 +138,8 @@ test('old list date → unknown list_date_old', async () => {
   const r = await get('/api/status', { ids: [OTHER_CENTRAL, GLOVERTOWN].join(','), now: plus(tue, 1), ...S })
   const o = statusOf(r.body.schools, OTHER_CENTRAL)
   assert.deepEqual([o.status, o.reason, o.reason_text], ['unknown', 'list_date_old', 'The NLSchools list is still showing Monday, September 14, 2026.'])
-  assert.equal(statusOf(r.body.schools, GLOVERTOWN).status, 'closed')
+  // lead fix 14:55: Monday's closure row no longer makes Glovertown closed on Tuesday
+  assert.deepEqual([statusOf(r.body.schools, GLOVERTOWN).status, statusOf(r.body.schools, GLOVERTOWN).reason], ['unknown', 'list_date_old'])
 })
 
 test('open rule missing → unknown open_rule_missing; date line missing → list_date_missing', async () => {
@@ -262,6 +265,78 @@ test('/api/schools, /api/sources, /api/health, CORS preflight', async () => {
   assert.equal(pre.status, 204)
   assert.equal((await get('/api/nope')).status, 404)
   assert.ok(FX)
+})
+
+test("old list (lead fix 14:55): Monday's rows never set Tuesday's status; /api/today lists them under earlier", async () => {
+  await ingestScenario('today', T0) // list for Monday 2026-09-14
+  const tue = '2026-09-15T09:30:00.000Z'
+  await ingestScenario('today', plus(tue, -1)) // a healthy scan on Tuesday morning still shows Monday's list
+  const gid = (await get('/api/status', { ids: GLOVERTOWN, now: T0, ...S })).body.schools[0].headline_notice_id
+  const st = (await get('/api/status', { ids: GLOVERTOWN, now: tue, ...S })).body
+  const g = st.schools[0]
+  assert.notEqual(g.status, 'closed')
+  assert.deepEqual([g.status, g.reason, g.applies], ['unknown', 'list_date_old', []])
+  const today = (await get('/api/today', { now: tue, ...S })).body
+  assert.equal(today.counts.current, 0)
+  const central = today.regions.find(r => r.region === 'central')
+  assert.deepEqual([central.notices, central.earlier.map(n => n.id)], [[], [gid]])
+  assert.equal(today.regions.find(r => r.region === 'western').earlier.length, 1)
+})
+
+test('CORS: every GET (errors and raw copies too) carries Access-Control-Allow-Origin: *; preflight allows authorization', async () => {
+  await ingestScenario('today', T0)
+  const gid = (await get('/api/status', { ids: GLOVERTOWN, now: T0, ...S })).body.schools[0].headline_notice_id
+  const detail = (await get(`/api/notices/${gid}`, S)).body
+  const raw = detail.raw_links[0].href
+  assert.match(raw, /^\/api\/raw\//) // relative: the app prefixes the API origin
+  const cases = [
+    ['/api/health', {}, 200], ['/api/schools', {}, 200], ['/api/status', { ids: GLOVERTOWN, ...S }, 200], ['/api/status', { ids: '' }, 400],
+    ['/api/today', S, 200], ['/api/sources', {}, 200], [`/api/notices/${gid}`, S, 200], ['/api/notices/nope', {}, 404], [raw, {}, 200],
+    ['/api/raw/nlschools-status/nope.html', {}, 404], ['/api/nope', {}, 404]
+  ]
+  for (const [path, params, code] of cases) {
+    const r = await get(path, params)
+    assert.equal(r.status, code, path)
+    assert.equal(r.res.headers.get('access-control-allow-origin'), '*', path)
+    assert.equal(r.res.headers.get('cache-control'), 'no-store', path)
+  }
+  const pre = await fetch(`${BASE}/api/admin/ingest`, { method: 'OPTIONS', headers: { Origin: 'http://127.0.0.1:8201', 'Access-Control-Request-Method': 'POST', 'Access-Control-Request-Headers': 'authorization, content-type' } })
+  assert.equal(pre.status, 204)
+  assert.equal(pre.headers.get('access-control-allow-origin'), '*')
+  assert.match(pre.headers.get('access-control-allow-headers'), /authorization/)
+})
+
+test('storm seed (seed.mjs): /api/status notices map is complete; /api/today applies_to has may_apply with reason; sources fields', async () => {
+  const seed = spawnSync(process.execPath, [ROOT + 'worker/tests/seed.mjs', '--url', BASE, '--token', TOKEN, '--scenario', 'storm', '--now', T0, '--reset'], { encoding: 'utf8' })
+  assert.equal(seed.status, 0, seed.stderr + seed.stdout)
+  const idOf = name => SCHOOLS.find(s => s.name === name).id
+  const ids = [GLOVERTOWN, idOf("Bay d'Espoir Academy"), idOf('Bishop White School'), idOf("St. Mark's School"), OTHER_CENTRAL, EASTSIDE, BOREALE]
+  const r = (await get('/api/status', { ids: ids.join(','), now: plus(T0, 1), ...S })).body
+  let referenced = 0
+  for (const s of r.schools) {
+    for (const x of [...s.applies, ...s.may_apply]) {
+      assert.ok(r.notices[x.notice_id], `${s.school.name}: notice ${x.notice_id} missing from notices`)
+      assert.equal(r.notices[x.notice_id].id, x.notice_id)
+      referenced++
+    }
+    if (s.headline_notice_id) assert.ok(r.notices[s.headline_notice_id])
+  }
+  for (const n of r.district_notices) assert.ok(r.notices[n.id])
+  // Glovertown region + may_apply (2), Bay d'Espoir / Bishop White / St. Mark's exact + region (6), another Central school region (1)
+  assert.equal(referenced, 9)
+  const g = statusOf(r.schools, GLOVERTOWN)
+  assert.deepEqual([g.status, g.may_apply.map(m => m.reason), g.applies.map(a => a.how)], ['closed', ['name_similar'], ['region']])
+  assert.equal(statusOf(r.schools, EASTSIDE).unmatched_in_region, 1)
+  assert.equal(statusOf(r.schools, BOREALE).unmatched_in_region, 0)
+  for (const src of r.sources) for (const k of ['id', 'name', 'kind', 'human_url', 'stale', 'stale_text']) assert.ok(k in src, `sources[].${k}`)
+  const today = (await get('/api/today', { now: plus(T0, 1), ...S })).body
+  const central = today.regions.find(x => x.region === 'central')
+  const amb = central.notices.find(n => n.school_text === 'SAMPLE Glovertown')
+  assert.deepEqual(amb.applies_to.map(a => [a.school_id, a.how, a.reason]), [[GLOVERTOWN, 'may_apply', 'name_similar']])
+  const exact = central.notices.find(n => n.school_text === 'Bishop White School')
+  assert.deepEqual(exact.applies_to.map(a => [a.how, a.reason]), [['exact', null]])
+  const placed = today.regions.reduce((n, x) => n + x.notices.length + x.unmatched.length, 0)
+  assert.equal(placed + today.district.length + today.region_wide.length + today.csfp.length + today.unplaced.length, today.counts.current)
 })
 
 test('cron: scheduled() runs a scan (wrangler --test-scheduled)', async () => {

@@ -11,8 +11,8 @@ import { scenarioPayloads, SCENARIOS } from './payloads.mjs'
 
 const args = process.argv.slice(2)
 const value = f => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : null }
-const url = (value('--url') ?? 'http://127.0.0.1:8202').replace(/\/+$/, '')
-const token = value('--token') ?? 'local-dev-token'
+const url = (value('--url') ?? process.env.SC_WORKER_URL ?? `http://127.0.0.1:${process.env.SC_WORKER_PORT ?? 8202}`).replace(/\/+$/, '')
+const token = value('--token') ?? process.env.SC_ADMIN_TOKEN ?? 'local-dev-token'
 const scenario = value('--scenario') ?? 'today'
 if (!SCENARIOS[scenario]) { console.error(`unknown scenario ${scenario}: ${Object.keys(SCENARIOS).join(', ')}`); process.exit(2) }
 const now = value('--now') ?? (scenario === 'csfp' ? '2026-09-14T18:00:00.000Z' : new Date().toISOString())

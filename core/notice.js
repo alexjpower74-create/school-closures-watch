@@ -17,6 +17,13 @@ export function noticeId (n, now) {
 
 const NONE = { scope_region: null, scope_evidence: null, unmatched_reason: null, matches: [] }
 
+/** §4.4: one region → region; province → province; more than one distinct region named → district (lead 14:50). */
+const regionScope = r => (r.ambiguous
+  ? { ...NONE, scope: 'district' }
+  : { ...NONE, scope: r.scope, scope_region: r.scope_region, scope_evidence: r.scope_evidence })
+
+const SAME_NAME = m => m.how === 'exact' || m.reason === 'name_same_community_differs' || m.reason === 'name_shared'
+
 /** → { notice, unmapped_class } with status, status_basis, status_evidence, scope, scope_*, unmatched_reason, matches set. */
 export function classifyNotice (n, schools) {
   const out = { ...n }
@@ -28,19 +35,17 @@ export function classifyNotice (n, schools) {
     Object.assign(out, { status: s.status, status_basis: s.status_basis, status_evidence: s.status_evidence })
     const nls = schools.filter(x => x.coverage === 'nlschools')
     const m = matchRow(n, nls)
-    if (m.matches.length) {
-      Object.assign(out, NONE, { scope: 'school', matches: m.matches })
-    } else {
-      const r = findRegionPhrase(n.school_text)
-      if (r) Object.assign(out, NONE, { scope: r.scope, scope_region: r.scope_region, scope_evidence: r.scope_evidence })
-      else Object.assign(out, NONE, { scope: 'unmatched', unmatched_reason: m.unmatched_reason })
-    }
+    const sameName = m.matches.some(SAME_NAME)
+    // §4.2 rule 3a (lead fix 14:55): with no same-name school, a region phrase is checked BEFORE similar names.
+    const region = sameName ? null : findRegionPhrase(n.school_text)
+    if (sameName) Object.assign(out, NONE, { scope: 'school', matches: m.matches })
+    else if (region) Object.assign(out, regionScope(region))
+    else if (m.matches.length) Object.assign(out, NONE, { scope: 'school', matches: m.matches })
+    else Object.assign(out, NONE, { scope: 'unmatched', unmatched_reason: m.unmatched_reason })
   } else if (n.kind === 'text_notice') {
-    const s = statusFromPhrases(n.quote)
-    Object.assign(out, s)
+    Object.assign(out, statusFromPhrases(n.quote))
     const r = findRegionPhrase(n.quote)
-    if (r) Object.assign(out, NONE, { scope: r.scope, scope_region: r.scope_region, scope_evidence: r.scope_evidence })
-    else Object.assign(out, NONE, { scope: 'district' })
+    Object.assign(out, r ? regionScope(r) : { ...NONE, scope: 'district' })
   } else if (n.kind === 'feed_post') {
     const named = csfpSchoolsNamed(n.source_text, schools)
     const matches = named.length

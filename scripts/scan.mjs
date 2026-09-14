@@ -37,7 +37,7 @@ export function readDevVars (path = ROOT + 'worker/.dev.vars') {
   return out
 }
 
-const WORKER = (process.env.SC_WORKER_URL ?? 'http://127.0.0.1:8202').replace(/\/+$/, '')
+const WORKER = (process.env.SC_WORKER_URL ?? `http://127.0.0.1:${process.env.SC_WORKER_PORT ?? 8202}`).replace(/\/+$/, '')
 const TOKEN = process.env.SC_ADMIN_TOKEN ?? readDevVars().ADMIN_TOKEN ?? 'local-dev-token'
 const originMap = parseOriginMap(process.env.SOURCE_ORIGIN_MAP ?? '')
 const SOURCES_JSON = DATA + 'sources.json'

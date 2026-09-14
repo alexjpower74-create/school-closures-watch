@@ -93,6 +93,29 @@ test('may_apply: ambiguous row is NOT applied', () => {
   assert.equal(st(GLOVERTOWN, [diff]).may_apply[0].reason_text, 'The notice names this school but a different community: "Gander, NL".')
 })
 
+test("old lists never set today's status (lead fix 14:55): a 2026-09-11 closed exact notice on Monday 07:00 → open", () => {
+  const now = '2026-09-14T09:30:00.000Z' // Monday 2026-09-14 07:00 NDT
+  const h = healthyNls(now) // today's list, open rule present
+  const oldClosed = row('Glovertown Academy', 'Glovertown, NL', 'closedAllDay', { status_text: 'CLOSED ALL DAY', list_date: '2026-09-11' })
+  const s = st(GLOVERTOWN, [oldClosed], h, now)
+  assert.deepEqual([s.status, s.applies, s.headline_notice_id, s.source_status_text], ['open', [], null, null])
+  const oldAmb = row('SAMPLE Glovertown', 'Gander, NL', 'closedAllDay', { list_date: '2026-09-11' })
+  const a = st(GLOVERTOWN, [oldAmb], h, now)
+  assert.deepEqual([a.status, a.may_apply], ['open', []])
+  const oldRegion = row('SAMPLE All Central Region Schools', null, 'closedAllDay', { list_date: '2026-09-11' })
+  assert.equal(st(OTHER_CENTRAL, [oldRegion], h, now).status, 'open')
+  const oldUn = row('SAMPLE Nowhere Harbour School', 'Nowhere, NL', 'closedAllDay', { list_date: '2026-09-11' })
+  assert.equal(st(OTHER_CENTRAL, [oldUn], h, now).unmatched_in_region, 0)
+  // today's list still applies, and list_date null (important notices, feed posts) is never "old"
+  assert.equal(st(GLOVERTOWN, [glovClosed()], h, now).status, 'closed')
+  assert.equal(st(OTHER_CENTRAL, [text('SAMPLE All schools in the Central region are closed for the day', { list_date: null })], h, now).status, 'closed')
+})
+
+test('may_apply reason text when the row gives no community (lead 15:10)', () => {
+  const n = row('Glovertown Academy', null, 'closedAllDay')
+  assert.equal(st(GLOVERTOWN, [n]).may_apply[0].reason_text, "The notice names this school but doesn't say which community.")
+})
+
 test('region-wide: every Central NLSchools school, no Western, no CSFP', () => {
   const r = row('SAMPLE All Central Region Schools', null, 'closedAllDay', { status_text: 'CLOSED ALL DAY' })
   const idx = indexNotices([r])
@@ -138,6 +161,11 @@ test('unmatched_in_region counts unmatched rows by region; sorting is rank then 
   const un = row('SAMPLE Nowhere Harbour School', 'Nowhere, NL', 'closedAllDay')
   assert.equal(st(OTHER_CENTRAL, [un]).unmatched_in_region, 1)
   assert.equal(st(EASTSIDE, [un]).unmatched_in_region, 0)
+  // NLSchools schools only (lead 15:10): a Western unmatched row counts for Eastside, not for École Sainte-Anne
+  const west = row('SAMPLE Nowhere Harbour School', 'Nowhere, NL', 'closedAllDay', { region_text: 'WESTERN' })
+  assert.equal(st(EASTSIDE, [west]).unmatched_in_region, 1)
+  assert.equal(st(SAINTE_ANNE, [west]).unmatched_in_region, 0)
+  assert.equal(st(PRIVATE, [west]).unmatched_in_region, 0)
   const list = sortStatuses([st(PRIVATE, []), st(EASTSIDE, []), st(GLOVERTOWN, [glovClosed()]), st(BOREALE, [])])
   assert.deepEqual(list.map(s => s.status), ['closed', 'unknown', 'unknown', 'open'])
   assert.equal(list[1].school.name.localeCompare(list[2].school.name, 'en') < 0, true)
