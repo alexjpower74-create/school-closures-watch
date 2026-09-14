@@ -184,6 +184,9 @@ async function handleToday (url, env) {
     region_wide: current.filter(n => n.scope === 'region' || n.scope === 'province').sort(byRankThenText),
     regions,
     csfp: current.filter(n => n.source_id === 'csfp-news').sort(byRankThenText),
+    // Status rows that can't be placed in one of the four regions (no known region_text, no matched school): listed
+    // here so they are never silently left out. Real rows always carry a region.
+    unplaced: rows.filter(n => (n.scope === 'school' || n.scope === 'unmatched') && regionOf(n) === null).sort(byRankThenText),
     open_rule_quote: nls?.open_rule_quote ?? null
   })
 }

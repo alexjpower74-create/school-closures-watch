@@ -114,6 +114,8 @@ test('a second ok scan without a row → removed_at set and it appears in /api/t
   assert.deepEqual([d.removed_at, d.first_seen_at, d.last_seen_at], [plus(T0, 5), T0, T0])
   const today = (await get('/api/today', { now: plus(T0, 6), ...S })).body
   assert.deepEqual(today.regions.map(r => r.region), ['avalon', 'central', 'western', 'labrador'])
+  assert.deepEqual(today.unplaced, [])
+  assert.equal(today.regions.reduce((n, r) => n + r.notices.length + r.unmatched.length, 0) + today.unplaced.length, today.counts.current)
   const central = today.regions.find(r => r.region === 'central')
   assert.deepEqual(central.earlier.map(n => n.id), [gid])
   assert.deepEqual(central.notices, [])
