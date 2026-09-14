@@ -342,6 +342,7 @@ is ignored by §4.5 (it can't make a school Closed, Delayed or "may apply" today
                                    //   ("couldn't read" when format_changed; "Statuses below are from" omitted if never ok)
                                    // overdue: "We haven't been able to check the NLSchools list since 6:35 AM."
                                    // never_checked: "We haven't checked the NLSchools list yet."
+                                   //   (never ok but an attempt failed: "We couldn't reach the NLSchools list at 6:40 AM. We haven't had a good check yet.")
                                    // csfp-news uses "the CSFP news feed" in place of "the NLSchools list"
   "next_due_at": "…", "interval_minutes_now": 5
 }
@@ -367,8 +368,12 @@ source_url }` — `coverage`: `nlschools` | `csfp` | `none`. `core/schools-data.
   "unmatched_in_region": 0
 }
 ```
+`unmatched_in_region` counts unmatched `nlschools-status` rows in the school's region **for NLSchools schools only**
+(0 for CSFP and others; those rows are NLSchools rows). (Lead 15:10.)
+
 `may_apply` `reason_text` (fixed): `name_same_community_differs` "The notice names this school but a different
-community: \"{community_text}\"."; `name_shared` "More than one school has this name."; `name_similar` "The notice names
+community: \"{community_text}\"." — when `community_text` is null: "The notice names this school but doesn't say which
+community." (lead 15:10); `name_shared` "More than one school has this name."; `name_similar` "The notice names
 a similar school: \"{school_text}\"."; `board_feed_names_school` "A CSFP news post mentions this school.";
 `board_feed_no_school_named` "A CSFP news post mentions a closure but no school."
 
@@ -467,7 +472,14 @@ lives in `json`; indexed columns are copies for queries.
   `district-notice`, `unmatched-count`, `pick-search`, `pick-result` (+ `data-school-id`, `aria-pressed`),
   `pick-selected`, `notice-detail`, `region-section` (+ `data-region`), `today-empty`, `source-row` (+ `data-source`).
 - Before rendering any quote the app checks `normText(source_text).includes(normText(quote))`; failing notices are not
-  rendered and a console warning is logged (negative control required).
+  rendered and a console warning is logged (negative control required). If that drops a school's only applying
+  notice, the card shows `Unknown`, app-side reason `quote_check_failed`: "A notice for this school didn't match the
+  words we saved from the source, so we don't show it. Check nlschools.ca or call the school." (fixed, lead 15:10).
+- `/api/today` `applies_to[].how` is `exact`, `region`, `province` or `may_apply` (may-apply schools are included,
+  marked `may_apply`, with `reason`). `/api/status` `notices` holds every id referenced by any `applies` or
+  `may_apply` entry and every `district_notices` id. `sources[]` entries carry `id`, `name`, `kind`, `human_url`,
+  `stale`, `stale_text`. `raw_links[].href` is relative (`/api/raw/…`); the app prefixes the API origin. (Lead 15:10,
+  from sc2's cross-review.)
 - Times via `Intl.DateTimeFormat('en-CA', {timeZone: 'America/St_Johns', hour: 'numeric', minute: '2-digit'})`, shown
   as "6:42 AM".
 
