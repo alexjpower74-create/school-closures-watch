@@ -162,6 +162,8 @@ export function schoolCard(st, notices, now) {
     .map((a) => ({ how: a.how, n: notices[a.notice_id] }))
     .filter((x) => x.n)
     .sort((a, b) => noticesWorstFirst(a.n, b.n))
+    // The API's headline notice leads, so the card agrees with it when two notices share a rank.
+    .sort((a, b) => (b.n.id === st.headline_notice_id) - (a.n.id === st.headline_notice_id))
   applied.forEach(({ n, how }, i) => card.append(noticeBlock(n, how, now, i === 0)))
 
   if (st.reason_text) card.append(el('p', { class: 'reason', 'data-testid': 'reason' }, st.reason_text))
