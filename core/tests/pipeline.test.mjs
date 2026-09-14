@@ -1,7 +1,7 @@
 // runScan against the fixture server on SC_FIXTURE_PORT (8203). No live requests.
 import { test, before, after, beforeEach } from 'node:test'
 import assert from 'node:assert/strict'
-import { runScan, ADAPTERS, USER_AGENT, HOST_GAP_MS, mapOrigin } from '../pipeline.js'
+import { runScan, ADAPTERS, USER_AGENT, mapOrigin } from '../pipeline.js'
 import { REGISTRY, USED } from '../sources/registry.js'
 import { startFixtureServer } from './fixture-server.mjs'
 import { ROOT } from './helpers.mjs'
@@ -11,6 +11,9 @@ import { mkdtempSync, mkdirSync, readFileSync, existsSync, rmSync } from 'node:f
 import { fileURLToPath } from 'node:url'
 
 const PORT = Number(process.env.SC_FIXTURE_PORT ?? 8203)
+// The politeness rule from AGENTS.md, deliberately NOT imported: comparing against HOST_GAP_MS would still pass if
+// someone set HOST_GAP_MS to 0 (found by negative control G).
+const MIN_GAP_MS = 1100
 const NOW = '2026-09-14T16:40:05.000Z'
 let fx
 
@@ -53,10 +56,10 @@ test('≥ 1.1 s between requests to one host (measured at the fixture server)', 
   await scan()
   const at = fx.hits.filter(h => h.path !== '/feed/').map(h => h.at)
   assert.equal(at.length, 3)
-  for (let i = 1; i < at.length; i++) assert.ok(at[i] - at[i - 1] >= HOST_GAP_MS, `gap ${at[i] - at[i - 1]} ms`)
+  for (let i = 1; i < at.length; i++) assert.ok(at[i] - at[i - 1] >= MIN_GAP_MS, `gap ${at[i] - at[i - 1]} ms`)
   // a different host is not held back by nlschools.ca
   const feedAt = fx.hits.find(h => h.path === '/feed/').at
-  assert.ok(feedAt - at[0] < HOST_GAP_MS, 'csfp.nl.ca waited for nlschools.ca')
+  assert.ok(feedAt - at[0] < MIN_GAP_MS, 'csfp.nl.ca waited for nlschools.ca')
 })
 
 test('≥ 1.1 s between requests to one host (fake clock)', async () => {
@@ -66,7 +69,7 @@ test('≥ 1.1 s between requests to one host (fake clock)', async () => {
   await runScan({ now: NOW, force: true, fetchImpl: fakeFetch, clock: () => t, sleep: async ms => { t += ms } })
   const nls = calls.filter(c => c.url.startsWith('https://www.nlschools.ca'))
   assert.equal(nls.length, 3)
-  for (let i = 1; i < nls.length; i++) assert.ok(nls[i].t - nls[i - 1].t >= HOST_GAP_MS + 250, `gap ${nls[i].t - nls[i - 1].t}`)
+  for (let i = 1; i < nls.length; i++) assert.ok(nls[i].t - nls[i - 1].t >= MIN_GAP_MS + 250, `gap ${nls[i].t - nls[i - 1].t}`)
 })
 
 test('link-only and not-used sources are never requested', async () => {
