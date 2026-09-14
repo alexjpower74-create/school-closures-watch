@@ -190,6 +190,9 @@ Fragment (`generated/schoolstatus.html`):
 `status_basis`: `class`, `status_text`, `phrase` or `none`; `status_evidence` = the class name, the status text, or the
 matched phrase (verbatim substring of `quote`). A class not in the table → `status "other"`, and the source health gets
 `unmapped_classes: ["…"]` so the lead sees it.
+(Lead answer 14:50: "only when class unknown" = class missing or not in the table. A class in the table decides; else
+the STATUS text rules; else `other`. A class not in the table always goes into `unmapped_classes`, even when the STATUS
+text gave a status.)
 
 ### 4.2 School matching (`core/match.js`)
 - `normName(s)`: NFKD, drop combining marks, lowercase, `&` → ` and `, delete `'` `’` `‘`, every other
@@ -202,14 +205,17 @@ matched phrase (verbatim substring of `quote`). A class not in the table → `st
   2. Same normalised name, community differs or missing → `may_apply`, reason `name_same_community_differs`.
   3. Same normalised name on more than one school and community doesn't single one out → each `may_apply`, reason
      `name_shared`.
+  3a. **Region phrase before similarity** (lead fix 14:55): no same-name school and `school_text` contains a §4.4
+     region or province phrase → `scope: "region"`/`"province"`, `matches: []`. A row "All schools in the Central
+     region" must never become "may apply" to a school whose name words happen to be a subset.
   4. Otherwise, similar names: `STOP = {school, academy, elementary, primary, high, collegiate, all, grade, the, of,
      and, st, saint, memorial, regional, junior, senior, intermediate, middle, centre, center, k, 12, nl}`;
      `key(s) = tokens(normName(s)) − STOP`. A school is a candidate when `key(row)` is non-empty and
      `key(row) ⊆ key(school)` or `key(school) ⊆ key(row)` (school key non-empty), or when the communities are equal and
      the keys share a token. 1–5 candidates → each `may_apply`, reason `name_similar`. More than 5 → no matches,
-     `unmatched_reason: "too_many"`. None → region phrase check (§4.4) on `school_text`, then
-     `unmatched_reason: "no_school"`.
-- `CSFP_SHORT` (for `csfp-news`, accent- and case-insensitive on normName): `boreale` → École Boréale, `envol` → École
+     `unmatched_reason: "too_many"`. None → `unmatched_reason: "no_school"`.
+- `CSFP_SHORT` (for `csfp-news`, accent- and case-insensitive on normName; a single `l` or `d` elided onto the start
+  of the short name counts, since normName deletes apostrophes: `lenvol` matches `envol`): `boreale` → École Boréale, `envol` → École
   l'ENVOL, `notre dame du cap` → École Notre-Dame-du-Cap, `sainte anne` → École Sainte-Anne, `rocher du nord` → École
   Rocher-du-Nord, `grands vents` → École des Grands-Vents.
 - **Negative control required** (sc1 core, sc2 app): make matching exact-name-only (drop rules 2–4) and watch the
@@ -241,6 +247,11 @@ Matched on `normName(quote)` as whole-word sequences, longest phrase first, each
   (verbatim substring). A province phrase → `scope: "province"`. It applies to every **NLSchools** school in that
   region (CSFP and others excluded), and says so on screen: "This notice names the whole Central region."
 - A status row with an exact or may_apply match is `scope: "school"` even if its note mentions a region.
+- For status rows the region check reads `school_text` only (never the note); for text notices it reads `quote` only
+  (never the rest of the box). (Lead answer 14:50.)
+- **More than one distinct region named** (e.g. "all Central schools and all Western schools") → `scope: "district"`,
+  shown to everyone as an NLSchools notice and applied to no school. We don't guess which regions a sentence covers.
+  (Lead answer 14:50.)
 - Text notice with no region phrase → `scope: "district"`: shown at the top of My schools and Today as
   "NLSchools notice", attached to no school status.
 - Status row with no match and no region phrase → `scope: "unmatched"`: listed on Today under its `region_text`
@@ -249,6 +260,11 @@ Matched on `normName(quote)` as whole-word sequences, longest phrase first, each
 
 ### 4.5 School status (`core/status.js`, computed per request)
 Input: school, current (not removed) notices, source health, `now`.
+**Old lists never set today's status** (lead fix 14:55): a notice with `list_date !== null && list_date < today_local`
+is ignored by §4.5 (it can't make a school Closed, Delayed or "may apply" today); `/api/today` lists it under
+`earlier`. Notices with `list_date: null` (CSFP feed posts) are bounded by the 36 h window instead. Test: a
+2026-09-11 `closed` exact notice, `now` Monday 2026-09-14 07:00 NDT, healthy source with today's list → the school is
+`open`, not `closed`.
 - NLSchools school:
   - `applies` = notices with an exact match to the school + current `region` notices for its region + `province`
     notices. `may` = notices with a `may_apply` match to it.
@@ -262,7 +278,8 @@ Input: school, current (not removed) notices, source health, `now`.
   `csfp-news.last_ok_at`.
 - Private / Indigenous / Other: `unknown`, reason `no_official_source`, `as_of: null`.
 - `reason_text` (fixed):
-  - `stale`: "We couldn't check NLSchools since {time}. Check nlschools.ca or call the school."
+  - `stale`: "We couldn't check NLSchools since {time}. Check nlschools.ca or call the school." When NLSchools was
+    never checked: "We haven't been able to check NLSchools yet. Check nlschools.ca or call the school."
   - `list_date_old`: "The NLSchools list is still showing {list_date_text}."
   - `list_date_missing`: "We couldn't read which day the NLSchools list is for."
   - `open_rule_missing`: "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open."
@@ -320,7 +337,12 @@ Input: school, current (not removed) notices, source health, `now`.
   "open_rule_quote": "If your school is not listed below, the status is normal and open as usual.",
   "notices_current": 2, "rows_skipped": 0, "quotes_dropped": 0, "unmapped_classes": [],
   "stale": false, "stale_reason": null,   // never_checked | last_attempt_failed | overdue
-  "stale_text": null,              // "We couldn't reach NLSchools at 6:40 AM. Statuses below are from 6:35 AM."
+  "stale_text": null,              // fixed, core/schedule.js staleText (lead answer 14:50):
+                                   // last_attempt_failed: "We couldn't reach the NLSchools list at 6:40 AM. Statuses below are from 6:35 AM."
+                                   //   ("couldn't read" when format_changed; "Statuses below are from" omitted if never ok)
+                                   // overdue: "We haven't been able to check the NLSchools list since 6:35 AM."
+                                   // never_checked: "We haven't checked the NLSchools list yet."
+                                   // csfp-news uses "the CSFP news feed" in place of "the NLSchools list"
   "next_due_at": "…", "interval_minutes_now": 5
 }
 ```
@@ -363,7 +385,8 @@ a similar school: \"{school_text}\"."; `board_feed_names_school` "A CSFP news po
   "sample": false
 }
 ```
-Worker at ingest: re-verify every notice (§0) against `raws`; upsert by `id` (keep `first_seen_at`, set
+Worker at ingest: re-verify every notice (§0) against `raws`; **re-derive** `status`, `scope` and `matches` from the
+verified fields with its own school list (a payload can't bring its own `how: "exact"`; lead answer 14:50); upsert by `id` (keep `first_seen_at`, set
 `last_seen_at`); every current notice of this source (same `sample` flag) not in the payload gets `removed_at = now`
 when `result` is ok. `error`/`format_changed` → only health changes, notices stay as they were (shown as stale).
 `nlschools-status` and `nlschools-notices` come in as two payloads from the same pass.
