@@ -125,7 +125,8 @@ Fragment (`generated/schoolstatus.html`):
 - Cells, in order: (1) `school_text` = extractText of the first `<span>`; `community_text` = extractText of what
   follows the first `<br/>` in the cell (e.g. `"Corner Brook, NL"`), `null` if empty. (2) `status_class` = the cell's
   class token (first token found in §4.1, else the first token); `status_text` = extractText(cell), e.g.
-  `"CLOSED ALL DAY"`. (3) `quote` = extractText(cell), e.g. `"School closed all day NOTE: Water Shut Off"`.
+  `"CLOSED ALL DAY"`. (3) `quote` = extractText(cell), e.g. `"School closed all day NOTE: Water Shut Off"`; when this
+  cell is empty, `quote` = `status_text` (still verbatim, one place) so a real closure isn't dropped (lead 15:20).
   (4) `family_text` e.g. `"FOS 05"`. (5) `region_text` e.g. `"CENTRAL"`.
 - `source_text` = extractText(row). `kind: "school_row"`, `link` = human_url, `raw_refs` = [page, fragment].
 - Row with fewer than 5 cells → skipped and counted in `rows_skipped` (not format_changed unless every row fails).
@@ -160,7 +161,8 @@ Fragment (`generated/schoolstatus.html`):
 - RSS `<item>`: `title`, `link`, `pubDate`, `description` (CDATA), `guid`. Keep only items with `pubDate` within 36 h
   before `now` (and not more than 1 h in the future) **and** a closure word (§4.3 `CSFP_WORDS`) in title or
   description text.
-- `quote` = title; `source_text` = extractText(title + " " + description) cut at 6000; `posted_at` from pubDate;
+- `quote` = title; `source_text` = extractText of the whole `<item>…</item>` cut at 6000 (lead 15:20, from sc1: title +
+  description is never one contiguous place in the raw feed); `posted_at` from pubDate;
   `posted_text` = pubDate verbatim; `kind: "feed_post"`; `row_id` = fnv1a8(guid); `status: "may_apply"`,
   `status_basis: "none"`.
 - `scope: "board"`, matches: CSFP schools whose short name (§4.2 `CSFP_SHORT`) appears in the text →
@@ -428,6 +430,19 @@ GET endpoints accept `now=<ISO>` when `ALLOW_FAKE_NOW=1` and `include_sample=1`.
 | `GET /api/raw/<raw_ref>` | the raw body, `text/plain; charset=utf-8`; 404 if not kept |
 | `POST /api/admin/ingest` | Bearer `ADMIN_TOKEN`; §5.5 → `{ ok, source_id, accepted, quotes_dropped, removed, notices_current }`; 401 without token |
 | `POST /api/admin/scan?only=<id>&force=1` | Bearer; runs `runScan` inside the Worker (same code as `scheduled()`), returns the summary |
+| `POST /api/admin/reset` | Bearer; wipes the local D1. **Exists only while `ALLOW_FAKE_NOW=1`** (tests, `seed.mjs --reset`); 404 otherwise (lead 15:20, from sc1) |
+
+Additions accepted from sc1's report (lead 15:20):
+- `/api/today` also returns `unplaced: [Notice]`: status rows with no recognisable `region_text` and no matched school,
+  so nothing is silently left out; regions + `district` + `region_wide` + `csfp` + `unplaced` add up to
+  `counts.current`. The app shows an "Not placed in a region" section when it is non-empty.
+- Ingest times (`first_seen_at`, `last_seen_at`, `removed_at`, health times) are the Worker's `now`, never the
+  payload's `finished_at`.
+- `runScan` marks notices `sample: true` whenever `SOURCE_ORIGIN_MAP` is non-empty (replays).
+- `nlschools-notices` has no list date: its ids use `localDate(first scan)`.
+- Registry extra fields: `other_urls`, `fetch_names`, `coverage_quote`; `nlschools-notices` `human_url`
+  `https://www.nlschools.ca/`; `csfp-news` `human_url` `https://csfp.nl.ca/`.
+- At ingest `open_rule_quote` must equal `NLS_OPEN_RULE` and verify against the raw page.
 
 D1 (`worker/migrations/`): `source_health` (one row per source id), `raw_copies` (raw_ref PK, source_id, url,
 fetched_at, format, body), `notices` (id PK, source_id, sample, list_date, status, rank, scope, scope_region, json,
