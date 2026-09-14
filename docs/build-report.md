@@ -42,6 +42,18 @@ Draft, written as each round lands. Final numbers come from the last pinned QA r
   (seen to refuse once before relying on it).
 - Lead looked at the retaken today-storm-1280 and my-storm-390: both fixes visible, nothing else wrong.
 
+## sc1 round 2 (code 734de73, lead read before merge)
+- `core/notice.js`: a same-name match wins; otherwise the region phrase is checked before similar names (§4.2 3a);
+  two different regions named → `district`.
+- `core/status.js`: `isOldList` filters old-list notices out of a school's own, region, province and unmatched counts;
+  empty-community and NLSchools-only unmatched wording/counts per the 15:10 decisions.
+- `worker/src/index.js` `/api/today`: old-list rows aren't current and are listed under `earlier`; `applies_to`
+  carries `reason`.
+
+## Merges
+- de28cd9 sc1 steps 1–7 (b76085a) · 6c221e8 sc2 round 1 (f3bf596) · 2ab80b5 sc2 round 2 (bff3486: pinned QA
+  104 passed, 4 skipped, EXIT=0; the merge changed 24 files, all `app/**` + sc2's report, no deletions).
+
 ## Rounds
 - Round 1: sc1 steps 1–7 (b76085a), sc2 screens + mock + Playwright (f3bf596). Both merged into main (de28cd9, 6c221e8).
 - Round 2 (running): sc1 old-list guard, region phrase first, two regions → district, wording fixes, Worker fields for
