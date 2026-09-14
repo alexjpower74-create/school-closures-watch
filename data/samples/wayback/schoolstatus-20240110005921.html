@@ -1,0 +1,40 @@
+<script>
+$('document').ready(function(){$('#schoolStatusTable').DataTable({ 'order': [[ 0, 'asc' ]],'lengthChange': false, responsive: true, 'paging':   false,'lengthMenu': [[10, 20, 50, 100, -1], [10, 20, 50, 100, 'All']],
+dom: 'Bfrtip', buttons: [	'copy','csv','excel',{extend: 'pdf',orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null,exportOptions: { columns: [ 0,1,2,3,4]}},
+{ extend: 'print', orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null, exportOptions: {columns: [ 0,1,2,3,4] } }] });});
+</script>
+<table id='schoolStatusTable' class='table table-sm responsive table-striped table-bordered' style='font-size:11px;' width='100%'>
+<thead class='thead-dark'><tr style='text-transform:uppercase;font-weight:bold;color:White;'><th>SCHOOL/BUILDING</th><th>STATUS</th><th>DESCRIPTION/NOTES</th><th>FAMILY</th><th>REGION</th></tr></thead>
+<tbody>
+<tr id=459>
+<td><span style='font-size:12px;font-weight:bold;'>Bay d'Espoir Academy</span><br/>
+St. Alban's, NL</td>
+<td class='closedForMorning' style='vertical-align:middle;'>CLOSED FOR MORNING</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>School closed for the morning, further announcement at 11:00 a.m. </span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> Water Outage</div>
+</td>
+<td class='text-nowrap familyAlign family5' style='vertical-align:middle;'>FOS 05</td>
+<td class='officeCentral' style='text-align:center;vertical-align:middle;font-weight:bold;'>CENTRAL</td>
+</tr>
+<tr id=182>
+<td><span style='font-size:12px;font-weight:bold;'>Bishop White School</span><br/>
+Port Rexton, NL</td>
+<td class='delayedOpening' style='vertical-align:middle;'>DELAYED OPENING</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>Delayed opening - 2 hours.</span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> Delayed opening due to icy roads.</div>
+</td>
+<td class='text-nowrap familyAlign family6' style='vertical-align:middle;'>FOS 06</td>
+<td class='officeCentral' style='text-align:center;vertical-align:middle;font-weight:bold;'>CENTRAL</td>
+</tr>
+<tr id=178>
+<td><span style='font-size:12px;font-weight:bold;'>St. Mark's School</span><br/>
+King's Cove, NL</td>
+<td class='delayedOpening' style='vertical-align:middle;'>DELAYED OPENING</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>Delayed opening - 3 hours.</span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> Delayed opening due to icy road conditions.</div>
+</td>
+<td class='text-nowrap familyAlign family6' style='vertical-align:middle;'>FOS 06</td>
+<td class='officeCentral' style='text-align:center;vertical-align:middle;font-weight:bold;'>CENTRAL</td>
+</tr>
+</tbody>
+ </table>

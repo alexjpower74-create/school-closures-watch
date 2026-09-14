@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /wp-admin/
+Allow: /wp-admin/admin-ajax.php
+
+Sitemap: https://csfp.nl.ca/sitemap_index.xml
+
+Sitemap: https://csfp.nl.ca/sitemaps.xml

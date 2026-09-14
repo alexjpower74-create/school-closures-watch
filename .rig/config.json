@@ -1,0 +1,10 @@
+{
+  "plan": "PLAN.md",
+  "branchPrefix": "rig/",
+  "worktreeDir": ".worktrees",
+  "portBase": 8200,
+  "qaPort": 8209,
+  "launch": "claude --model claude-opus-5 --effort medium --permission-mode auto",
+  "terminal": "herdr",
+  "devCommand": null
+}

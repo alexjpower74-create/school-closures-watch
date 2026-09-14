@@ -1,0 +1,639 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head><!--Global site tag(gtag.js) -Google Analytics--><script async src='https://www.googletagmanager.com/gtag/js?id=G-7Z9YTCWM47'></script><script>window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}gtag('js', new Date());gtag('config','G-7Z9YTCWM47');gtag('event', 'sign_up', { 'method': 'email' });</script>
+<meta charset="utf-8" /><meta name="viewport" content="width=device-width,initial-scale=1" /><meta http-equiv="Content-Security-Policy" content="default-src &#39;self&#39; data: &#39;unsafe-eval&#39; gap: https://*.googleapis.com/ https://*.fontawesome.com/ https://*.gstatic.com; script-src * data: https://ssl.gstatic.com &#39;unsafe-inline&#39; &#39;unsafe-eval&#39; https:; style-src &#39;self&#39; &#39;unsafe-inline&#39; https://fonts.googleapis.com/ https://*.fontawesome.com/; img-src &#39;self&#39; https: data: blob: content: https://www.gstatic.com https://www.google.com https://maptiles.p.rapidapi.com; media-src *; frame-src &#39;self&#39; https://www.google.com https://www.gstatic.com; connect-src &#39;self&#39; https://maptiles.p.rapidapi.com https://www.google.com https://*.mybusplanner.ca:* https://*.mybusplanner.com:*;" /><meta http-equiv="Permissions-Policy" content="geolocation=(self)" /><title>
+	Home Page - BusPlanner Web
+</title><link rel="shortcut icon" href="favicon.ico?v=v109248" type="image/x-icon" /><link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png?v=v109248" /><link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png?v=v109248" /><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png?v=v109248" /><link rel="manifest" href="site.webmanifest?v=v109248" /><link rel="mask-icon" href="safari-pinned-tab.svg?v=v109248" /><meta name="msapplication-TileColor" content="#da532c" /><meta name="theme-color" content="#ffffff" /><script src="/bundles/fontawesome?v=CVAFilM0cWd8twkgYKATBXsZHTow4NzOTx4aAaILIYI1"></script>
+<script src="/bundles/jqueryJs?v=JVBM4Dk7eZ-fjWvmxvoCeVR5MAt_3YXn4K7MRdHsuR81"></script>
+<script src="/bundles/bootstrapJs?v=9ZT5l9SzXEDgkScot2t1IRHmo3xmd92rLr6FyCju1lY1"></script>
+<script src="/bundles/modernizr?v=jM5Tc4pAahcA98lgp1oYXhKOUYksPRUY6Z4IZSm4rpU1"></script>
+<link href="/bundles/DataTables-css?v=hU2e3fpPhJsXR4rMERrhLgFV7wZElVO2oDThGfSMVHE1" rel="stylesheet"/>
+<link href="/bundles/jQueryUI-css?v=s8njfqGDlpHlH9BeWRqp2ji_9AcZb6y617imDy8z0c01" rel="stylesheet"/>
+<link href="/bundles/Content-css?v=2AmwX7ssHl_otja4PqZohKrJRFtHjIO73iov1EmTP_Y1" rel="stylesheet"/>
+
+    
+        <script type="text/javascript">
+            function doPost(eventTarget, eventArgument)
+            {
+                __doPostBack(eventTarget, eventArgument);
+                setTimeout(function () {
+                    theForm.__EVENTTARGET.value = "";
+                    theForm.__EVENTARGUMENT.value = "";
+                }, 3000)
+              
+            }
+            //onloadRecaptchaCallback() will change to this name
+            function onloadRecaptchaCallback()
+            {
+                var r = $('#hfResetCaptcha');
+                if (r && r.val() == 'true') {
+                    try {
+                        grecaptcha.reset();
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                }
+                var recaptha = $('#recaptcha');
+                if (recaptha) {
+                    try {
+                        if (grecaptcha != undefined) {
+                            grecaptcha.render('recaptcha', {
+                                'sitekey': '6Lck5TsUAAAAAJhP_Lw02yyIrZrVhdFI_rTy1rFf',
+                                'hl': 'en'
+                            });
+                        }
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+                }
+            }
+        </script>
+    </head>
+<body>
+    <form method="post" action="Default.aspx" id="mainForm">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTM3NDEyODAzOQ9kFgJmDw8WBB4PX19BbnRpWHNyZlRva2VuBSBlMDgyNGZmYjI5OGM0MGYzOWVjMzdiNzExZWUwZmZlMR4SX19BbnRpWHNyZlVzZXJOYW1lZWQWAgIBDxYCHgZhY3Rpb24FDERlZmF1bHQuYXNweBYYAgMPFgQeBGhyZWYFDn4vRGVmYXVsdC5hc3B4HgV0aXRsZQULUGFyZW50IEhvbWUWAgIBDxYEHgNzcmMFHn4vQ29udGVudC9pbWFnZXMvTkxTY2hvb2xzLnBuZx4DYWx0BRNCdXNQbGFubmVyIFdlYiBIb21lZAIEDxYCHgdWaXNpYmxlaGQCBQ9kFgJmD2QWBAIBDw8WCh4IQ3NzQ2xhc3MFESBkcm9wZG93bi10b2dnbGUgHgtOYXZpZ2F0ZVVybAUBIx4EVGV4dAUESGVscB4HVG9vbFRpcAUESGVscB4EXyFTQgICFgYeC2RhdGEtdG9nZ2xlBQhkcm9wZG93bh4Hb25jbGljawU3TWVudUNsaWNrKCdIZWxwJywnaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhLycpOx8DBQEjZAIDDxYCHg9hcmlhLWxhYmVsbGVkYnkFEmRkbUhlbHBfaGxNZW51VGV4dBYCAgEPFgIeC18hSXRlbUNvdW50AgEWAmYPZBYCAgEPDxYGHwkFQmh0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9IZWxwRmlsZXMvUHVibGljc0hlbHAvaW5kZXguaHRtbB8KBQZQdWJsaWMeBlRhcmdldAUGX2JsYW5rZGQCBg8WAh8QAgYWDGYPZBYCAgEPZBYCZg9kFgQCAQ8PFgofCAUUbWVudS1hY3RpdmUgbmF2LWl0ZW0fCQUpaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhL2RlZmF1bHQfCgUESG9tZR8LBQRIb21lHwwCAhYCHw4FN01lbnVDbGljaygnSG9tZScsJ2h0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS8nKTtkAgMPFgIfB2gWAgIBDxYCHxAC/////w9kAgEPZBYCAgEPZBYCZg9kFgQCAQ8PFgofCAUJIG5hdi1pdGVtHwkFLGh0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9TY2hvb2xJbmZvHwoFElNjaG9vbCBJbmZvcm1hdGlvbh8LBRJTY2hvb2wgSW5mb3JtYXRpb24fDAICFgIfDgVETWVudUNsaWNrKCdTY2hvb2xJbmZvcm1hdGlvbicsJ2h0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS8nKTtkAgMPFgIfB2gWAgIBDxYCHxAC/////w9kAgIPZBYCAgEPZBYCZg9kFgQCAQ8PFgofCAUJIG5hdi1pdGVtHwkFLWh0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9FbGlnaWJpbGl0eR8KBRlXaGljaCBTY2hvb2wgZG8gSSBBdHRlbmQ/HwsFGVdoaWNoIFNjaG9vbCBkbyBJIEF0dGVuZD8fDAICFgIfDgVHTWVudUNsaWNrKCdXaGljaFNjaG9vbERvSUF0dGVuZCcsJ2h0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS8nKTtkAgMPFgIfB2gWAgIBDxYCHxAC/////w9kAgMPZBYCAgEPZBYCZg9kFgQCAQ8PFgofCAUJIG5hdi1pdGVtHwkFO2h0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9UcmFuc3BvcnRhdGlvbkVsaWdpYmlsaXR5HwoFEUNhbiBJIFJpZGUgYSBCdXM/HwsFEUNhbiBJIFJpZGUgYSBCdXM/HwwCAhYCHw4FP01lbnVDbGljaygnQ2FuSVJpZGVBQnVzJywnaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhLycpO2QCAw8WAh8HaBYCAgEPFgIfEAL/////D2QCBA9kFgICAQ9kFgJmD2QWBAIBDw8WCh8IBQkgbmF2LWl0ZW0fCQUtaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhL01lZGlhVmlld2VyHwoFDU1lZGlhIExpYnJhcnkfCwUNTWVkaWEgTGlicmFyeR8MAgIWAh8OBThNZW51Q2xpY2soJ01lZGlhJywnaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhLycpO2QCAw8WAh8HaBYCAgEPFgIfEAL/////D2QCBQ9kFgICAQ9kFgJmD2QWBAIBDw8WCh8IBQkgbmF2LWl0ZW0fCQU/aHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhL1dvcmtGbG93Rm9ybXM/Zm9ybVR5cGU9cHVibGljHwoFGU9ubGluZSBGb3JtcyBhbmQgUmVxdWVzdHMfCwUZT25saW5lIEZvcm1zIGFuZCBSZXF1ZXN0cx8MAgIWAh8OBTtNZW51Q2xpY2soJ1dvcmtGbG93JywnaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhLycpO2QCAw8WAh8HaBYCAgEPFgIfEAL/////D2QCBw9kFgJmD2QWBAIBDw8WCh8IBREgZHJvcGRvd24tdG9nZ2xlIB8JZR8KBQZMb2cgSW4fCwUGTG9nIEluHwwCAhYGHw0FCGRyb3Bkb3duHw4FO01lbnVDbGljaygnTG9naW5PdXQnLCdodHRwczovL25sc2Nob29scy5teWJ1c3BsYW5uZXIuY2EvJyk7HwMFASNkAgMPFgIfDwUWZGRtTG9naW5PdXRfaGxNZW51VGV4dBYCAgEPFgIfEAICFgRmD2QWAgIBDw8WBh8JBUJodHRwczovL25sc2Nob29scy5teWJ1c3BsYW5uZXIuY2EvU3Vic2NyaXB0aW9ucy9DaGlsZFRyYW5zcG9ydEluZm8fCgUNUGFyZW50IFBvcnRhbB8RZWRkAgEPZBYCAgEPDxYGHwkFLmh0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9Qcm9mZXNzaW9uYWwfCgUTUHJvZmVzc2lvbmFsIFBvcnRhbB8RZWRkAgoPZBYEAgEPZBYCAgEPFgIfEAIEFghmD2QWBGYPFQEOY29sLTYgY29sLWxnLTNkAgEPZBYCZg8PFgIfCQUsaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhL1NjaG9vbEluZm8WCB4Lb25tb3VzZW92ZXIFlwFTd2l0Y2hHcmFwaGljKCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMF9pbWdJY29uXzAnLCdTY2hvb2xJbmZvX09yYW5nZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMF9sVGV4dF8wJywnIzAwMCcpHgpvbm1vdXNlb3V0BZUBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzBfaW1nSWNvbl8wJywnU2Nob29sSW5mb19CbHVlLnBuZycsJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8wX2xUZXh0XzAnLCcjMDAwJykeBm9uYmx1cgWVAVN3aXRjaEdyYXBoaWMoJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8wX2ltZ0ljb25fMCcsJ1NjaG9vbEluZm9fQmx1ZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMF9sVGV4dF8wJywnIzAwMCcpHgdvbmZvY3VzBZcBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzBfaW1nSWNvbl8wJywnU2Nob29sSW5mb19PcmFuZ2UucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzBfbFRleHRfMCcsJyMwMDAnKRYEAgEPDxYEHg1BbHRlcm5hdGVUZXh0BRJTY2hvb2wgSW5mb3JtYXRpb24eCEltYWdlVXJsBSMvQ29udGVudC9pbWFnZXMvU2Nob29sSW5mb19CbHVlLnBuZ2RkAgMPDxYCHwoFElNjaG9vbCBJbmZvcm1hdGlvbhYCHgVzdHlsZQUKY29sb3I6IzAwMGQCAQ9kFgRmDxUBDmNvbC02IGNvbC1sZy0zZAIBD2QWAmYPDxYCHwkFLWh0dHBzOi8vbmxzY2hvb2xzLm15YnVzcGxhbm5lci5jYS9FbGlnaWJpbGl0eRYIHxIFlwFTd2l0Y2hHcmFwaGljKCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMV9pbWdJY29uXzEnLCdTY2hvb2xFbGlnX09yYW5nZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMV9sVGV4dF8xJywnIzAwMCcpHxMFlQFTd2l0Y2hHcmFwaGljKCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMV9pbWdJY29uXzEnLCdTY2hvb2xFbGlnX0JsdWUucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzFfbFRleHRfMScsJyMwMDAnKR8UBZUBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzFfaW1nSWNvbl8xJywnU2Nob29sRWxpZ19CbHVlLnBuZycsJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8xX2xUZXh0XzEnLCcjMDAwJykfFQWXAVN3aXRjaEdyYXBoaWMoJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8xX2ltZ0ljb25fMScsJ1NjaG9vbEVsaWdfT3JhbmdlLnBuZycsJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8xX2xUZXh0XzEnLCcjMDAwJykWBAIBDw8WBB8WBRlXaGljaCBTY2hvb2wgZG8gSSBBdHRlbmQ/HxcFIy9Db250ZW50L2ltYWdlcy9TY2hvb2xFbGlnX0JsdWUucG5nZGQCAw8PFgIfCgUZV2hpY2ggU2Nob29sIGRvIEkgQXR0ZW5kPxYCHxgFCmNvbG9yOiMwMDBkAgIPZBYEZg8VAQ5jb2wtNiBjb2wtbGctM2QCAQ9kFgJmDw8WAh8JBTtodHRwczovL25sc2Nob29scy5teWJ1c3BsYW5uZXIuY2EvVHJhbnNwb3J0YXRpb25FbGlnaWJpbGl0eRYIHxIFmAFTd2l0Y2hHcmFwaGljKCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMl9pbWdJY29uXzInLCdDYW5JR2V0QUJ1c19PcmFuZ2UucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzJfbFRleHRfMicsJyMwMDAnKR8TBZYBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzJfaW1nSWNvbl8yJywnQ2FuSUdldEFCdXNfQmx1ZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMl9sVGV4dF8yJywnIzAwMCcpHxQFlgFTd2l0Y2hHcmFwaGljKCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMl9pbWdJY29uXzInLCdDYW5JR2V0QUJ1c19CbHVlLnBuZycsJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8yX2xUZXh0XzInLCcjMDAwJykfFQWYAVN3aXRjaEdyYXBoaWMoJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8yX2ltZ0ljb25fMicsJ0NhbklHZXRBQnVzX09yYW5nZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfMl9sVGV4dF8yJywnIzAwMCcpFgQCAQ8PFgQfFgURQ2FuIEkgUmlkZSBhIEJ1cz8fFwUkL0NvbnRlbnQvaW1hZ2VzL0NhbklHZXRBQnVzX0JsdWUucG5nZGQCAw8PFgIfCgURQ2FuIEkgUmlkZSBhIEJ1cz8WAh8YBQpjb2xvcjojMDAwZAIDD2QWBGYPFQEOY29sLTYgY29sLWxnLTNkAgEPZBYCZg8PFgIfCQVCaHR0cHM6Ly9ubHNjaG9vbHMubXlidXNwbGFubmVyLmNhL1N1YnNjcmlwdGlvbnMvQ2hpbGRUcmFuc3BvcnRJbmZvFggfEgWZAVN3aXRjaEdyYXBoaWMoJ01haW5Db250ZW50X1F1aWNrQWN0aW9uc19JbWFnZUxpc3RfdGVzdF8zX2ltZ0ljb25fMycsJ1BhcmVudFBvcnRhbF9PcmFuZ2UucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfbFRleHRfMycsJyMwMDAnKR8TBZcBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfaW1nSWNvbl8zJywnUGFyZW50UG9ydGFsX0JsdWUucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfbFRleHRfMycsJyMwMDAnKR8UBZcBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfaW1nSWNvbl8zJywnUGFyZW50UG9ydGFsX0JsdWUucG5nJywnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfbFRleHRfMycsJyMwMDAnKR8VBZkBU3dpdGNoR3JhcGhpYygnTWFpbkNvbnRlbnRfUXVpY2tBY3Rpb25zX0ltYWdlTGlzdF90ZXN0XzNfaW1nSWNvbl8zJywnUGFyZW50UG9ydGFsX09yYW5nZS5wbmcnLCdNYWluQ29udGVudF9RdWlja0FjdGlvbnNfSW1hZ2VMaXN0X3Rlc3RfM19sVGV4dF8zJywnIzAwMCcpFgQCAQ8PFgQfFgUNUGFyZW50IFBvcnRhbB8XBSUvQ29udGVudC9pbWFnZXMvUGFyZW50UG9ydGFsX0JsdWUucG5nZGQCAw8PFgIfCgUNUGFyZW50IFBvcnRhbBYCHxgFCmNvbG9yOiMwMDBkAgMPFgIfB2dkAgsPDxYCHhNBc3NvY2lhdGVkQ29udHJvbElEZWRkAgwPEA8WAh8HaGQPFgFmFgEQBRhOTFNjaG9vbHMgTElWRSAyMDI2LTIwMjcFJGZiYjI5ZmY2LWViMTYtNDllNC04NGU4LTQ4MTAwNDE3MjVlYmcWAWZkAg0PDxYEHwoFGE5MU2Nob29scyBMSVZFIDIwMjYtMjAyNx8HZ2RkAg8PEA8WBh4NRGF0YVRleHRGaWVsZAUKTmF0aXZlTmFtZR4ORGF0YVZhbHVlRmllbGQFBE5hbWUeC18hRGF0YUJvdW5kZ2QQFQMZZXNwYcOxb2wgKEVzdGFkb3MgVW5pZG9zKRJmcmFuw6dhaXMgKENhbmFkYSkQRW5nbGlzaCAoQ2FuYWRhKRUDBWVzLVVTBWZyLUNBBWVuLUNBFCsDA2dnZxYBAgJkAhEPFgIfBQUpfi9Db250ZW50L2ltYWdlcy9CdXNQbGFubmVyX1Bvd2VyZWRCeS5wbmdkAhQPEA8WBh8aBQtEZXNjcmlwdGlvbh8bBQxEYXRhYmFzZUd1aWQfHGdkEBUBGE5MU2Nob29scyBMSVZFIDIwMjYtMjAyNxUBJGZiYjI5ZmY2LWViMTYtNDllNC04NGU4LTQ4MTAwNDE3MjVlYhQrAwFnZGRkX534+pKwQwGkIeNEvN/DrG4phLY=" />
+
+
+<script src="/bundles/MsAjaxJs?v=D6VN0fHlwFSIWjbVzi6mZyE9Ls-4LNrSSYVGRU46XF81" type="text/javascript"></script>
+<script src="/bundles/WebFormsJs?v=N8tymL9KraMLGAMFuPycfH3pXe6uUlRXdhtYv8A_jUU1" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+var PageMethods = function() {
+PageMethods.initializeBase(this);
+this._timeout = 0;
+this._userContext = null;
+this._succeeded = null;
+this._failed = null;
+}
+PageMethods.prototype = {
+_get_path:function() {
+ var p = this.get_path();
+ if (p) return p;
+ else return PageMethods._staticInstance.get_path();},
+SetMenuSession:function(currentMenu,succeededCallback, failedCallback, userContext) {
+return this._invoke(this._get_path(), 'SetMenuSession',false,{currentMenu:currentMenu},succeededCallback,failedCallback,userContext); }}
+PageMethods.registerClass('PageMethods',Sys.Net.WebServiceProxy);
+PageMethods._staticInstance = new PageMethods();
+PageMethods.set_path = function(value) { PageMethods._staticInstance.set_path(value); }
+PageMethods.get_path = function() { return PageMethods._staticInstance.get_path(); }
+PageMethods.set_timeout = function(value) { PageMethods._staticInstance.set_timeout(value); }
+PageMethods.get_timeout = function() { return PageMethods._staticInstance.get_timeout(); }
+PageMethods.set_defaultUserContext = function(value) { PageMethods._staticInstance.set_defaultUserContext(value); }
+PageMethods.get_defaultUserContext = function() { return PageMethods._staticInstance.get_defaultUserContext(); }
+PageMethods.set_defaultSucceededCallback = function(value) { PageMethods._staticInstance.set_defaultSucceededCallback(value); }
+PageMethods.get_defaultSucceededCallback = function() { return PageMethods._staticInstance.get_defaultSucceededCallback(); }
+PageMethods.set_defaultFailedCallback = function(value) { PageMethods._staticInstance.set_defaultFailedCallback(value); }
+PageMethods.get_defaultFailedCallback = function() { return PageMethods._staticInstance.get_defaultFailedCallback(); }
+PageMethods.set_enableJsonp = function(value) { PageMethods._staticInstance.set_enableJsonp(value); }
+PageMethods.get_enableJsonp = function() { return PageMethods._staticInstance.get_enableJsonp(); }
+PageMethods.set_jsonpCallbackParameter = function(value) { PageMethods._staticInstance.set_jsonpCallbackParameter(value); }
+PageMethods.get_jsonpCallbackParameter = function() { return PageMethods._staticInstance.get_jsonpCallbackParameter(); }
+PageMethods.set_path("default.aspx");
+PageMethods.SetMenuSession= function(currentMenu,onSuccess,onFailed,userContext) {PageMethods._staticInstance.SetMenuSession(currentMenu,onSuccess,onFailed,userContext); }
+Type.registerNamespace('Georef.Web.BPWeb.MenusPages');
+if (typeof(Georef.Web.BPWeb.MenusPages.Menus) === 'undefined') {
+Georef.Web.BPWeb.MenusPages.Menus = function() { throw Error.invalidOperation(); }
+Georef.Web.BPWeb.MenusPages.Menus.prototype = {Home: 0,Public: 1,PostAlerts: 2,DistrictAdministration: 3,SchoolAdministration: 4,BusOperators: 5,SiteAdministration: 6,NotificationSettings: 7,SubscritionService: 8,Reports: 9,Charts: 10,Campaigns: 11,Login: 12,MyStudents: 13,WheresMyBus: 14,ChooseMyStop: 15,Media: 16,WorkFlow: 17,MySubscriptions: 18,MyAccount: 19,Parent: 20,Test: 21,Footer: 22,LogOut: 23,LoginOut: 24,SchoolInformation: 25,WhichSchoolDoIAttend: 26,CanIRideABus: 27,Driver: 28,Transportation: 29,Help: 30}
+Georef.Web.BPWeb.MenusPages.Menus.registerEnum('Georef.Web.BPWeb.MenusPages.Menus', true);
+}
+//]]>
+</script>
+
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
+<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAhdIDRBuK6a0cCb/++ZOePsef7jyMWH8CkDU994DUDXALdfUT0u5mCyjVO2yduhYBcW3wRcsn9ZJjttS/JhccbFiQqT3NCC5rHR9sLFdBOFvVtctNdhtXy3mkn97veeu+6LooMG6YLiELCdUbOKXjxeb/qAKdNDy5UHaR1E8mvl2Bx9FNWVkkeG9zTJTiHQhEeYQGMx" />
+        
+        <script src="/bundles/jqueryuiJs?v=yS46NcKgOcUHPmCn4k-LjjQ6o2V2UhZf_mOSt-u_B181"></script>
+
+        <script src="/bundles/DataTables-js?v=yfbE0BNmtux0hoaxSXcVaIFq-dSDr1F8hGpnSwjZtp81"></script>
+
+        <script src="/bundles/jquery_jeditable?v=EtE5dGxPHQIX7gsLegDUAR3yps8DVq1kwZDZGXsedQU1"></script>
+
+        <script src="/bundles/jqueryval?v=gv07P1wOls6RUcgKkteXrqYYu-s6YYbMC_GyYHhRPLo1"></script>
+
+        <script src="/bundles/BusPlannerWebJs?v=jhnN1u8HnxyqQ9zr_iDCESDj5kJAjknRrl1o_vK7a6I1"></script>
+
+        <script type="text/javascript">
+            var prm = Sys.WebForms.PageRequestManager.getInstance();
+            if (prm != null)
+            {
+                prm.add_endRequest(EndRequestHandler);
+                prm.add_beginRequest(BeginRequestHandler);
+            }
+            else {
+                
+                 location.reload();
+            }
+
+            function BeginRequestHandler(sender, args)
+            {
+                 
+            }
+
+            function EndRequestHandler(sender, args)
+            {
+                var error = args.get_error()
+                // Verify the httpStatusCode you are receiving
+                if (args._error != undefined && args._error != null) {
+                   // alert(args._error);
+                    args.set_errorHandled = true;
+                    //location.reload();
+                }
+            }
+            
+            Type.registerNamespace('Sys.WebForms');
+            Sys.WebForms.Res = {
+                "PRM_UnknownToken": "Unknown token: \u0027{0}\u0027.",
+                "PRM_MissingPanel": "Could not find UpdatePanel with ID \u0027{0}\u0027. If it is being updated dynamically then it must be inside another UpdatePanel.",
+                "PRM_ServerError": "An unknown error occurred while processing the request on the server. The status code returned from the server was: {0}",
+                "PRM_ParserError": "The message received from the server could not be parsed.",
+                "PRM_TimeoutError": "The server request timed out.",
+                "PRM_ParserErrorDetails": "Error parsing near \u0027{0}\u0027.",
+                "PRM_CannotRegisterTwice": "The PageRequestManager cannot be initialized more than once."
+            };
+           
+        </script>
+        <input type="hidden" name="ctl00$hfApplicationRoot" id="hfApplicationRoot" value="/" />
+        <input type="hidden" name="ctl00$hfDateFormat" id="hfDateFormat" value="yy-mm-dd" />
+        <!-- The scripts are put here to ensure startup scripts are registered after they have been loaded -->
+        <header>
+        <div class="container masterPageWidth">
+            <div class="row align-items-center">
+                <div class="col-6 col-lg-8">
+                    <a href="Default.aspx" id="LogoSpotHref" title="Parent Home" tabindex="0">
+                        <img src="Content/images/NLSchools.png" id="LogoSpot" class="img-fluid" alt="BusPlanner Web Home" />
+                    </a>
+                </div>
+                <div class="col-3 text-center col-lg-2 pt-1">
+                    
+                </div>
+                <div class="col-3 text-center col-lg-2" style="vertical-align:top;">
+                    <ul class="nav-bar">
+                        <li id="ddmHelp_liMenu" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="ddmHelp_hlMenuText" title="Help" class=" dropdown-toggle " data-toggle="dropdown" onclick="MenuClick(&#39;Help&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="#" href="Code/UserControls/#">
+           
+                <i class="fa-solid fa-question-circle fa-4x figure"></i>
+                
+            </a>
+        
+        <div id="ddmHelp_uDropdown" class="dropdown-menu" aria-labelledby="ddmHelp_hlMenuText" role="menu">
+            
+                        <a id="ddmHelp_rMenu_hlMenuText_0" class="dropdown-item" role="menuitem" href="https://nlschools.mybusplanner.ca/HelpFiles/PublicsHelp/index.html" target="_blank">Public</a>
+                
+        </div>
+    </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        </header>
+        <nav class="navbar navbar-expand-md topMenu navbar-dark" id="topNav">
+            <div class="container-fluid masterPageWidth">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggler custom-toggler" data-toggle="collapse" data-target="#collapseTop" aria-controls="collapseTop" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon "></span>
+                    </button>
+                </div>
+                <!-- menu -->
+                <div class="navbar-collapse  collapse " id="collapseTop">
+                     <div class="row flex-container w-100" id="divTopMain">
+                        <ul class="nav nav-bar col-md-8 col-sm-12  menu_flex   "  >
+                            
+                                    <li id="rTopMenu_ddlTop_0_liMenu_0" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_0_hlMenuText_0" title="Home" class="menu-active nav-item" onclick="MenuClick(&#39;Home&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/default">Home</a>
+        
+        
+    </li>
+
+                                
+                                    <li id="rTopMenu_ddlTop_1_liMenu_1" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_1_hlMenuText_1" title="School Information" class=" nav-item" onclick="MenuClick(&#39;SchoolInformation&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/SchoolInfo">School Information</a>
+        
+        
+    </li>
+
+                                
+                                    <li id="rTopMenu_ddlTop_2_liMenu_2" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_2_hlMenuText_2" title="Which School do I Attend?" class=" nav-item" onclick="MenuClick(&#39;WhichSchoolDoIAttend&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/Eligibility">Which School do I Attend?</a>
+        
+        
+    </li>
+
+                                
+                                    <li id="rTopMenu_ddlTop_3_liMenu_3" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_3_hlMenuText_3" title="Can I Ride a Bus?" class=" nav-item" onclick="MenuClick(&#39;CanIRideABus&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/TransportationEligibility">Can I Ride a Bus?</a>
+        
+        
+    </li>
+
+                                
+                                    <li id="rTopMenu_ddlTop_4_liMenu_4" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_4_hlMenuText_4" title="Media Library" class=" nav-item" onclick="MenuClick(&#39;Media&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/MediaViewer">Media Library</a>
+        
+        
+    </li>
+
+                                
+                                    <li id="rTopMenu_ddlTop_5_liMenu_5" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="rTopMenu_ddlTop_5_hlMenuText_5" title="Online Forms and Requests" class=" nav-item" onclick="MenuClick(&#39;WorkFlow&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="https://nlschools.mybusplanner.ca/WorkFlowForms?formType=public">Online Forms and Requests</a>
+        
+        
+    </li>
+
+                                
+                         </ul>
+                         <ul class="nav-bar col-md-4 col-sm-12  menu_flex_login" >
+                             <li id="ddmLoginOut_liMenu" class="nav-item dropdown" style="vertical-align:top!important;">
+        <a id="ddmLoginOut_hlMenuText" title="Log In" class=" dropdown-toggle " data-toggle="dropdown" onclick="MenuClick(&#39;LoginOut&#39;,&#39;https://nlschools.mybusplanner.ca/&#39;);" href="#">Log In</a>
+        
+        <div id="ddmLoginOut_uDropdown" class="dropdown-menu" aria-labelledby="ddmLoginOut_hlMenuText" role="menu">
+            
+                        <a id="ddmLoginOut_rMenu_hlMenuText_0" class="dropdown-item" role="menuitem" href="https://nlschools.mybusplanner.ca/Subscriptions/ChildTransportInfo">Parent Portal</a>
+                
+                        <a id="ddmLoginOut_rMenu_hlMenuText_1" class="dropdown-item" role="menuitem" href="https://nlschools.mybusplanner.ca/Professional">Professional Portal</a>
+                
+        </div>
+    </li>
+
+                         </ul>
+                     </div>
+                </div>
+            </div>
+        </nav>
+        <main>
+        <div class="container body-content masterPageWidth">
+            <div class="row justify-content-center">
+                <div class="md-col-12">
+                    <div id="UpdatePanel_Bulletin">
+	
+                            
+                        
+</div>
+                </div>
+            </div>
+            <div id="Master_TitleRow" class="row mb-1">
+                <div class="col-12">
+                    <h1 class="PageTitle">
+                        <span id="PageTitle"></span></h1>
+                </div>
+            </div>
+            
+    
+<div id="ImageListDiv">
+    <div class="row justify-content-center">    
+    
+                
+                <div class='col-6 col-lg-3'>
+                    <a id="MainContent_QuickActions_ImageList_test_0_hlLink_0" class="FeatureText" onmouseover="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_0_imgIcon_0&#39;,&#39;SchoolInfo_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_0_lText_0&#39;,&#39;#000&#39;)" onmouseout="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_0_imgIcon_0&#39;,&#39;SchoolInfo_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_0_lText_0&#39;,&#39;#000&#39;)" onblur="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_0_imgIcon_0&#39;,&#39;SchoolInfo_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_0_lText_0&#39;,&#39;#000&#39;)" onfocus="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_0_imgIcon_0&#39;,&#39;SchoolInfo_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_0_lText_0&#39;,&#39;#000&#39;)" href="https://nlschools.mybusplanner.ca/SchoolInfo">
+     <figure class="figure text-center d-block">
+         <img id="MainContent_QuickActions_ImageList_test_0_imgIcon_0" class="figure-img img-fluid" src="/Content/images/SchoolInfo_Blue.png" alt="School Information" />
+        <figcaption class="figure-caption">
+            <span id="MainContent_QuickActions_ImageList_test_0_lText_0" style="color:#000">School Information</span>
+        </figcaption>
+    </figure>
+</a>
+
+<script>
+    $(document).ready(function () {
+        try {
+            var clientEvent = $("#MainContent_QuickActions_ImageList_test_0_hlLink_0").attr("onclick");
+
+            if (clientEvent != undefined && clientEvent != "" && clientEvent.toLowerCase().indexOf("showmodal") >= 0) {
+
+                $("#MainContent_QuickActions_ImageList_test_0_hlLink_0").attr("href", "#");
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+
+</script>
+                </div>
+                
+            
+                
+                <div class='col-6 col-lg-3'>
+                    <a id="MainContent_QuickActions_ImageList_test_1_hlLink_1" class="FeatureText" onmouseover="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_1_imgIcon_1&#39;,&#39;SchoolElig_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_1_lText_1&#39;,&#39;#000&#39;)" onmouseout="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_1_imgIcon_1&#39;,&#39;SchoolElig_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_1_lText_1&#39;,&#39;#000&#39;)" onblur="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_1_imgIcon_1&#39;,&#39;SchoolElig_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_1_lText_1&#39;,&#39;#000&#39;)" onfocus="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_1_imgIcon_1&#39;,&#39;SchoolElig_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_1_lText_1&#39;,&#39;#000&#39;)" href="https://nlschools.mybusplanner.ca/Eligibility">
+     <figure class="figure text-center d-block">
+         <img id="MainContent_QuickActions_ImageList_test_1_imgIcon_1" class="figure-img img-fluid" src="/Content/images/SchoolElig_Blue.png" alt="Which School do I Attend?" />
+        <figcaption class="figure-caption">
+            <span id="MainContent_QuickActions_ImageList_test_1_lText_1" style="color:#000">Which School do I Attend?</span>
+        </figcaption>
+    </figure>
+</a>
+
+<script>
+    $(document).ready(function () {
+        try {
+            var clientEvent = $("#MainContent_QuickActions_ImageList_test_1_hlLink_1").attr("onclick");
+
+            if (clientEvent != undefined && clientEvent != "" && clientEvent.toLowerCase().indexOf("showmodal") >= 0) {
+
+                $("#MainContent_QuickActions_ImageList_test_1_hlLink_1").attr("href", "#");
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+
+</script>
+                </div>
+                
+            
+                
+                <div class='col-6 col-lg-3'>
+                    <a id="MainContent_QuickActions_ImageList_test_2_hlLink_2" class="FeatureText" onmouseover="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_2_imgIcon_2&#39;,&#39;CanIGetABus_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_2_lText_2&#39;,&#39;#000&#39;)" onmouseout="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_2_imgIcon_2&#39;,&#39;CanIGetABus_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_2_lText_2&#39;,&#39;#000&#39;)" onblur="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_2_imgIcon_2&#39;,&#39;CanIGetABus_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_2_lText_2&#39;,&#39;#000&#39;)" onfocus="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_2_imgIcon_2&#39;,&#39;CanIGetABus_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_2_lText_2&#39;,&#39;#000&#39;)" href="https://nlschools.mybusplanner.ca/TransportationEligibility">
+     <figure class="figure text-center d-block">
+         <img id="MainContent_QuickActions_ImageList_test_2_imgIcon_2" class="figure-img img-fluid" src="/Content/images/CanIGetABus_Blue.png" alt="Can I Ride a Bus?" />
+        <figcaption class="figure-caption">
+            <span id="MainContent_QuickActions_ImageList_test_2_lText_2" style="color:#000">Can I Ride a Bus?</span>
+        </figcaption>
+    </figure>
+</a>
+
+<script>
+    $(document).ready(function () {
+        try {
+            var clientEvent = $("#MainContent_QuickActions_ImageList_test_2_hlLink_2").attr("onclick");
+
+            if (clientEvent != undefined && clientEvent != "" && clientEvent.toLowerCase().indexOf("showmodal") >= 0) {
+
+                $("#MainContent_QuickActions_ImageList_test_2_hlLink_2").attr("href", "#");
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+
+</script>
+                </div>
+                
+            
+                
+                <div class='col-6 col-lg-3'>
+                    <a id="MainContent_QuickActions_ImageList_test_3_hlLink_3" class="FeatureText" onmouseover="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_3_imgIcon_3&#39;,&#39;ParentPortal_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_3_lText_3&#39;,&#39;#000&#39;)" onmouseout="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_3_imgIcon_3&#39;,&#39;ParentPortal_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_3_lText_3&#39;,&#39;#000&#39;)" onblur="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_3_imgIcon_3&#39;,&#39;ParentPortal_Blue.png&#39;,&#39;MainContent_QuickActions_ImageList_test_3_lText_3&#39;,&#39;#000&#39;)" onfocus="SwitchGraphic(&#39;MainContent_QuickActions_ImageList_test_3_imgIcon_3&#39;,&#39;ParentPortal_Orange.png&#39;,&#39;MainContent_QuickActions_ImageList_test_3_lText_3&#39;,&#39;#000&#39;)" href="https://nlschools.mybusplanner.ca/Subscriptions/ChildTransportInfo">
+     <figure class="figure text-center d-block">
+         <img id="MainContent_QuickActions_ImageList_test_3_imgIcon_3" class="figure-img img-fluid" src="/Content/images/ParentPortal_Blue.png" alt="Parent Portal" />
+        <figcaption class="figure-caption">
+            <span id="MainContent_QuickActions_ImageList_test_3_lText_3" style="color:#000">Parent Portal</span>
+        </figcaption>
+    </figure>
+</a>
+
+<script>
+    $(document).ready(function () {
+        try {
+            var clientEvent = $("#MainContent_QuickActions_ImageList_test_3_hlLink_3").attr("onclick");
+
+            if (clientEvent != undefined && clientEvent != "" && clientEvent.toLowerCase().indexOf("showmodal") >= 0) {
+
+                $("#MainContent_QuickActions_ImageList_test_3_hlLink_3").attr("href", "#");
+            }
+        }
+        catch (err) {
+            console.log(err);
+        }
+    });
+
+</script>
+                </div>
+                
+            
+    </div>
+</div>
+
+    <div id="MainContent_divHomePageDisclaimer" class="row pb-1">
+        <div class="col-12">
+            <span id="MainContent_lblHomePageDisclaimer" class="homePageBanner"><p dir="ltr" style='box-sizing: border-box; margin-top: 0pt; margin-bottom: 0pt; color: rgb(33, 37, 41); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; font-size: 16px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; line-height: 1.38; margin-right: 18pt; text-align: justify;'><b style="box-sizing: border-box; font-weight: bolder; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; color: rgb(255, 0, 0); font-family: Arial; font-size: large; text-align: start; white-space: pre-wrap; background-color: rgb(255, 255, 255);">Please read the <span class="il" style="box-sizing: border-box;">disclaimer</span> located near the bottom of this page</b></p></span>
+        </div>
+    </div>
+
+        </div>
+        </main>
+        <div class="mt-2"></div>
+        <footer>
+        <div class="mt-2">
+            <div class="footer pt-2 pb-1 pr-2 pl-2" id="footer">
+                <div class="row ">
+                    <div class="col-md-12 masterPageWidth">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-5 col-sm-6">
+                                    <div class="input-group input-group-sm pt-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text ">
+                                                <span id="promptDB">School Year</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <span id="databaseName" class="form-control">NLSchools LIVE 2026-2027</span>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-2 hidden-sm-down"></div>
+                                <div class="col-lg-4 col-md-5 col-sm-6 col-xs-12 text-right">
+                                    <div class="input-group input-group-sm pt-1 float-md-right">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text ">
+                                                <label for="ddlLanguages">Language</label>
+                                            </div>
+                                        </div>
+                                        <select name="ctl00$ddlLanguages" id="ddlLanguages" class="form-control">
+	<option value="es-US">espa&#241;ol (Estados Unidos)</option>
+	<option value="fr-CA">fran&#231;ais (Canada)</option>
+	<option selected="selected" value="en-CA">English (Canada)</option>
+
+</select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row masterPageWidth">
+                    <div class="col-md-12">
+                        
+                        <ul class="nav justify-content-center">
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://nlschools.mybusplanner.ca/About">About</a>
+                            </li>
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://nlschools.mybusplanner.ca/Workflow/Forms/CA_NL_NLESD/ParentInquiryV2.aspx?FormVersionId=58297384-7d82-431f-83f2-353494acdc1b">Contact</a>
+                            </li>
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://nlschools.mybusplanner.ca/PrivacyStatement">Privacy Statement</a>
+                            </li>
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://nlschools.mybusplanner.ca/Subscriptions/ChildTransportInfo">Parent Portal</a>
+                            </li>
+                            
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="https://nlschools.mybusplanner.ca/Professional">Professional Portal</a>
+                            </li>
+                            
+                        </ul>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="row masterPageWidth">
+                <div class="col-12 mt-2  d-inline-flex">
+                    <span id="disclaimer" style="font-size: xx-small; color: #2E3B7E;"><p>Please note that this website utilizes software to map locations to determine bus eligibility and bus stops. While uncommon, it is possible for errors to occur. In such cases, there may be an incorrect determination of bus eligibility and bus stop locations..</p>
+<p><br></p>
+<p>Bus routes and stops are governed by <a href="https://www.nlschools.ca/studentsfamilies/doc/2024/NLS-BlendedFRZBusRouteandStopDesignGuidelines.pdf" target="_blank">NL Schools Bus Route & Stop Guidelines</a>. In the event of a discrepancy between the information provided on this site and any of these Bus Route and Stop Design Guidelines , these guidelines will take precedence. If you have any specific questions or concerns regarding your bus eligibility or bus route/stop location you should submit a <a href="https://nlschools.mybusplanner.ca/WorkflowForms?formType=role">Student Transportation Public Inquiry Form</a> located on our website.</p>
+<p><br></p>
+<p>NL Schools accepts no responsibility for any loss, and excludes all liability in connection with, any user using the information, including, but not limited to, any liability or loss for errors, inaccuracies or omissions, contained within NL Schools student transportation BusPlanner Web website.</p>
+<p><br></p>
+<p>All content and information are subject to change without notice as this website is a part of the Student Transportation Division’s continuous improvement process.</p>
+<p><br></p>
+<p>Does your school-aged child weigh less than 40lbs? If they do and you plan on them riding the bus, please contact the Student Transportation Division through the <a href="https://nlschools.mybusplanner.ca/WorkflowForms?formType=role">Student Transportation Public Inquiry Form</a> and the necessary arrangements will be made to ensure the required child restraint system is available for your child in accordance with the Highway Traffic Act</p></span>&nbsp;&nbsp;
+                    <a href="https://www.busplanner.com" target="_blank" onkeyup="TabToFirst();" >
+                        <img src="Content/images/BusPlanner_PoweredBy.png" id="PoweredBy" alt="BusPlanner" class="flex-right" />
+                    </a>
+                    <small>&copy; 2026</small>
+                </div>
+            </div>
+        </div>
+
+        <div id="divSelectDatabase" class="modal fade">
+            <div id="headerSelectDatabase" class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>
+                            <span id="lblDatabase" class="modal-title">Select Database</span>
+                        </h2>
+                    </div>
+                    <div class="col-md-12 modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <label for="cbDefaultDatabase" class="control-label">School Year</label>
+                                <select name="ctl00$cbDefaultDatabase" id="cbDefaultDatabase" class="form-control">
+	<option value="fbb29ff6-eb16-49e4-84e8-4810041725eb">NLSchools LIVE 2026-2027</option>
+
+</select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 mt-3">
+                                <input type="button" name="ctl00$btnSaveDefaultDatabase" value="Select" onclick="javascript:__doPostBack(&#39;ctl00$btnSaveDefaultDatabase&#39;,&#39;&#39;)" id="btnSaveDefaultDatabase" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+           
+            <div class="modal" id="bpModalProgress" tabindex="-1" role="dialog" aria-labelledby="progressModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content" style="z-index: 1100!important">
+                        <div class="modal-header">
+                            <h4 class="modal-title in" id="progressModalLabel"></h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body center-block">
+                            <div id="divPopupMessage" style="display:none;">
+                                  
+                                    </div>
+                            <div id ="divParentPopupMessage" style="display:none;">
+                                 
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default hide" data-dismiss="modal" id="btnCloseProcess"></button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+        
+            <script type="text/javascript">
+
+                $(document).ready(function ()
+                {
+                    const pageAccessedByReload = (
+                        (window.performance.navigation && window.performance.navigation.type === 1) ||
+                        window.performance
+                            .getEntriesByType('navigation')
+                            .map((nav) => nav.type)
+                            .includes('reload')
+                    );
+
+                    console.log(pageAccessedByReload);
+
+                    var modal = initializeModal('bpModalProgress', 'static', false, false);
+                   
+                    if ("False" == "True" && !pageAccessedByReload && "False" == "True") {
+                        $('#divPopupMessage').css("display","block");
+                        $('#divParentPopupMessage').css("display", "none");
+                        showSimpleModal('bpModalProgress');
+                    }
+                    
+                    jqueryFormValidation($("form"));
+                    if (typeof (Sys) !== 'undefined') {
+                        //Sys.Application.add_init(pLoad);
+                        var prm = Sys.WebForms.PageRequestManager.getInstance();
+                        if (prm != null) {
+                            var path = '/default.aspx';
+                            if (path.indexOf('RunManifest.aspx') === -1) {
+                                prm.add_endRequest(ReBindDataTable);
+                            } else {
+                                checkTableResponsive(true, '/Content/localization/English.json');
+                            }
+                        }
+                        var pageName = '/default.aspx';
+                        if (pageName.indexOf("Subscriptions") != -1) {
+                            checkTableResponsive(false, '/Content/localization/English.json');
+                        }
+                        else {
+                            try {
+                                checkTableResponsive(true, '/Content/localization/English.json');
+                            }
+                            catch (err) {
+                                console.log(err + " on site master");
+                            }
+                        }
+                    }
+                });
+               
+
+
+            </script>
+
+        
+
+        <!-- Language specific script files -->
+        
+            
+        </footer>
+    </form>
+    
+    <script>
+        $(document).ready(function ()
+        {
+            $('span.ui-accordion-header-icon').removeClass("ui-icon-triangle-1-e ui-icon-triangle-1-s");
+            $('input[type="password"]').prop("autocomplete", "new-password");
+        });
+
+    </script>
+
+</body>
+</html>

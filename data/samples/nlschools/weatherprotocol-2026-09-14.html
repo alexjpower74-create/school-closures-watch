@@ -1,0 +1,796 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<!-- META TAGS -->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Expires" content="0" />
+<meta name="generator" content="Eclipse IDE for Enterprise Java and Web Developers Version: 2026-06">
+<meta name="dcterms.created" content="Wed, 22 March 2023 16:59:07 GMT">
+<meta name="description" content="NLSchools represents all English speaking students and schools in Newfoundland and Labrador. It includes approximately 65,300 students, 252 schools and six alternate sites, and over 8,000 employees." />
+<meta name="keywords" content="NLSchools,NLESD,Newfoundland and Labrador English School District,Eastern School District,English School District,Avalon School District,Vista School District,Burin School District,NOVA Central School District,Western School District,Labrador School District,Newfoundland Education,Education newfoundland,Schools in Newfoundland,Newfoundland Schools,St. John's,Corner Brook,Gander,Happy Valley-Goose Bay,School Board,School Board Trustees,Newfoundland School Board">
+<meta name="google-site-verification" content="x6UwLQiuvqd4Sig_tTJQOjOwcA0iJUPCgXTOS3z8Szo" />
+<meta name="google-translate-customization" content="fc4e6bf392424f3-26adbaed3174ebd4-g7130b514bfc120b1-c">
+<title>Weather Protocol</title>
+
+<!-- CSS STYLESHEET FILES CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-2.1.8/b-3.1.2/b-html5-3.1.2/b-print-3.1.2/cr-2.0.4/date-1.5.4/fc-5.0.3/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.0/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-2.1.0/sr-1.4.1/datatables.min.css"/>
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/css/tempusdominus-bootstrap-4.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto"/>
+
+
+
+<!-- CSS LOCAL FILES -->
+<link rel="icon" type="image/x-icon" href="/includes/img/favicon.ico">
+<link rel="stylesheet" href="/includes/css/nlesd.css?ver=Mon Sep 14 14:08:59 NDT 2026"/>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S44S0R2BYK"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-S44S0R2BYK');
+</script>
+
+<!-- JAVASCRIPT FILES CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/v/bs4/jszip-3.10.1/dt-2.1.8/b-3.1.2/b-html5-3.1.2/b-print-3.1.2/cr-2.0.4/date-1.5.4/fc-5.0.3/fh-4.0.1/kt-2.12.1/r-3.0.3/rg-1.5.0/rr-1.5.0/sc-2.4.3/sb-1.8.1/sp-2.3.3/sl-2.1.0/sr-1.4.1/datatables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.39.0/js/tempusdominus-bootstrap-4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jQuery.print@1.6.2/jQuery.print.min.js"></script>
+<script src="https://kit.fontawesome.com/053757fa2e.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.21.0/jquery.validate.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-confirmation/1.0.7/bootstrap-confirmation.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/1.1.2/js/bootstrap-multiselect.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/plug-ins/2.1.8/api/order.neutral().js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.4.9/dist/purify.min.js"></script>
+
+<!-- JAVASCRIPT FILES LOCAL -->
+<script src="/includes/js/jssor.slider-28.1.0.min.js"></script>
+<script src="/includes/js/miniEditor.js?ver=Mon Sep 14 14:08:59 NDT 2026"></script>
+<script src="/includes/js/nlesd.js?ver=Mon Sep 14 14:08:59 NDT 2026"></script>
+
+<!-- PINK DAY SETTINGS (Feb 25) -->
+
+
+<script type="text/javascript" src="https://platform-api.sharethis.com/js/sharethis.js#property=67dc6018f80bb90012168033&product=sticky-share-buttons&source=platform" async="async"></script>
+
+</head>
+
+<body>
+
+<!-- LOADING DATA ANIMATION -->
+<div id="loadingSpinner" style="display:none;z-index:99999;">
+  <div id="spinner" style="text-align:center;padding:5px;">
+    <img src="/includes/img/apple.png" border="0" style="padding:5px;max-width:150px;"/><br/>
+    <div class="spinner-grow text-primary"></div>
+    <div class="spinner-grow text-success"></div>
+    <div class="spinner-grow text-info"></div>
+    <div class="spinner-grow text-warning"></div>
+    <div class="spinner-grow text-danger"></div>
+    <br/>Loading data. Please wait!
+  </div>
+</div>
+
+<!-- NAVIGATION MENU -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- SPEEDBUMP for External Links-->
+<script>
+$(window).on('load', function(){	
+	$.expr[":"].external = function(a) {		
+		var linkhn = a.hostname.split('.').reverse();
+		var linkHref = linkhn[1] + "." + linkhn[0];		
+		var domainhn = window.location.hostname.split('.').reverse();
+		var domainHref = domainhn[1] + "." + domainhn[0];	
+		return !a.href.match(/^mailto\:/) && !a.href.match(/^tel\:/) && linkHref !== domainHref && !a.href.match(/^translate/);
+	};	
+	
+	
+
+	$("a:external").addClass("ext_link");	
+	
+	if($("a:external").hasClass("goog-te-menu-value")) {
+		$("a:external").removeClass("ext_link");	
+	} 
+	
+	$(function() {		
+		$('a.ext_link').click(function() {
+			 // open a modal 
+			$('a:external').attr('data-toggle', 'modal');
+			$('a:external').attr('data-target', '#speedbump');
+			//go to link on modal close
+			var url = $(this).attr('href');
+			$('.btn-modal.btn-continue').click(function() {
+				window.open(url);
+				$('.btn-modal.btn-continue').off();
+			});
+			$('.btn-modal.btn-close').click(function() {
+				$('#speedbump').modal('hide');
+				$('.btn-modal.btn-close').off();
+			}); 
+		});		
+	});  
+	
+
+});
+</script>
+
+<!-- TOP PANEL -->
+<div class="container-fluid" style="height:120px;padding-top:10px;min-width:330px;">
+<div class="socialMediaTop" style="float:right;">
+<!-- PINK DAY LOGO -->
+
+
+
+	<a href="https://bsky.app/profile/www.nlschools.ca" target="_blank" title="NLSchools BlueSky Account"><i class="fa-brands fa-bluesky fa-2xl" style="color: #0085ff;"></i></a>
+	<a href="https://twitter.com/NLSchoolsCA" target="_blank" title="NLSchools Twitter Account"><i class="fa-brands fa-x-twitter fa-2xl" style="color: #000000;"></i></a>
+	<a href="https://www.instagram.com/nlschoolsca" target="_blank" title="NLSchools Instagram Account"><i class="fa-brands fa-instagram fa-2xl" style="color: #833ab4;"></i></a>
+	<a href="https://www.facebook.com/NLSCHOOLSCA" target="_blank" title="NLSchools Facebook Account"><i class="fa-brands fa-facebook fa-2xl" style="color: #1877f2;"></i></a>
+	<a href="https://www.linkedin.com/company/nlschoolsca/" target="_blank" title="NLSchools LinkedIn Account"><i class="fa-brands fa-linkedin fa-2xl" style="color: #0077b5;"></i></a>	
+	<a href="https://www.youtube.com/channel/UCIT127dtdYdGLnVFYv3c9uQ" target="_blank" title="NLSchools YouTube Account"><i class="fa-brands fa-youtube fa-2xl" style="color: Red;"></i></a>
+
+	
+</div>
+	<div class="row" style="vertical-align: middle;">
+	 <div class="topLogoArea"><img class="topLogoImg" src="/includes/img/nlschools.png" title="NL Schools"></div>
+	  	<div class="topAddress" style="padding-top:5px;">					  	
+					  	100 Prince Philip Drive<br/>P.O. Box 8700<br/>
+						St. John's, NL &middot; A1B 4J6<br/>
+						<b>Tel:</b> (709) 729-1234  &middot; <b>Fax:</b> (709) 729-9876<br/>										
+		</div>	
+		<div class="addressTopSmall" style="height:80px;">100 Prince Philip Drive<br/>P.O. Box 8700 &middot; St. John's, NL &middot; A1B 4J6<br/><b>Tel:</b> (709) 729-1234 &middot; <b>Fax:</b> (709) 729-9876
+		</div>
+	</div>
+</div>
+
+<!-- START NLESD MAIN NAVIGATION BAR navbar-fixed-top-->
+
+<nav class="navbar navbar-expand-md sticky-top navbar-dark" id="main_navbar" style="background-color: rgba(55, 69, 81, 0.9);color:White;">
+
+ <a class="navbar-brand-scroll" style="display:none;" href="/index.jsp" title="Home" onclick="loadingData();"><img src="/includes/img/apple192.png" style="max-height:35px;"/></a>
+
+
+ <div class="navbar-icon" style="margin-top:-6px;">
+<div class="navbar-header d-xs-block d-sm-block d-md-none">
+<a class="navbar-brand" style="display:none;float:left;" href="/index.jsp" title="Home" onclick="loadingData();"><img src="/includes/img/apple192.png" style="max-height:35px;"/></a>
+ <a href="/schools/statusreport.jsp" class="btn btn-xs btn-danger"><i class="fa-sharp fa-solid fa-school-circle-exclamation" style="color: #ffffff;"></i><br/><span style="font-size:8px;color:White;">STATUS</span></a>
+ <a href="/employment/" class="btn btn-xs btn-primary"><i class="fa-duotone fa-handshake-simple" style="color: #ffffff;"></i><br/><span style="font-size:8px;color:White;">EMPLOYMENT</span></a>
+ <a href="/MemberServices/" class="btn btn-xs btn-warning"><i class="fa-solid fa-user-lock" style="color: #374551;"></i><br/><span style="font-size:8px;color: #374551;">STAFFROOM</span></a> 
+</div>  
+</div>   
+    <button class="navbar-toggler" style="float:right;" type="button" data-toggle="collapse" data-target="#navbarDD">
+        <span class="navbar-toggler-icon"></span>   
+    </button>   
+   
+    <div class="collapse navbar-collapse" id="navbarDD">
+        <ul class="navbar-nav mr-auto">    
+       		<li class="nav-item"><a onclick="loadingData();goBack();" href="#" class="nav-link" title="Back to Previous">&nbsp;<i class="fa-solid fa-backward"></i>&nbsp;</a></li>   
+            <li class="nav-item active nav-home-icon"><a class="nav-link" href="/index.jsp" title="Home" onclick="loadingData();">&nbsp;<i class="fa-solid fa-house"></i>&nbsp;<span class="sr-only">(current)</span></a></li>   
+ <!--  ABOUT MENU -->           
+            <li class="nav-item dropdown">
+            		<a class="nav-link dropdown-toggle" title="About Menu (Click to Open)" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">ABOUT</a>
+                	<ul class="dropdown-menu">        
+							<li><a class="dropdown-item" href="/about/districtoverview.jsp" onclick="loadingData();"><i class="far fa-eye"></i> NLS Overview</a></li>
+		                     
+										
+							<li><a class="dropdown-item" href='/about/policies.jsp' onclick="loadingData();"><i class="far fa-file-alt"></i> Policies</a></li>
+										          	
+				          	<li><a class="dropdown-item" href='/business/index.jsp' onclick="loadingData();"><i class="fas fa-briefcase"></i> Business with NLSchools</a></li> 
+				          	<li><a class="dropdown-item" href="/foundation/index.jsp" onclick="loadingData();"><i class="fas fa-graduation-cap"></i> Education Foundation</a></li>  	  
+				          	<li><a class="dropdown-item" href="/studentsfamilies/iseducation.jsp" onclick="loadingData();"><i class="fas fa-graduation-cap"></i> International Student Education</a></li>  		
+				          	<li><a class="dropdown-item" href='/about/researchrequests.jsp'  onclick="loadingData();"><i class="fas fa-clipboard-list"></i> Research Requests</a></li>		          	
+				          	<li class="dropdown-divider"></li>
+				          			  
+					  		<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-photo-video"></i> Media &amp; Publications</a>
+							           		<ul class="dropdown-menu">		
+							                        <li><a class="dropdown-item" href='/about/mediainformation.jsp'  onclick="loadingData();"><i class="fas fa-video"></i> Media Information</a></li>
+													<li><a class="dropdown-item" href='/about/docs/mediaconsentform.pdf' target="_blank"><i style="color:Red;" class="fa-solid fa-file-pdf"></i> Media Consent Form (PDF)</a></li>		
+													 <li><a class="dropdown-item" href='/about/docs/NLS-AccessibilityPlan.pdf' target="_blank"><i style="color:Red;" class="fa-solid fa-file-pdf"></i> Accessibility Plan (2023)</a></li>
+													<li class="dropdown-divider"></li>
+													<li><a class="dropdown-item" href='/about/newslist.jsp' onclick="loadingData();"><i class="fas fa-file-lines"></i> News Archive</a></li>								               								               
+							                  		<li><a class="dropdown-item" href='/about/annualreports/index.jsp' onclick="loadingData();"><i class="fas fa-file-alt"></i> Annual Report Archive</a></li>
+               										<li><a class="dropdown-item" href='/about/strategicplans/index.jsp' onclick="loadingData();"><i class="fas fa-file-alt"></i> Strategic Plan Archive</a></li>  
+               										<li class="dropdown-divider"></li> 
+               										<li><a class="dropdown-item" href='http://www.assembly.nl.ca/legislation/sr/statutes/s12-2.htm'><i style="color:Green;" class="fas fa-external-link-alt"></i> Schools Act 1997</a></li>
+		                   							<li><a class="dropdown-item" href="http://thetelegramnie.newspaperdirect.com/"><i style="color:Green;" class="fas fa-external-link-alt"></i> The Telegram Smart Edition (St. John's)</a></li>
+		  											
+							                  </ul>
+					        </li>  
+					        <li class="dropdown-divider"></li>
+				          	<li><a class="dropdown-item dropdown-toggle" href='#'><i class="fas fa-briefcase"></i> Employment</a>				          	
+				          									<ul class="dropdown-menu">
+				          											<li><a class="dropdown-item" href='/employment/index.jsp' onclick="loadingData()">MyHR Profile System</a></li>
+				          											 <li class="dropdown-divider"></li>
+											           				<li><a class="dropdown-item" href='/employment/adminpositions.jsp' onclick="loadingData()">Administrative Positions</a></li>  		
+											                    	<li><a class="dropdown-item" href="/employment/teachingpositions.jsp" onclick="loadingData()">Teaching/TLA Positions</a></li>              
+									               					<li><a class="dropdown-item" href="/employment/subpositions.jsp" onclick="loadingData()">Substituting/TLA Positions</a></li>
+									               					<li><a class="dropdown-item" href="/employment/ssminternalpositions.jsp" onclick="loadingData()">Internal Positions</a></li>	
+									               					<li><a class="dropdown-item" href="/employment/ssmexternalpositions.jsp" onclick="loadingData()">External Positions</a></li>
+									               					<li><a class="dropdown-item" href="/employment/awardedpositions.jsp" onclick="loadingData()">Awarded Positions</a></li>	
+									               					<li class="dropdown-divider"></li>
+									               					<li><a class="dropdown-item" href="https://www.hiring.gov.nl.ca/Jobs.aspx/Public" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Gov NL Public Positions</a></li>		
+				               								</ul>
+					        					</li> 	     
+					        <li class="dropdown-divider"></li>
+					  		<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-link"></i> Other Links</a>
+							           		<ul class="dropdown-menu">		
+							           			    <li><a class="dropdown-item" href='https://www.gov.nl.ca/education/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Dept. of Education</a></li>											        
+											        <li><a class="dropdown-item" href='http://cdnsba.org'><i style="color:Green;" class="fas fa-external-link-alt"></i> CSBA</a></li>	 
+											        <li><a class="dropdown-item" href='http://www.nlassa.ca'><i style="color:Green;" class="fas fa-external-link-alt"></i> NLASSA</a></li>	 
+							         		</ul>
+					        </li> 					                              
+               		 </ul>
+            </li>
+            
+<!-- STUDENTS and FAMILIES MENU -->                      
+             <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" title="Student and Families Menu (Click to Open)" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">STUDENTS &amp; FAMILIES</a>
+                <ul class="dropdown-menu">  
+                			<!-- Back to School -->
+                			
+                			<li><a class="dropdown-item" href="/schools/backtoschool" onclick="loadingData();"><i class="fa-regular fa-school"></i> Back to School</a></li>
+                			
+                			<!-- ICF Registration -->
+                			
+                			<!-- LFI Registration -->
+                			
+                			<!-- Kindergarten Registration -->
+                			
+				        	<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fas fa-school"></i> Power School</a>
+							           		<ul class="dropdown-menu">		
+							           		  		<li><a class="dropdown-item" href='/studentsfamilies/powerschool.jsp' onclick="loadingData();"><i class="far fa-question-circle"></i> About PowerSchool</a></li>
+							                  		<li class="dropdown-divider"></li>   
+							                  		<li><a class="dropdown-item" href='https://nlsis.powerschool.com/admin'><i style="color:Green;" class="fas fa-external-link-alt"></i> Admin Login</a></li>
+													<li><a class="dropdown-item" href="https://nlsis.powerschool.com/teachers"><i style="color:Green;" class="fas fa-external-link-alt"></i> Teacher Login</a></li>
+													<li><a class="dropdown-item" href="https://nlsis.powerschool.com/subs"><i style="color:Green;" class="fas fa-external-link-alt"></i> Substitute Teacher Login</a></li>
+													<li><a class="dropdown-item" href="https://nlsis.powerschool.com/public/"><i style="color:Green;" class="fas fa-external-link-alt"></i> Student/Parent login</a></li>		 	
+							         		</ul>
+							</li>
+                			<li><a class="dropdown-item" href="/studentsfamilies/rycor.jsp" target="_blank"><i class="fa-regular fa-file-invoice-dollar"></i> Rycor Online Payments</a></li>
+				        	<li><a class="dropdown-item" href="/studentsfamilies/studenttransportation.jsp" onclick="loadingData();"><i class="fas fa-bus"></i> Student Transportation</a></li> 
+				        	<li><a class="dropdown-item" href="/studentsfamilies/iseducation.jsp" onclick="loadingData();"><i class="fas fa-graduation-cap"></i> International Student Education</a></li>  	
+				        	<!--<li><a class="dropdown-item" href="/schools/schoolcouncils.jsp" onclick="loadingData();"><i class="fa-solid fa-family"></i>  Join a School Council</a></li>       	-->
+				        	<li><a class="dropdown-item" href="/studentsfamilies/faqs.jsp" onclick="loadingData();"><i class="fa-solid fa-circle-question"></i> FAQ's</a></li> 
+				        	<!--<li><a class="dropdown-item" href="/studentsfamilies/studentappeals.jsp" onclick="loadingData();"><i class="fa-solid fa-circle-exclamation"></i> Student Appeals</a></li>-->  
+				        	<!-- <li><a class="dropdown-item" href="https://ss.nlesd.ca/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Student Services</a></li>-->  
+				        	<li><a class="dropdown-item" href="https://www.gov.nl.ca/education/k12/studentsupportservices/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Student Services (EDU)</a></li>  
+				        	<li><a class="dropdown-item" href="/contact/staffdirectory.jsp?search=student services" onclick="loadingData();"><i class="fa-solid fa-phone"></i> Student Services Contacts</a></li>
+				        	<li><a class="dropdown-item" href="/studentsfamilies/studentinsurance.jsp" onclick="loadingData();"><i class="fa-regular fa-hospitals"></i> Student Insurance</a></li>
+        					<li class="dropdown-divider"></li>
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-globe"></i> Online Practice &amp; Review</a>
+							           		<ul class="dropdown-menu">	
+							           				<li><a class="dropdown-item" href="https://docs.google.com/forms/d/e/1FAIpQLSen56TuF3BRtfPkzPNQ37P6BQ74db5WMAPw6ekrHLTKLehSMw/viewform" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Home School Application</a></li>	
+							                  		<li><a class="dropdown-item" href="/studentsfamilies/onlinetools.jsp" onclick="loadingData();"><i class="fa-solid fa-globe"></i> Online Tools</a></li>           
+							           				<li><a class="dropdown-item" href="https://www.youtube.com/channel/UCGTLtXcbbA8wDOdGKPlPeJg"  target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> NLESD Math Channel</a></li>             
+							        				<li><a class="dropdown-item" href="https://www.cdli.ca/tutoring" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> CDLI/Online Tutoring</a></li>   	 
+							         		</ul>
+							</li> 
+							<li class="dropdown-divider"></li>
+							<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-circle-info"></i> Resources (A-I)</a>
+							           		<ul class="dropdown-menu">
+							           				<li><a class="dropdown-item" href="http://bit.ly/39b50vi" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Black Lives Matter</a></li>  		
+							           				<li><a class="dropdown-item" href="/studentsfamilies/bullying.jsp" onclick="loadingData();"><i class="fa-regular fa-hand"></i> Bullying Prevention</a></li>
+										            <li><a class="dropdown-item" href="/studentsfamilies/cannabis.jsp" onclick="loadingData();"><i class="fa-regular fa-cannabis"></i> Cannabis Education</a></li>
+										            <!-- <li><a class="dropdown-item" href="/studentsfamilies/codetolearn.jsp" onclick="loadingData();"><i class="fa-duotone fa-code"></i> Code to Learn</a></li>-->	
+										            <li><a class="dropdown-item" href="https://www.gov.nl.ca/covid-19/"  target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Covid-19 Situation (EDU)</a></li> 							              
+										            <li><a class="dropdown-item" href="/studentsfamilies/hazing.jsp" onclick="loadingData();"><i class="fa-solid fa-hand"></i> Hazing Prevention</a></li> 										            
+										            <!-- <li><a class="dropdown-item" href="https://sites.google.com/nlesd.ca/hshs-final-website/home-hshs"><i style="color:Green;" class="fas fa-external-link-alt"></i> Healthy Schools</a></li>-->  
+										            <li><a class="dropdown-item" href="https://www.gov.nl.ca/hcs/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Health &amp; Community Services</a></li>       	
+			         					  			<li><a class="dropdown-item" target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSeNym851vFxpfswp_6s5LdQCNWgobz9v3O44N9buXfbwDPs7g/viewform?usp=header"><i style="color:Green;" class="fas fa-external-link-alt"></i> Home School Application Form</a></li>
+  													<li><a class="dropdown-item" href="/studentsfamilies/socialmediasafety.jsp" onclick="loadingData();"><i class="fa-solid fa-hashtag"></i> Internet/Social Media Safety</a></li> 
+										            
+										               </ul>
+							</li> 
+							<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-circle-info"></i> Resources (K-Z)</a>
+							           		<ul class="dropdown-menu">
+							           		<li><a class="dropdown-item" href="/studentsfamilies/k-6reportcard.jsp" onclick="loadingData();"><i class="fa-regular fa-file-contract"></i> K-6 Report Card Guide</a></li>
+										            <li><a class="dropdown-item" href="https://www.kidseatsmart.ca" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Kids Eat Smart</a></li>		
+							           				<!-- <li><a class="dropdown-item" href='https://learningathome.nlesd.ca/' target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Learning at Home</a></li>-->	
+							           				<li><a class="dropdown-item" href="/studentsfamilies/lgbtq.jsp" onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> LGBTQ Resources</a></li> 
+							           		 		<li><a class="dropdown-item" href="https://hi.easternhealth.ca/wp-content/uploads/sites/4/2021/10/Print-version-of-Head-Lice-Booklet-20211-new-cover.pdf"  target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Managing Head Lice</a></li>       
+										    	    <li><a class="dropdown-item" href="/programs/pisaforparents.jsp" onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> PISA for Parents</a></li> 	
+										    	    <li><a class="dropdown-item" href='https://www.gov.nl.ca/education/k12/safeandcaring/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Safe &amp; Caring Schools</a></li> 										    	      								         	
+										    	    <li><a class="dropdown-item" href="https://www.schoolfoodnl.ca"  target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> School Food  NL Program</a></li> 										         	
+										         	<li><a class="dropdown-item" href="https://sites.google.com/nlesd.ca/sparking-innovation/home" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Sparking Innovation with techNL</a></li>
+							                 		<li><a class="dropdown-item" href="/studentsfamilies/studentinsurance.jsp" onclick="loadingData();"><i class="fa-solid fa-notes-medical"></i> Student Insurance</a></li> 
+										         	<li><a class="dropdown-item" href="/studentsfamilies/wintersafetytips.jsp" onclick="loadingData();"><i class="fa-solid fa-snowflakes"></i> Winter Safety Tips</a></li> 
+							           		
+							           				</ul>
+							</li> 
+							<li class="dropdown-divider"></li>
+							<li><a class="dropdown-item" href="https://www.gov.nl.ca/education/k12/highschool/transcripts/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Transcripts (EDU)</a></li>  
+				       	 	<li><a class="dropdown-item" href="https://www.gov.nl.ca/education/k12/highschool/gradreq/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Graduation Requirements</a></li>  
+				        		
+        	</ul>
+            </li>
+            
+ <!-- SCHOOLS MENU -->           
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" title="Schools Menu (Click to Open)" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">SCHOOLS</a>
+                <ul class="dropdown-menu"> 
+                			<!-- Back to School -->
+                			
+                			<li><a class="dropdown-item" href="/schools/backtoschool" onclick="loadingData();"><i class="fa-regular fa-school"></i> Back to School</a></li>
+                			
+                			<!-- ICF Registration -->
+                			
+                			<!-- LFI Registration -->
+                			
+                			<!-- Kindergarten Registration -->
+                			
+                			<li><a class="dropdown-item" href='https://nlschools.mybusplanner.ca/Eligibility' target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Which School Do I Attend?</a></li>
+                			<li><a class="dropdown-item" href="/studentsfamilies/studenttransportation.jsp" onclick="loadingData();"><i class="fas fa-bus"></i> Student Transportation</a></li>										
+							<li><a class="dropdown-item" href="https://nlschools.mybusplanner.ca/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> My Bus Planner</a></li>    
+							<li><a class="dropdown-item" href="/schools/statusreport.jsp" onclick="loadingData();"><i class="fa-light fa-triangle-exclamation"></i> School Status Report</a></li>
+							<li><a class="dropdown-item" href='/schools/schooldirectory.jsp' onclick="loadingData();"><i class="fa-sharp fa-solid fa-school-flag"></i> School Directory</a></li>
+							<li><a class="dropdown-item" href='/schools/schoolfamilies.jsp' onclick="loadingData();"><i class="fas fa-school"></i> School Families</a></li>
+							<li><a class="dropdown-item" href='/schools/fischooldirectory.jsp' onclick="loadingData();"><i class="fa-sharp fa-solid fa-school-flag"></i> FI School Directory</a></li>
+							
+							<li class="dropdown-divider"></li>        					
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-forward"></i> School Feeder Systems</a>
+							           		<ul class="dropdown-menu">		
+							                  		<li><a class="dropdown-item" href="/schools/schoolfeeders.jsp" onclick="loadingData();"><i class="fa-solid fa-forward"></i> English Feeders</a></li>													
+													<li><a class="dropdown-item" href="/schools/efifeeders.jsp" onclick="loadingData();"><i class="fa-solid fa-forward"></i> EFI Feeders</a></li>	
+													<li><a class="dropdown-item" href="/schools/lfifeeders.jsp" onclick="loadingData();"><i class="fa-solid fa-forward"></i> LFI Feeders</a></li>	 
+							         		</ul>
+							</li> 
+							<li class="dropdown-divider"></li>
+							<!--<li><a class="dropdown-item" href="/schools/schoolcouncils.jsp" onclick="loadingData();"><i class="fa-solid fa-family"></i>  Join a School Council</a></li>-->
+							<li><a class="dropdown-item" href="/schools/weatherprotocol.jsp"><i class="fa-solid fa-cloud"></i> Weather Protocol</a></li> 
+							<li><a class="dropdown-item" href="http://www.schoolfoodnl.ca" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> School Food Program</a></li>            
+							<li><a class="dropdown-item" href="/schools/schoolreview/index.jsp" onclick="loadingData();"><i class="fa-solid fa-magnifying-glass"></i> School Review Process</a></li>
+							<li><a class="dropdown-item" href="/schools/schoolcalendar.jsp" onclick="loadingData();"><i class="fa-regular fa-calendar-days"></i> School Calendar</a></li>
+							<li><a class="dropdown-item"  href="https://www.google.com/maps/d/u/0/edit?mid=1FFlcJNGfMnPbqb7QrS0X3v-i_avZI3E&region=CA&usp=sharing" target="_blank"><i class="fa-solid fa-map-location-dot"></i> School Location Map (Google Maps)</a></li>
+							
+							<li><a class="dropdown-item" href="https://www.gov.nl.ca/education/k12/councils/"><i style="color:Green;" class="fas fa-external-link-alt"></i> School Councils (EDU)</a></li>
+							<li><a class="dropdown-item" href="https://schoolcouncilsnl.ca/"><i style="color:Green;" class="fas fa-external-link-alt"></i> NL Federation of School Councils</a></li>
+							
+        		</ul>
+            </li>
+            
+            
+ <!-- PROGRAMS MENU -->                          
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" title="Programs Menu (Click to Open)" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PROGRAMS</a>
+                <ul class="dropdown-menu"> 
+                			     					
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-children"></i> Kindergarten/Kinderstart</a>
+							           		<ul class="dropdown-menu">
+							           				<li><a class="dropdown-item" href="/studentsfamilies/kindergartenregistration.jsp" onclick="loadingData();"><i class="fa-solid fa-children"></i> Kindergarten Registration</a></li>							       				
+						           	 				<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/earlychildhood/kinderstart/'><i style="color:Green;" class="fas fa-external-link-alt"></i> KinderStart/Pre-Kindergarten (EDU)</a></li>
+						           	 				<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/k12/kindergarten/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Kindergarten (EDU)</a></li>
+							         				<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/faq/kindergarten/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Kindergarten FAQs (EDU)</a></li>
+							         				
+							         		</ul>
+							</li> 
+							<li class="dropdown-divider"></li>  
+							<!-- <li><a class="dropdown-item" href="/programs/assessmentevaluation.jsp" onclick="loadingData();"><i class="fa-regular fa-chart-pie"></i> Assessment &amp; Evaluation</a></li>--> 
+							<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-regular fa-chart-line-up"></i> National/Int'l Assessments</a>
+							           		<ul class="dropdown-menu">							           			
+							                  		<li><a class="dropdown-item" href="/programs/pisaforparents.jsp" onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> PISA for Parents</a></li> 
+							       					<li><a class="dropdown-item" href='/programs/timss.jsp' onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> TIMMS for Teachers/Parents</a></li>  
+						           	 				<li><a class="dropdown-item" href='/programs/pcap.jsp' onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> PCAP for Teachers/Parents</a></li>
+						           	 				<li><a class="dropdown-item" href='/programs/pirls.jsp' onclick="loadingData();"><i class="fa-solid fa-circle-info"></i> PIRLS for Teachers/Parents</a></li>
+							         		</ul>
+							</li> 	
+							<li class="dropdown-divider"></li> 
+							<li><a class="dropdown-item"  href="/programs/coursesyllabi.jsp" onclick="loadingData();"><i class="fa-light fa-book"></i> Course Syllabi (7-12)</a></li>       				
+							<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-duotone fa-franc-sign"></i> French Programs</a>
+							           		<ul class="dropdown-menu">	
+							                  		<li><a class="dropdown-item" href="/programs/frenchimmersion.jsp" onclick="loadingData();"><i class="fa-light fa-memo-circle-info"></i> French Immersion</a></li>
+					           						<li><a class="dropdown-item" href="/programs/efi.jsp" onclick="loadingData();"><i class="fa-light fa-memo-circle-info"></i> Early French Immersion</a></li>
+								           			<li><a class="dropdown-item" href="/programs/lfi.jsp" onclick="loadingData();"><i class="fa-light fa-memo-circle-info"></i> Late French Immersion</a></li>								           			
+								           			<li><a class="dropdown-item" href="/programs/icf.jsp" onclick="loadingData();"><i class="fa-light fa-memo-circle-info"></i> Intensive Core French</a></li>
+								           			
+								           			<li class="dropdown-divider"></li>   
+								           			<li><a class="dropdown-item" href="/studentsfamilies/kindergartenregistration.jsp" onclick="loadingData();"><i class="fa-solid fa-children"></i> EFI (Kindergarten) Registration</a></li> 
+								           			<li><a class="dropdown-item" href="/studentsfamilies/lfiregistration.jsp" onclick="loadingData();"><i class="fa-regular fa-school"></i> LFI Registration</a></li>
+								           			<li><a class="dropdown-item" href="/studentsfamilies/icfregistration.jsp" onclick="loadingData();"><i class="fa-regular fa-school"></i> ICF Registration</a></li>	
+								           			<li class="dropdown-divider"></li>   				
+								           			        			
+								           			<li><a class="dropdown-item" href="/contact/staffdirectory.jsp?search=FRENCH" onclick="loadingData();"><i class="fa-sharp fa-solid fa-file-user"></i> French Staff</a></li>
+								           			<li><a class="dropdown-item" href='/schools/fischooldirectory.jsp' onclick="loadingData();"><i class="fa-sharp fa-solid fa-school-flag"></i> FI School Directory</a></li>
+								           			<li><a class="dropdown-item" href="/schools/efifeeders.jsp" onclick="loadingData();"><i class="fa-solid fa-forward"></i> EFI Feeders</a></li>	
+													<li><a class="dropdown-item" href="/schools/lfifeeders.jsp" onclick="loadingData();"><i class="fa-solid fa-forward"></i> LFI Feeders</a></li>	
+													<li class="dropdown-divider"></li>   
+													<li><a class="dropdown-item" href="https://french.nlesd.ca"  target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> French Programs Website</a></li>
+								           			<li><a class="dropdown-item" href="https://www.gov.nl.ca/education/k12/french/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> French Curriculum (EDU)</a></li>
+								           			<li><a class="dropdown-item" href="https://cpf.ca/en/" target="_blank"><i style="color:Green;" class="fas fa-external-link-alt"></i> Canadian Parents for French</a></li> 	
+							         		</ul>
+							</li>        					
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-light fa-calculator-simple"></i> Mathematics</a>
+							           		<ul class="dropdown-menu">		
+							                  		<li><a class="dropdown-item" href="https://www.youtube.com/channel/UCGTLtXcbbA8wDOdGKPlPeJg"><i style="color:Green;" class="fas fa-external-link-alt"></i> NLESD Math Channel</a></li>
+								           			<li><a class="dropdown-item" href="/programs/math7intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 7 Intervention</a></li>
+								           			<li><a class="dropdown-item" href="/programs/mathfi7intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math&eacute;matiques 7</a></li>           			
+								           			<li><a class="dropdown-item" href="/programs/math8intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 8 Intervention</a></li>
+								           			<li><a class="dropdown-item" href="/programs/mathfi8intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math&eacute;matiques 8</a></li>
+								           			<li><a class="dropdown-item" href="/programs/math9intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 9 Intervention</a></li>           			
+								           			<li><a class="dropdown-item" href="/programs/math1201intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 1201 Intervention</a></li>
+								           			<li><a class="dropdown-item" href="/programs/math2201intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 2201 Intervention</a></li>
+								           			<li><a class="dropdown-item" href="/programs/math3201intresources.jsp" onclick="loadingData();"><i class="fa-regular fa-file-plus-minus"></i> Math 3201 Intervention</a></li>	 	
+							         		</ul>
+							</li> 							
+						   					
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-light fa-book"></i> IB Program</a>
+							           		<ul class="dropdown-menu">		
+							                  		<li><a class="dropdown-item" href="https://www.holyheart.ca/ib/"><i style="color:Green;" class="fas fa-external-link-alt"></i> Holy Heart IB Program</a></li>
+													<li><a class="dropdown-item" href="http://www.ibo.org/"><i style="color:Green;" class="fas fa-external-link-alt"></i> IB Program Website</a></li>
+													<li><a class="dropdown-item" href="http://www.ibo.org/diploma/"><i style="color:Green;" class="fas fa-external-link-alt"></i> IB Diploma Overview</a></li>			 	
+							         		</ul>
+							</li> 
+							<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/k12/curriculum/guides/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Program Curriculum (EDU)</a></li> 
+           					<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/combined-grades/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Combined Grades (DOE)</a></li> 
+							
+				       		<li class="dropdown-divider"></li>    
+				       		
+				       		<!-- 
+				       		<li><a class="dropdown-item" href='https://sites.google.com/nlesd.ca/hshs-final-website/home-hshs'><i style="color:Green;" class="fas fa-external-link-alt"></i> Healthy Schools</a></li>        	
+				       		<li><a class="dropdown-item" href='https://learningathome.nlesd.ca/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Learning at Home</a></li>
+				       		-->				
+        					<li><a class="dropdown-item dropdown-toggle" href="#"><i class="fa-solid fa-circle-info"></i> Other Resources</a>
+							           		<ul class="dropdown-menu">		
+							                  		<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/files/task_force_report.pdf'><i style="color:Green;" class="fas fa-external-link-alt"></i> Task Force Report</a></li>    		
+								          		 	<li><a class="dropdown-item" href='https://www.gov.nl.ca/education/k12/safeandcaring/'><i style="color:Green;" class="fas fa-external-link-alt"></i> Safe &amp; Caring Schools</a></li>  
+								           			<li><a class="dropdown-item" href="http://www.schoollunch.ca"><i style="color:Green;" class="fas fa-external-link-alt"></i> School Lunch Program</a></li> 
+								           			<li><a class="dropdown-item" href="http://www.schoolfoodnl.ca"><i style="color:Green;" class="fas fa-external-link-alt"></i> School Food Program</a></li>      
+								        			<li><a class="dropdown-item" href="http://www.kidseatsmart.ca"><i style="color:Green;" class="fas fa-external-link-alt"></i> Kids Eat Smart Program</a></li>		 	
+							         		</ul>
+							</li> 
+        	</ul>
+            </li>
+ <!-- CONTACT MENU -->           
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" title="Contact Menu (Click to Open)" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">CONTACT</a>
+                <ul class="dropdown-menu"> 
+                			<li><a class="dropdown-item" href='/contact/whotocontact.jsp' onclick="loadingData();"><i class="fa-solid fa-people"></i> Who Do I Contact?</a></li>		        	
+        					<li><a class="dropdown-item" href='/contact/staffdirectory.jsp' onclick="loadingData();"><i class="fas fa-user-friends"></i> Staff Directory</a></li>	
+        					<li><a class="dropdown-item" href='/contact/officelocations.jsp' onclick="loadingData();"><i class="fa-light fa-phone-office"></i> Office Locations</a></li>							
+							<li><a class="dropdown-item" href='/about/mediainformation.jsp'  onclick="loadingData();"><i class="fas fa-video"></i> Media Information</a></li>
+							<li><a class="dropdown-item" href='/about/docs/mediaconsentform.pdf' target="_blank"><i style="color:Red;" class="fa-solid fa-file-pdf"></i> Media Consent Form (PDF)</a></li>
+							<li><a class="dropdown-item" href="mailto:feedback@nlschools.ca?subject=Feedback/Enquiry"><i style="color:Green;" class="fa-regular fa-envelope"></i> Feedback/Enquiries</a></li>	
+							<li><a class="dropdown-item" href='/about/researchrequests.jsp'  onclick="loadingData();"><i class="fas fa-clipboard-list"></i> Research Requests</a></li>
+							<li class="dropdown-divider"></li>	
+							<li><a class="dropdown-item" href="https://bsky.app/profile/www.nlschools.ca" target="_blank"><i class="fa-brands fa-bluesky" style="color: #0086ff;"></i> NLSchools BlueSky</a></li>					
+							<li><a class="dropdown-item" href="https://twitter.com/NLSchoolsCA" target="_blank"><i class="fa-brands fa-x-twitter" style="color: #000000;"></i> NLSchools X</a></li>
+							<li><a class="dropdown-item" href="https://www.instagram.com/nlschoolsca" target="_blank"><i class="fa-brands fa-instagram" style="color: #9400D3;"></i> NLSchools Instagram</a></li>
+							<li><a class="dropdown-item" href="https://www.facebook.com/NLSCHOOLSCA" target="_blank"><i class="fa-brands fa-facebook" style="color: #1F4279;"></i> NLSchools on Facebook</a></li>
+						  	<li><a class="dropdown-item" href="https://www.youtube.com/channel/UCIT127dtdYdGLnVFYv3c9uQ" target="_blank"><i class="fa-brands fa-youtube" style="color: Red;"></i> NLSchools YouTube</a></li>
+							<li class="dropdown-divider"></li>  										
+							<li><a class="dropdown-item" href='/termsofuse.jsp' onclick="loadingData();"><i class="fas fa-balance-scale"></i> Terms of Use</a></li>
+				            <li><a class="dropdown-item" href='/privacypolicy.jsp' onclick="loadingData();"><i class="fas fa-user-secret"></i> Privacy Policy</a></li>
+        	</ul>
+            </li>
+
+ <!-- STAFFROOM (MemberServices)-->           
+            <li class="nav-item">
+                <a class="nav-link" href="/MemberServices/" title="StaffRoom (MemberServices) login Access  (Click to Access)" onclick="loadingData();"><i class="fa-duotone fa-lock"></i> STAFFROOM</a>
+                
+            </li>
+ <!--  END MS MENU -->        
+ </ul>
+        
+    </div>   
+
+<!-- MENU SEARCH BLOCK -->
+<div class="searchBoxNavBar">
+<form  class="form-inline search-form-top" id="search" method="get" id="searchbox_136ce709005644cb1" action="/search-results.jsp">
+<input value="136ce709005644cb1" name="cx" type="hidden"/> 
+<input name="sort" type="hidden" value="date"/>
+<input class="form-control form-control-sm" id="q" name="q" type="text" style="border-radius:0px;" placeholder="Site Search Term(s)" />
+<input class="form-control form-control-sm btn btn-sm btn-success" style="margin-left:2px;border-radius:0px;" type="submit" name="submit" value="GO">
+</form>
+</div>   	 
+</nav>
+
+
+<!-- SPEEDBUMP -->
+<div class="modal fade" id="speedbump" role="dialog">
+	<div class="modal-dialog">
+	  <!-- Modal content-->
+	  <div class="modal-content">
+		<div class="modal-header" style="color:Red;">		  
+		  <h4 class="modal-title"><i class="fas fa-exclamation-circle"></i> Notice</h4>
+		  <button type="button" class="close" data-dismiss="modal">X</button>
+		</div>
+		<div class="modal-body" style="font-size:11px;">
+		  <p>You have clicked on an external link. You are now leaving the main NLSchools web site. However, the site you are clicking on may be another NLSchools associated web site. 
+		  This link will open in a new tab or browser window. <p>
+		  <b>NOTE:</b> We are not responsible for any content and/or navigation on any external page/site that is not administered by NLSchools or its associated web sites.</p>
+		</div>
+		<div class="modal-footer text-center">
+		  <button type="button" title="continue" class="btn btn-sm btn-success btn-modal btn-continue" data-dismiss="modal">Continue</button>
+		  <button type="button" title="go back" class="btn btn-sm btn-danger btn-modal btn-close" data-dismiss="modal">Cancel</button>
+		</div>
+	  </div>
+
+	</div>
+</div>
+<!--END SPEEDBUMP-->
+
+
+<!-- PAGE BODY -->
+<div class="mainContainer" style="max-width:1420px;margin-left:auto;margin-right:auto;">
+  <div class="container-fluid">
+    <div id="printJob">
+
+<div class="row pageBottomSpace">
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"> 
+<img src="img/weatherproheader.png" style="width:100%;min-width:300px;">
+<div class="siteBodyTextBlack">
+
+
+ 			<div class="siteHeaderGreen">Weather Protocol</div>					
+  						
+  			We frequently get questions about how weather closures are decided. Here is how snow days are decided.
+
+							<p>There is a <a href="/about/policies.jsp?search=OPER-603" onclick="loadingData();">policy and administrative regulation</a> in place which outline weather closures.							
+															
+							<p>Below you can find a quick overview of the process and how decisions are made.
+  						  	
+  						  	
+<hr>  						
+ <div class="siteSubHeaderBlue">Student safety is our priority</div>					
+  						  	
+The main goal of any closure or delay, be it for weather or a mechanical issue, is to ensure the safety of students. 
+With respect to weather, NLSchools recognizes it cannot account for every conceivable circumstance.  
+Ultimately, families are in the best position to judge whether a student can travel safely to and from school and bus stops.
+
+  						  	
+<hr>  						
+<div class="siteSubHeaderBlue">The Decision Makers</div>					
+  						  	
+Authority to close schools and/or school zones due to weather is delegated to the authorized zone administrator - which is usually a principal or assistant principal. 
+Where a school system (schools in close proximity) is impacted, the authorized zone administrator is advised to consult with the other school administrations. 
+In areas where NLSchools' Offices are located (St. John's Metro, Gander, Corner Brook, &amp; Happy Valley - Goose Bay), delays or closures are managed by District staff.
+
+<hr>  						  	
+ <div class="siteSubHeaderBlue">The Timeframe</div>					
+  						  	
+Closure or delay decisions are generally announced between 6:30 a.m. and 7:00 a.m. Communication will be made through local media - generally radio - as well as through Status Central on the main page of the NLSchools' website (www.nlschools.ca). Many schools also use Synervoice technology and social media.
+<p>Notices of closure will normally indicate there will be a further update later in the morning, generally around 10:30 a.m. or 11:00 a.m. Delays should be communicated for a specific number of hours - for example, one or two hours. If a morning delay is longer than one hour, scheduled Kinderstart sessions for that morning will be cancelled.
+<p>Typically, closures for the entire day are only announced in the circumstance of a major weather event.
+<p>Schools may not necessarily close early if the weather is deteriorating while school is in session. It may be prudent and safer for students to remain in school during the peak of a storm.
+
+<hr>  							
+<div class="siteSubHeaderBlue">The Information Used</div>					
+  						  	
+ Weather criteria taken into consideration when deciding a delay or closure include: snowfall, wind, visibility, temperature, and road conditions.
+
+<p>Authorized zone administrators are provided weather forecasts from a contracted weather service and they can also consult with their student transportation staff or contractor, local municipalities, or the Department of Transportation and Works.
+						
+<p>The weather policy provides wind chill temperature thresholds at which schools will close. These are:
+
+							
+							<table width=250px align=center style="border: 1px solid #007F01;padding:0px;">
+							<tr style="background-color:#007F01;color:white;"><td>Grade</td><td>Temperature</td></tr>
+							<tr><td>K - 3</td><td>-45&deg;C</td></tr>
+							<tr><td>K - 7</td><td>-50&deg;C</td></tr>
+							<tr><td>K - Level III</td><td>-55&deg;C</td></tr>
+							</table>
+								
+<p>The decision to delay a school opening or close the school is supported by a variety of information and a procedure is in place to help with decision making.
+
+<p>Occasionally, as with anyone making decisions dependent upon weather and a forecast, things can change quickly. However, NLSchools always attempt to make prudent decisions in the best interest of student and staff safety.
+							
+<p>Should you have any further questions on the weather closure policy please, do not hesitate to contact your respective regional office. Contact information can be <b><a href="/contact/staffdirectory.jsp"  onclick="loadingData();">found here.</a></b> 
+							  						  	
+  						  	
+<hr>	
+  						
+<div class="siteSubHeaderBlue">Weather Safety Reminders</div>			
+ 			
+As we all know, Newfoundland and Labrador weather is highly unpredictable and can cause challenges for families and schools. Below are some safety reminders to help everyone be prepared for our weather. As stated above, families are in the best position to judge weather, road, and safety conditions for their children.
+
+<ul>
+<li>All students should be appropriately dressed for the season, particularly winter weather and changing conditions. 
+<li>Families should have alternate/back-up arrangements in place should an issue occur with student transportation, such as a delay caused by poor weather or road conditions.
+<li>Families are reminded that in most circumstances, Kindergarten students must have an adult present for after-school drop off by the bus, as per the <a href="/studentsfamilies/doc/2024/NLS-KindergartenIDProtocol.pdf" target="_blank">Kindergarten Transportation Identification Protocol</a>.
+<li>Further winter safety tips can be <a href="/studentsfamilies/wintersafetytips.jsp" onclick="loadingData();">found here</a>.
+</ul>
+Additionally, school bus safety tips can be <a href="/studentsfamilies/doc/2024/NLS-busing-brochure.pdf" target="_blank">found here</a>.  
+   
+  
+  
+
+ 
+
+</div> 
+</div>
+</div>
+
+
+
+    </div>
+
+    <div class="frontPageAcrobatNotice"></div>
+
+    <div align="center" style="display:none;font-size:11px;margin-top:5px;">
+      <b>MENU ICON COLOR LEGEND</b><br/>
+      <i style="color:Green;" class="fas fa-external-link-alt"></i> EXTERNAL LINK &nbsp;&nbsp;&nbsp;
+      <i style="color:#9932CC;" class="fas fa-sign-in-alt"></i> SYSTEM LOGIN &nbsp;&nbsp;&nbsp;
+      <i style="color:Red;" class="fa-solid fa-file-pdf"></i> PDF DOCUMENT
+    </div>
+
+    <br/>&nbsp;<br/>
+
+  </div>
+</div>
+
+<!-- FOOTER CONTROLS: font size, accessibility, print, back -->
+<div align="center" class="no-print navBottomFontSize">
+  <div class="footerLink"><a title="Decrease Page Font Size" href="#" class="btn btn-dark btn-sm" id="btn-decrease">A-</a></div>
+  <div class="footerLink"><a title="Reset Page Font Size"    href="#" class="btn btn-dark btn-sm" id="btn-orig">A</a></div>
+  <div class="footerLink"><a title="Increase Page Font Size" href="#" class="btn btn-dark btn-sm" id="btn-increase">A+</a></div>
+  <div class="footerLink"><a title="Accessibility Toggle Color to Greyscale" href="#" class="btn btn-dark btn-sm" onclick="grayscale();return false;">&nbsp;<i class="fa-solid fa-eye"></i>&nbsp;</a></div>
+  <div class="footerLink"><a href="#" class="btn btn-dark btn-sm" role="button" title="Print this page (pre-formatted)" onclick="jQuery('#printJob').print({prepend:'<div align=center><img src=/includes/img/nlschools.png></div><br/><br/>'});"><i class="fas fa-print"></i> Print</a></div>
+  <div class="footerLink"><a onclick="loadingData();goBack();" href="#" class="btn btn-dark btn-sm" role="button" title="Back to previous"><i class="fa-duotone fa-backward"></i> Back</a></div>
+</div>
+
+<!-- FOOTER NAV: search + quick links -->
+<div align="center" class="no-print navBottom">
+
+  <!-- SEARCH BOX -->
+  <div class="searchBoxFooter" style="padding-top:5px;">
+    <div class="d-flex justify-content-center">
+      <form class="form-inline" method="get" action="/search-results.jsp">
+        <input value="014698460147374092272:ndksvdq_4b8" name="cx" type="hidden"/>
+        <input class="form-control form-control-sm searchInput" id="q" name="q" type="text" style="border-radius:0px;" placeholder="Search Term(s)" autocomplete="no" />
+        <input class="form-control form-control-sm btn btn-sm btn-success" style="border-radius:0px;width:50px;" type="submit" name="submit" value="GO">
+      </form>
+    </div>
+  </div>
+
+  <!-- SEASONAL / DEFAULT QUICK LINK -->
+
+    
+      <div class="footerLink"><a onclick="loadingData();" class="btn btn-warning btn-sm" role="button" href="/schools/backtoschool"><img src="/includes/img/bsicon.png" border="0" style="height:20px;"/> Back to School</a></div>
+    
+    
+    
+    
+    
+
+
+  <div class="footerLink"><a onclick="loadingData();" href="/schools/statusreport.jsp"  class="btn btn-danger  btn-sm" role="button"><i class="fa-solid fa-school-circle-exclamation"></i> Status</a></div>
+  <div class="footerLink"><a onclick="loadingData();" href="/employment/"               class="btn btn-info    btn-sm" role="button"><i class="fa-duotone fa-handshake"></i> Employment</a></div>
+  <div class="footerLink"><a onclick="loadingData();" href="/MemberServices/"           class="btn btn-warning btn-sm" role="button"><i class="fas fa-lock"></i> StaffRoom</a></div>
+
+</div>
+
+<br/>&nbsp;<br/>&nbsp;<br/>
+
+<!-- MAIN FOOTER: Google Translate + copyright + social -->
+<div class="mainFooter">
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
+      <div class="gTranslate">
+        <div id="google_translate_element" style="color:white;"></div>
+        <script type="text/javascript">
+          function googleTranslateElementInit() {
+            new google.translate.TranslateElement(
+              {pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL},
+              'google_translate_element'
+            );
+          }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+      </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-7">
+
+      
+      <div class="copyright">
+        &copy; Mon Sep 14 14:08:59 NDT 2026 NL Schools &middot;
+        <a onclick="loadingData();" href="/privacypolicy.jsp" style="color:white;">Privacy Policy</a> &middot;
+        <a onclick="loadingData();" href="/termsofuse.jsp"    style="color:white;">Terms of Use</a> &middot; All Rights Reserved &nbsp;|&nbsp;
+        <a href="https://bsky.app/profile/www.nlschools.ca"                         target="_blank" title="NLSchools BlueSky Account"><i class="fa-brands fa-bluesky    fa-xl" style="color:#ffffff;"></i></a> &nbsp;
+        <a href="https://twitter.com/NLSchoolsCA"                               target="_blank" title="NLSchools Twitter Account"><i class="fa-brands fa-x-twitter  fa-xl" style="color:#ffffff;"></i></a> &nbsp;
+        <a href="https://www.instagram.com/nlschoolsca"                         target="_blank" title="NLSchools Instagram Account"><i class="fa-brands fa-instagram fa-xl" style="color:#ffffff;"></i></a> &nbsp;
+        <a href="https://www.facebook.com/NLSCHOOLSCA"                          target="_blank" title="NLSchools Facebook Account"><i class="fa-brands fa-facebook  fa-xl" style="color:#ffffff;"></i></a> &nbsp;
+        <a href="https://www.linkedin.com/company/nlschoolsca/"                 target="_blank" title="NLSchools LinkedIn Account"><i class="fa-brands fa-linkedin  fa-xl" style="color:#ffffff;"></i></a> &nbsp;
+        <a href="https://www.youtube.com/@newfoundlandandlabradoreng5695/videos" target="_blank" title="NLSchools YouTube Account"><i class="fa-brands fa-youtube   fa-xl" style="color:#ffffff;"></i></a>
+      </div>
+
+      
+      <div class="copyrightSmall">
+        &copy; Mon Sep 14 14:08:59 NDT 2026 NL Schools &middot;
+        <a onclick="loadingData();" href="/privacypolicy.jsp" style="color:white;">Privacy Policy</a> &middot;
+        <a onclick="loadingData();" href="/termsofuse.jsp"    style="color:white;">Terms of Use</a> &middot; All Rights Reserved<br/>
+        <a href="https://bsky.app/profile/www.nlschools.ca"                         target="_blank" title="NLSchools BlueSky Account"><i class="fa-brands fa-bluesky    fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a> &nbsp;
+        <a href="https://twitter.com/NLSchoolsCA"                               target="_blank" title="NLSchools Twitter Account"><i class="fa-brands fa-x-twitter  fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a> &nbsp;
+        <a href="https://www.instagram.com/nlschoolsca"                         target="_blank" title="NLSchools Instagram Account"><i class="fa-brands fa-instagram fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a> &nbsp;
+        <a href="https://www.facebook.com/NLSCHOOLSCA"                          target="_blank" title="NLSchools Facebook Account"><i class="fa-brands fa-facebook  fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a> &nbsp;
+        <a href="https://www.linkedin.com/company/nlschoolsca/"                 target="_blank" title="NLSchools LinkedIn Account"><i class="fa-brands fa-linkedin  fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a> &nbsp;
+        <a href="https://www.youtube.com/channel/UCIT127dtdYdGLnVFYv3c9uQ"     target="_blank" title="NLSchools YouTube Account"><i class="fa-brands fa-youtube    fa-2xl" style="color:#ffffff;margin-top:10px;margin-bottom:10px;"></i></a>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- SCROLL BEHAVIOUR: show/hide brand logo in navbar -->
+<script>
+  var distance = 120;
+  var $window  = $(window);
+  var x        = window.innerWidth;
+
+  $window.scroll(function() {
+    if (($window.scrollTop() >= distance) && (x >= 768)) {
+      $(".navbar-brand-scroll").css("display", "block");
+    } else {
+      $(".navbar-brand-scroll").css("display", "none");
+    }
+    if (($window.scrollTop() >= distance) && (x < 768)) {
+      $(".navbar-brand").css("display", "block");
+      $(".navbar-icon").css("margin-top", "0px");
+      $(".navbar-brand").css("margin-top", "-6px");
+    } else {
+      $(".navbar-brand").css("display", "none");
+      $(".navbar-icon").css("margin-top", "-6px");
+    }
+  });
+
+  // Remove card styling on small screens
+  if (x <= 768) {
+    $(".frontPageNewsCard").removeClass("card").removeClass("bg-light");
+    $(".frontPageNewsCardHeader").removeClass("card-header");
+    $(".frontPageNewsCardBody").removeClass("card-body");
+    $(".frontPageNewsItemFooter").removeClass("card-footer");
+  }
+</script>
+
+<!-- ENABLE THE NAVBAR -->
+<script src="/includes/js/bootstrap-4-navbar.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,820 @@
+/* NLESD WEBSITE CSS FILE */
+/* Use of this code ONLY for (C) 2023 NLESD www.nlschools.ca by Geoff Taylor */
+/* Bootstrap 4, HTML5, DataTables, jQuery, Java, JavaScript */
+
+/* SET BODY AND MAX MIN SIZE */
+body { background:white; background-color:white; max-width:1420px; margin-left: auto; transition: filter 1s; margin-right: auto; font-family: Verdana, Helvetica, Geneva, Arial, sans-serif;color: Black;-webkit-text-size-adjust: 100%;margin-bottom:100px;}
+
+html { background:white; background-color:White; }
+
+body.grayscale {
+    /* gray scale(1) makes the web site gray scale */
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);   
+  }
+  
+  
+  .greyscale {
+    filter: grayscale(100%);
+}
+
+  body.contrast {   
+    -webkit-filter:contrast(1.5);
+    filter: contrast(1.5);
+  }
+
+.mainContainer {font-size:12px;max-width:1420px;min-width:300px;display: block;  margin-left: auto;  margin-right: auto;background-color:white; }
+#content browser { margin-right: -14px !important; overflow-y: scroll; overflow-x: hidden;}
+#loadingSpinner {position: fixed; top: 0; left: 0; width: 100%; height: 100%; text-align:center; background-color: rgba(255, 255, 255,0.8);z-index: 1000;}
+#spinner {position: fixed; text-align: center;  top: 30%;  left: 50%; transform: translate(-50%, 0);background-color:rgba(255, 255, 255, 0);padding:10px;font-size:16px;color:#374551;}
+
+.blink-me { animation: blinker 1s linear infinite;}
+@keyframes blinker {50% { opacity: 0; }}
+
+
+/* DEFAULT HEADERS & FONT SIZES */
+
+.siteHeaderBlack {font-size:18px;color:#000000;font-weight:bold;padding-top:20px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderGreen {font-size:18px;color:#008001;font-weight:bold;padding-top:20px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderBlue {font-size:18px;color:#374551;font-weight:bold;padding-top:20px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderRed {font-size:18px;color:#FF0000;font-weight:bold;padding-top:20px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderGrey {font-size:18px;color:Grey;font-weight:bold;padding-top:20px;padding-bottom:5px;text-transform:uppercase;}
+
+.siteHeaderOBlack {font-size:18px;color:#000000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderOGreen {font-size:18px;color:#008001;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderOBlue {font-size:18px;color:#374551;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderORed {font-size:18px;color:#FF0000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteHeaderOGrey {font-size:18px;color:Grey;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+
+.siteSubHeaderBlack {font-size:14px;color:#000000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubHeaderGreen {font-size:14px;color:#008001;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubHeaderBlue {font-size:14px;color:#374551;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubHeaderRed {font-size:14px;color:#FF0000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubHeaderGrey {font-size:14px;color:Grey;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+
+.siteSubSubHeaderBlack {font-size:12px;color:#000000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubSubHeaderGreen {font-size:12px;color:#008001;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubSubHeaderBlue {font-size:12px;color:#374551;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubSubHeaderRed {font-size:12px;color:#FF0000;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+.siteSubSubHeaderGrey {font-size:12px;color:Grey;font-weight:bold;padding-top:10px;padding-bottom:5px;text-transform:uppercase;}
+
+.siteBodyTextBlack {font-size:12px;color:Black;}
+.siteBodyTextDimGrey {font-size:12px;color:DimGrey;}
+
+.siteBodyTextXSmall {font-size:9px;}
+.siteBodyTextSmall {font-size:10px;}
+.siteBodyText {font-size:12px;}
+.siteBodyTextLarge {font-size:14px;}
+.siteBodyTextXLarge {font-size:16px;}
+
+.siteTextSilver {color:Silver;}
+.siteTextGreen {color:#008001;}
+.siteTextBlue {color:#374551;}
+.siteTextRed {color:#FF0000;}
+.siteTextBlack {color:Black;}
+.siteTextDimGrey {color:DimGrey;}
+.siteTextDimGreyBold {color:DimGrey;font-weight:bold;}
+.pageBottomSpace {margin-bottom:10px;padding-bottom:10px;}
+.twitterBottom {display:none;}
+
+.newsImageBox {margin: 0 auto; padding:2px; width:100%;max-width:640px;background-color:White;font-size:10px;color:Grey;}
+.newsImage {border:1px solid silver;padding:2px;width:100%;max-width:640px;}
+.newsTable {font-size:11px;}
+.newsBody {margin:0 auto;max-width:700px;border:1px solid silver;padding:10px;}
+/* Family of Schools Settings */
+
+.familyDefault {color:white;background-color: Silver;}
+.family1 {color:white;background-color: #279ad6;}
+.family2 {color:white;background-color: #8f1d5a;}
+.family3 {color:Black;background-color: #7cb342;}
+.family4 {color:white;background-color: #1ca260;}
+.family5 {color:white;background-color: #01579b;}
+.family6 {color:white;background-color: #1a237e;}
+.family7 {color:white;background-color: #0f743d;}
+.family8 {color:white;background-color: #817717;}
+.family9 {color:white;background-color: #a52714;}
+.family10 {color:white;background-color: #673ab7;}
+.family11 {color:black;background-color: #f9a825;}
+.family12 {color:white;background-color: #4e342e;}
+.family13 {color:black;background-color: #afb42b;}
+.familyOffice {color:white;background-color: #2F4F4F;}
+.familyAlign {text-align:center;vertical-align:middle;}
+.familyCardBody {background-color: White;}
+.familyCardHeader {font-size:14px;font-weight:bold;}
+
+/*REGIONAL COLOR SETTINGS */
+/*1=AVALON, 2=CENTRAL, 3=WESTERN, 4=LABRADOR, 5=PROVINCIAL */
+.regionDefault {background-color: #1F4279;}
+.region1 {background-color:rgba(191, 0, 0, 0.1);}
+.region1a {border-left:10px solid rgba(191, 0, 0, 0.3);}
+.region1solid {background-color:rgba(191, 0, 0, 1);}
+.region1half {background-color:rgba(191, 0, 0, 0.5);}
+.region2 {background-color:rgba(143, 188, 143, 0.1);}
+.region2a {border-left:10px solid rgba(143, 188, 143, 0.3);}
+.region2solid {background-color:rgba(143, 188, 143, 1);}
+.region2half {background-color:rgba(143, 188, 143, 0.5);}
+.region3 {background-color:rgba(255, 132, 0, 0.1);}
+.region3solid {background-color:rgba(255, 132, 0, 1);}
+.region3half {background-color:rgba(255, 132, 0, 0.5);}
+.region3a {border-left:10px solid rgba(255, 132, 0, 0.3);}
+.region4 {background-color:rgba(127, 130, 255, 0.1);}
+.region4a {border-left:10px solid rgba(127, 130, 255, 0.3);}
+.region4solid {background-color:rgba(127, 130, 255,1);}
+.region4half {background-color:rgba(127, 130, 255, 0.5);}
+.region5text {color:rgba(128, 0, 128, 1);}
+.region5 {background-color:rgba(128, 0, 128, 0.1);}
+.region5a {border-left:10px solid rgba(128, 0, 128, 0.3);}
+.region5solid {background-color:rgba(128, 0, 128,1);}
+.region5half {background-color:rgba(128, 0, 128, 0.5);}	
+
+.cameraAvalon {background-color:rgba(191, 0, 0, 0.1);}
+.cameraEastern {background-color:rgba(128, 0, 128, 0.1);}
+.cameraCentral {background-color:rgba(143, 188, 143, 0.1);}
+.cameraWestern {background-color:rgba(255, 132, 0, 0.1);}
+.cameraLabrador {background-color:rgba(127, 130, 255, 0.1);}
+
+/*OFFICE LOCATIONS COLOR */
+.officeAvalon {background-color:rgba(191, 0, 0, 0.5);color:White;}
+.officeCentral {background-color:rgba(143, 188, 143, 0.5);}
+.officeWestern {background-color:rgba(255, 132, 0, 0.5);}
+.officeLabrador {background-color:rgba(127, 130, 255, 0.5);color:white;}
+.officeProvincial {background-color:rgba(128, 0, 128, 0.5);color:white;}
+.officeError {background-color:rgba(255, 0, 0, 1);color:White;}
+
+/*DIVISION COLOR SETTINGS */
+.divisions {vertical-align:middle;text-align:center;}
+.divisionEXECUTIVE {background-color:rgba(139, 0, 0,0.7);color:White;}
+.divisionEXECUTIVEBorder {border-left: 4px solid rgba(139, 0, 0,0.7);}
+.divisionHR {background-color:rgba(100, 149, 237, 0.5);color:White;}
+.divisionHRBorder {border-left: 4px solid rgba(100, 149, 237, 0.5);}
+.divisionPROGRAMS {background-color:rgba(222, 184, 135, 0.5);}
+.divisionPROGRAMSBorder {border-left: 4px solid rgba(222, 184, 135, 0.5);}
+.divisionSCHOOLSYSTEMS {background-color:rgba(138, 43, 226, 0.5);color:White;}
+.divisionSCHOOLSYSTEMSBorder {border-left: 4px solid rgba(138, 43, 226, 0.5);}
+.divisionSTUDENTSERVICES {background-color:rgba(0, 100, 0, 0.5);color:White;}
+.divisionSTUDENTSERVICESBorder {border-left: 4px solid rgba(0, 100, 0, 0.5);}
+.divisionCORPORATESERVICES {background-color:rgba(47, 79, 79, 0.5);color:White;}
+.divisionCORPORATESERVICESBorder {border-left: 4px solid rgba(47, 79, 79, 0.5);}
+.divisionERROR {background-color:rgba(255, 255, 255, 1);color:Silver;}
+
+
+
+
+/*Fix Bootsrap 4 missing stuff! */
+.btn-group-xs > .btn, .btn-xs { padding: .25rem .25rem; text-transform:uppercase; margin:2px; font-size: .75rem; line-height: 1; border-radius: .2rem;}
+/*.btn-group-xs > .btn, .btn-xs { padding: .25rem .25rem; text-transform:uppercase; margin:2px; font-size: .65rem; line-height: .3; border-radius: .2rem;} */
+p {margin-top: 10px;margin-bottom: 10px;}
+
+.btn-pos-left {float:left;margin-left:5px;}
+
+
+/* QUICK LINKS PANELS */
+.ql-col-fix {padding-left:0px;padding-right:0px;border-top:1px solid white;}
+.ql-col-fix-1 {padding-left:0px;padding-right:1px;}
+.ql-col-left-fix {border-left:1px solid white;}
+
+a.quickLinksMenu { font-size:11px; color:rgba(70, 130, 180,1); text-decoration: none;}
+a.quickLinksMenu:visited { color:rgba(70, 130, 180,1); text-decoration: none;}
+a.quickLinksMenu:hover {	color: #FF0000;	text-decoration: underline;} 
+a.quickLinksMenu:active { color: #FF0000; text-decoration: none;}
+
+a.quickLinksMenuD { font-size:11px; color:#000000;  text-decoration: none;}
+a.quickLinksMenuD:visited { color:#000000;  text-decoration: none;}
+a.quickLinksMenuD:hover {	color: #FF0000;	text-decoration: underline;} 
+a.quickLinksMenuD:active { color: #FF0000; text-decoration: none;}
+
+
+
+.officeCard {float:left;width:24.5%;padding:3px;margin-bottom:5px;min-width:300px;margin:2px;min-height:205px;}
+.officeCardBody {color:black;padding:2px;line-height: 1.2;text-align:center;}
+.officeCardHeader {text-align:center;font-weight:bold;font-size:14px;color:White;}
+
+
+.quickLinksCard {float:left;width:24.5%;padding:3px;margin-bottom:5px;min-width:200px;margin:2px;min-height:220px;}
+.quickLinksCardHeader {text-align:center;font-weight:bold;font-size:13px;white-space:nowrap;}
+.quickLinksCardBody{font-weight:normal;padding:2px;line-height: 1.2;min-height:100px;}
+
+/* STUDENT LINKS PANEL */
+.studentLinksPanel {background-color:rgba(55,69,81,0.2);color:rgba(55,69,81,1);min-height:203px;}
+.studentLinksHeader {width:100%;padding-bottom:3px;}
+a.studentLinksMenu { font-size:11px; color:rgba(55,69,81,1); text-decoration: none;}
+a.studentLinksMenu:visited { color:rgba(0,0,0,1); text-decoration: none;}
+a.studentLinksMenu:hover {	color: #FF0000;	text-decoration: underline;} 
+a.studentLinksMenu:active { color: #FF0000; text-decoration: none;}
+
+/* SCHOOL LINKS PANEL */
+.schoolLinksPanel {background-color:rgba(242, 184, 34,0.3);color:rgba(132, 92, 18,1);min-height:203px;}
+.schoolLinksHeader {width:100%;padding-bottom:3px;}
+a.schoolLinksMenu { font-size:11px; color:rgba(132, 92, 18,1); text-decoration: none;}
+a.schoolLinksMenu:visited { color:rgba(0,0,0,1); text-decoration: none;}
+a.schoolLinksMenu:hover {	color: #FF0000;	text-decoration: underline;} 
+a.schoolLinksMenu:active { color: #FF0000; text-decoration: none;}
+
+/* STAFF LINKS PANEL */
+.staffLinksPanel {background-color:rgba(82, 167, 80,0.2);color:rgba(0,100,0,1);min-height:203px;}
+.staffLinksHeader {width:100%;padding-bottom:3px;}
+a.staffLinksMenu { font-size:11px; color:rgba(0,100,0,1); text-decoration: none;}
+a.staffLinksMenu:visited { color:rgba(0,0,0,1); text-decoration: none;}
+a.staffLinksMenu:hover {	color: #FF0000;	text-decoration: underline;} 
+a.staffLinksMenu:active { color: #FF0000; text-decoration: none;}
+
+/* SPECIAL INTEREST LINKS PANEL */
+.specialInterestLinksPanel {background-color:rgba(238,58,56,0.2);color:rgba(100, 0, 0,1);min-height:203px;}
+.specialInterestLinksHeader {width:100%;padding-bottom:3px;}
+a.specialInterestLinksMenu { font-size:11px; color:rgba(100,0,0,1); text-decoration: none;}
+a.specialInterestLinksMenu:visited { color:rgba(0,0,0,1); text-decoration: none;}
+a.specialInterestLinksMenu:hover {	color: #FF0000;	text-decoration: underline;} 
+a.specialInterestLinksMenu:active { color: #FF0000; text-decoration: none;}
+
+/* IMPORTANT Notice News Block */
+.importantNoticeBlock {margin-top:4px;margin-bottom:3px;}
+.importantNoticeHeader {font-weight:bold;font-size:16px;color:white;background-color:Red;text-align:center;}
+.importantNoticeBox {position:relative;width:100%;border:1px solid red;padding:5px;background-color: rgba(255, 255, 0, .3);}
+.importantNoticeTitle {font-size:18px;font-weight:bold;text-align:center;color:Red;}
+.importantNoticeDate {color:Grey;text-align:center;}
+.importantNoticeLocation {color:Grey;text-align:center;}
+
+/* FOUNDATION PAGE */
+
+
+
+/*SCHOOL STATUS */
+.busDelayed {text-align:center;background-color:#fffc00;font-size:11px;color:black;font-weight:bold;}
+.delayedOpening {text-align:center;background-color:#fffc00;font-size:11px;color:black;font-weight:bold;}
+.kinderstartSession {text-align:center;background-color:#bf00bd;font-size:11px;color:white;font-weight:bold;}
+.officeClosed {text-align:center;background-color:#ff0000;font-size:11px;color:white;font-weight:bold;}
+.otherStatus {text-align:center;background-color:#ff8200;font-size:11px;color:white;font-weight:bold;}
+.closedAllDay {text-align:center;background-color:#ff0000;font-size:11px;color:white;font-weight:bold;}
+.closedForPD {text-align:center;background-color:#ff0000;font-size:11px;color:white;font-weight:bold;}
+.closedForHoliday {text-align:center;background-color:#0003ff;font-size:11px;color:white;font-weight:bold;}
+.closedForAfternoon {text-align:center;background-color:#bf0000;font-size:11px;color:white;font-weight:bold;}
+.closedForMorning {text-align:center;background-color:#bf0000;font-size:11px;color:white;font-weight:bold;}
+.summerBreak {text-align:center;background-color:#008001;font-size:11px;color:white;font-weight:bold;}
+.closingEarly {text-align:center;background-color:#fffc00;font-size:11px;color:red;font-weight:bold;}
+.schoolOpen {text-align:center;background-color:#008000;font-size:11px;color:white;font-weight:bold;}
+.schoolReopening {text-align:center;background-color:#1c91ec;font-size:11px;color:white;font-weight:bold;}
+
+/* BANNER ROTATE CAROUSEL BOOTSTRAP */
+.frontPageBannerBlock {width:100%;}
+.carousel-inner img { width: 100%; height:auto;}
+.carousel-fade .carousel-inner .carousel-item {-webkit-transition: opacity .65s cubic-bezier(0.45, 0.05, 0.55, 0.95); transition: opacity .65s cubic-bezier(0.45, 0.05, 0.55, 0.95);}
+.carousel-fade .carousel-inner .active.carousel-item-left, .carousel-fade .carousel-inner .active.carousel-item-right, .carousel-fade .carousel-inner .carousel-item { opacity:0;}
+.carousel-fade .carousel-inner .active, .carousel-fade .carousel-inner .carousel-item-next.carousel-item-left, .carousel-fade .carousel-inner .carousel-item-prev.carousel-item-right { opacity:1;}
+.carousel-fade .carousel-inner .active.carousel-item-left, .carousel-fade .carousel-inner .active.carousel-item-right, .carousel-fade .carousel-inner .carousel-item-next, .carousel-fade .carousel-inner .carousel-item-prev { left:0; -webkit-transform:translate3d(0,0,0); transform:translate3d(0,0,0);}
+/*.carousel-indicators {top:2px;justify-content:flex-start;margin:2px;}*/
+.carousel-indicators {top:2px;justify-content:center;margin:2px;height:20px;}
+.carousel-indicators-numbers li {text-indent: 0; font-weight:bold; text-align:center; margin: 0 2px; width: 40px; height: 15px; border: 1px solid white; border-radius: 5%; line-height: 15px; color: white; background-color: rgba(255, 0, 0, 0.3); transition: all 0.25s ease;}
+.carousel-indicators-numbers li.visited, .carousel-indicators-numbers li:hover, .carousel-indicators-numbers li.active {margin: 0 2px;color:white; font-weight:bold;  background-color: rgba(255, 0, 0, 1);}
+.carousel-control-prev-icon,.carousel-control-next-icon { height: 50px; width: 50px; outline: white; background-size: 100%, 100%; border-radius: 50%;}
+
+/*OFFICE ADDRESS PANELS */
+.oa-col-fix {padding-left:0px;padding-right:0px;border:1px solid white;}
+.pageHeaderAddressPanel {padding-top:2px;margin-top:2px;width:25%;min-width:200px;}
+.pageHeaderAddressHeader {font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+.pageHeaderAddressBody {font-size:11px;padding-top:2px;padding-bottom:2px;text-align:center;}
+a.pageHeaderAddressMenu { color:#FFFFFF;  text-decoration: none;}
+a.pageHeaderAddressMenu:visited { color:#FFFFFF;  text-decoration: none;}
+a.pageHeaderAddressMenu:hover {	color: #FFFF00;	text-decoration: underline;} 
+a.pageHeaderAddressMenu:active { color: #FFFF00; text-decoration: none;}
+
+.grid {  display: flex;    flex-direction: row;  flex-wrap: wrap;}
+.grid-item {  flex:1 0 auto;  padding: 1em;}
+
+
+/*COMMITTEE PAGE / OTHER PANEL*/
+.committeePanelGroup {display: table;width:100%;}
+.committeePanel {width:24%;display: table-cell;border:1px solid silver;margin-right:2px;min-height:205px;background-color:#E3F1E6;padding-top:5px;margin-top:2px;}
+.committeePanelHeader {text-align:center;background-color:#007F01;color:White;font-weight:bold;padding:2px;white-space:nowrap;text-transform: uppercase;}
+.committeePanelBody {min-height:130px;}
+
+/*TRUSTEES PAGE */
+.trusteeImg {float:left;width:25%;text-align:center;padding-top:5px;padding-bottom:5px;}
+.trusteeHeader {color:White;font-weight:bold;padding:2px;padding-left:5px;white-space:nowrap;text-transform: uppercase;}
+.trusteeBlock {float:left;width:50%;}
+.trusteeName {font-size:14px;font-weight:bold;}
+.trusteePanel {float:left;width:50%;border:0px solid silver;min-width:250px;margin-right:0px;padding-top:0px;margin-top:0px;}
+.trusteeImgBorder {border: 1px solid silver;padding:1px;width:100%;max-width:350px;}
+.trusteeCardBody {background-color:White;text-align:center;}
+.trusteeCardHeader {font-weight:bold;font-size:14px;text-align:center;text-transform:uppercase;}
+.zoneMapImg {float:right;width:25%;}
+.trusteeCard{float:left;width:24%;min-width:300px;margin-right:5px;margin-bottom:5px;}
+.trusteeCardGroup{display:flex; flex-wrap: wrap;}
+.trusteeCardFooter{text-align:center;}
+
+/*NEWS PANELS */
+.frontPageItemSubBlockSmallScreen {display:none;}
+/*.frontPageAnnouncementsArea {background-color: rgba(34, 139, 34,0.1);border-right:1px solid white;margin-top:5px;border-radius:10px;} 
+.frontPageSchoolNewsArea {background-color: rgba(178, 34, 34,0.1);margin-top:5px;border-radius:10px;} */
+
+.frontPageAnnouncementsArea {background-color: rgba(255,255,255,1);border-right:1px solid white;margin-top:5px;}
+.frontPageSchoolNewsArea {background-color: rgba(255,255,255,1);margin-top:5px;}
+
+.frontPageMediaReleaseArea {background-color: rgba(30, 144, 255 ,0.1);border-left:1px solid white;margin-top:5px;border-radius:10px;}
+.frontPageNewsBlock {margin-top:4px;border-bottom:1px solid silver;padding-bottom:5px;}
+.frontPageNewsItemBlock {position:relative;background-color:#ffffff;min-height:140px;}
+.frontPageNewsItemTitle {font-size:14px;color:#007F01;margin-bottom:10px;font-weight:bold;}
+.frontPageNewsItemBody {font-size:12px;color:#000000;}
+.frontPageNewsItemDate {font-size:10px;color:Grey;text-transform: uppercase;margin-top:5px;border-top:1px solid silver;padding-top:5px;}
+.frontPageNewsItemLocation {font-size:10px;color:Grey;}
+.frontPageNewsItemLinkArea {clear:both;padding-top:3px;text-align:right;}
+.frontPageNewsPhoto {float:right;background-color:#FFFFFF;border:1px solid silver;width:33%;height: 80px;padding:1px;object-fit: cover;}
+.frontPageSubNewsPhoto {float:right;background-color:#FFFFFF;border:1px solid silver;width:20%;height: 50px;padding:1px;object-fit: cover;}
+.frontPageNewsSectionHeader {color:#000000;font-size:18px;padding-top:5px;padding-left:5px;font-weight:bold;}
+.frontPageNewsSectionDescription {color:Grey;font-size:14px;padding-top:5px;padding-left:5px;}
+.frontPageNewsBlockImg {height:50px;float:right;}
+.frontPageNewsCard{margin-bottom:8px;box-shadow:1px 1px silver;}
+.frontPageNewsCardBody{min-height:120px;background-color:#FFFFFF !important;}
+.frontPageNewsCardHeader{min-height:80px;}
+.frontPageNewsItemSubTitle{font-size:12px;}
+.frontPageNewsItemSubBlock{min-height:30px;}
+.frontPageAcrobatNotice {margin-top:10px;}
+.mainPageStoryLinkArea {text-align:left;font-size:9px;}
+.officeCardDisplay {display:none;}
+a.newsMenu { color:#007F01;  text-decoration: none;}
+a.newsMenu:visited { color:#007F01;  text-decoration: none;}
+a.newsMenu:hover {	color: #007F01;	text-decoration: underline;} 
+a.newsMenu:active { color: #FF0000; text-decoration: none;}
+
+.thumbnail:hover {margin: 0 auto; position:absolute;width:100%;background-color:#FFFFFF;border:1px solid silver;height:auto;z-index:999;box-shadow: 2px 2px Silver;}
+hr {padding:2px;}
+/*TWITTER PANEL */
+.frontPageTwitterBtn {text-align:center;display:none;margin-top:10px;}
+.frontPageTwitterArea {background-color:#ffffff;border-top:1px solid white;border-left:1px solid white; width: 100%; max-width: 470px; min-width: 380px;display:none;}
+.frontPageTwitterBlock {margin-top:4px;height:200px;}
+.frontPageTwitterHeader {width:100%;margin-bottom:0px;font-weight:bold;}
+.frontPageTwitterSectionHeader {color:#374551;font-size:18px;padding-top:5px;padding-left:5px;font-weight:bold;}
+.frontPageTwitterSectionDescription {color:Grey;font-size:12px;padding-top:5px;padding-left:5px;}
+
+.twitter-timeline {height:400px !important;font-size:11px;}
+#twitterFeed * {font-family: "Lato" !important;}
+
+.feedPanelTab {border-left:1px solid #dee2e6;border-right:1px solid #dee2e6;border-bottom:1px solid #dee2e6;padding:0px;}
+.feedPanelTabNoBorder {border-left:0px;border-right:0px;border-bottom:1px solid #dee2e6;padding:0px;}
+
+ /* Container with a maximum width of 330px, centered on the page */
+    .schpro-feed-container { max-width: 100%; margin: 10px auto; margin-top: 3px; background: #fff; padding: 10px; }
+    .schpro-header { margin-bottom: 20px; }
+    .schpro-header .schpro-logo { font-size: 2rem; color: #007bff; }
+    .schpro-header h2 { font-size: 1.5rem; margin: 0; display: inline-block; vertical-align: middle; }
+    .schpro-post { margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; overflow: hidden; }
+    .schpro-post:last-child { border-bottom: none; }
+    .schpro-profile-pic { width: 40px; height: 40px; border-radius: 50%; }
+    .schpro-post-header { display: flex; align-items: center; margin-bottom: 10px; }
+    .schpro-post-header .schpro-user-info { margin-left: 10px; }
+    .schpro-post-main { display: flex; align-items: flex-start; }
+    .schpro-post-text { flex: 1; }
+    .schpro-post-image-container { margin-left: 10px; max-width: 150px; }
+    .schpro-post-image-container img { width: 100%; height: auto; cursor: pointer; }
+    .schpro-post-actions { margin-top: 10px; }
+    #schpro-image-zoom { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; z-index: 1050; }
+    #schpro-image-zoom img { max-width: 90%; max-height: 90%; }
+    #schpro-image-zoom-close { position: absolute; top: 20px; right: 20px; background: transparent; border: none; font-size: 30px; color: #fff; cursor: pointer; }
+
+/* Social Media Centre */
+  .nav-tabs { border-bottom: none; margin-bottom: 0;}
+  .nav-tabs .nav-item .nav-link {border: 1px solid #ffffff;border-bottom: none;  font-weight: 500;}
+  .nav-tabs .nav-item {min-width:16.6666667%;text-align:center;}
+  /* Inactive state */  
+  /* BlueSky tab */
+  .nav-tabs .nav-link.blue-folder { background-color: rgba(0, 133, 255, 0.3);}
+  .nav-tabs .nav-link.blue-folder i {color: rgb(0, 133, 255);}  
+  /* Instagram tab */
+  .nav-tabs .nav-link.instagram-folder {background-color: rgba(131, 58, 180, 0.3);}
+  .nav-tabs .nav-link.instagram-folder i {color: rgb(131, 58, 180);}
+  /* Facebook tab */
+  .nav-tabs .nav-link.facebook-folder {background-color: rgba(24, 119, 242, 0.3);}
+  .nav-tabs .nav-link.facebook-folder i {color: rgb(24, 119, 242);}  
+  /* LinkedIn tab */
+  .nav-tabs .nav-link.linkedin-folder {background-color: rgba(0, 119, 181, 0.3);}
+  .nav-tabs .nav-link.linkedin-folder i {color: rgb(0, 119, 181);}  
+   /* YouTube  tab */
+  .nav-tabs .nav-link.youtube-folder {background-color: rgba(255, 0, 51, 0.3);}
+  .nav-tabs .nav-link.youtube-folder i {color: rgb(255, 0, 51);}    
+  /* X tab: Inactive state */
+  .nav-tabs .nav-link.x-folder {background-color: black;}
+  .nav-tabs .nav-link.x-folder i {color: white;}  
+  /* Active state – invert colors */
+  .nav-tabs .nav-link.active.blue-folder {background-color: rgb(0, 133, 255);}
+  .nav-tabs .nav-link.active.blue-folder i {color: white;}  
+  .nav-tabs .nav-link.active.instagram-folder {background-color: rgb(131, 58, 180);}
+  .nav-tabs .nav-link.active.instagram-folder i {color: white;}  
+  .nav-tabs .nav-link.active.facebook-folder { background-color: rgb(24, 119, 242);}
+  .nav-tabs .nav-link.active.facebook-folder i {color: white;}  
+  .nav-tabs .nav-link.active.linkedin-folder {background-color: rgb(0, 119, 181);}
+  .nav-tabs .nav-link.active.linkedin-folder i {color: white;}  
+  .nav-tabs .nav-link.active.youtube-folder {background-color: rgb(255, 0, 51);}
+  .nav-tabs .nav-link.active.youtube-folder i {color: white; } 
+  .nav-tabs .nav-link.active.x-folder {background-color: black;}
+  .nav-tabs .nav-link.active.x-folder i {color: white;}  
+  /* Universal hover state for all tabs (overrides even active state) */
+  .nav-tabs .nav-link:hover {background-color: #FFFF00 !important; color: black !important;}
+  .nav-tabs .nav-link:hover i {color: black !important;}  
+  /* Content panel styling */
+  .tab-content {padding: 0;background-color: #fff;}
+
+  .social-follow-buttons {margin: 20px 0;}
+  .social-follow-buttons .btn {display: inline-block; padding: 10px 15px; font-size: 14px; font-weight: 600; border-radius: 4px; text-decoration: none; margin: 5px; transition: background-color 0.3s ease; color: #fff; }
+  /* Facebook follow button */
+  .btn-facebook { background-color: #1877F2;  color:white; margin-bottom:5px; }
+  .btn-facebook:hover {  background-color: #165dbb;  color:white; }
+  /* Instagram follow button */
+  .btn-instagram { background-color: #E1306C; color:white;  margin-bottom:5px; }
+  .btn-instagram:hover { background-color: #b92a56;color:white; }
+  /* BlueSky follow button */
+  .btn-bluesky { background-color: #4AB3F4; color:white;  margin-bottom:5px;}
+  .btn-bluesky:hover { background-color: #3A9FD0;color:white; }
+  /* Twitter follow button */
+  .btn-twitter {background-color: #000000; color:white; margin-bottom:5px; }
+  .btn-twitter:hover { background-color: #404040; color:white;}
+  /* LinkedIn follow button */
+  .btn-linkedin {background-color: #0077b5; color:white; margin-bottom:5px; }
+  .btn-linkedin:hover { background-color: #002133; color:white; }
+  /* YouTube button */
+  .btn-youtube { background-color: #ff0033; color:white; margin-bottom:5px;}
+  .btn-youtube:hover { background-color: #660014; color:white;}
+
+   .otherOlderNewsItems {padding-left:5px;padding-right:5px;}
+
+/* NAVIGATION BAR */
+.addressTopSmall {font-size:11px;text-align:center;width:100%;}
+.navbar {height:50px;}
+
+.frontPageSocialMediaArea {background-color:#ffffff;border-top:1px solid white;border-left:1px solid white;}
+
+a.dropdown-item {font-size:12px;}
+.topLogoArea {float:left;}
+.topLogoRightImg {float:right;}
+.topLogoImg {width:100%;max-width:450px;padding-left:0px;padding-right:10px;padding-top:20px;}
+.topAddress {font-size:12px;float:left;margin-top:5px;padding-left:10px;border-left:1px solid rgb(255, 0, 0);}
+.nav-link {font-size:12px;}
+.navbar {background-color: rgba(55, 69, 81, 0.9);color: white; z-index:999;}
+.navbar-img {width:100%;max-width:37px;min-width:30px;padding:0px;margin:0px;}
+.sticky-offset {top: 16px;}
+.dropdown-item {padding:.1rem 1.25rem .1rem;}
+.dropdown-item:hover {background-color:rgb(42, 139, 35,0.8);color:White;}
+.dropdown-menu {background-color:rgba(255,255,255,0.9);}
+.dropdown-toggle.active-dropdown::after { transform: rotate(-90deg);}
+.fa-caret-right,.fa-caret-down {float:right;padding-top:2px;}
+
+.at4-follow {z-index:99999;}
+
+/* BOTTOM FLOATING NAVIGATION BAR */
+.navBottom {position: fixed; bottom: 30px; right: 1px;z-index:9998;}
+.navBottomFontSize {position: fixed; bottom: 30px; left: 1px;z-index:9998; }
+.navTop {position:fixed; top: 70px; right: 10px;z-index:9999; }
+
+/* FOOTER CONTENT */
+.mainFooter {position: fixed; left:0px; z-index:900;bottom: 0px; width: 100%;padding-top:1px;padding-bottom:2px; border-top:1px solid white; background-color: rgba(55, 69, 81, 0.9);color: white;text-align: center; font-size:10px;}
+
+.showMenu:hover  ~ .hideMenu {display:block;z-index:999;}
+a.footerMenu { font-size:11px; color:#FFFFFF;  text-decoration: none;}
+a.footerMenu:visited { color:#FFFFFF;  text-decoration: none;}
+a.footerMenu:hover {	color: #FFFF80;	text-decoration: underline;} 
+a.footerMenu:active { color: #FF0000; text-decoration: none;}
+.bottomLogoFloat { position: fixed; bottom: 0;left: 0;padding-left:5px;padding-bottom:20px;}
+
+.copyright {float:right;margin-right:10px;color:White;font-size:10px;padding-top:5px;}
+.copyrightSmall {display:none;}
+.gTranslate {float:left;}
+#google_translate_element .goog-te-gadget,
+#google_translate_element .goog-te-gadget a{color:#fff}
+
+
+.footerLink {display:inline-block;margin-top:5px;border:1px solid white;}
+
+/* YouTube Resize Fluid */
+.youTubeOuter {max-width:853px;margin:0 auto; padding:5px;}
+.youTubeInner {position: relative;padding-bottom: 56.25%; height: 0; overflow: hidden;}
+.youTubeClip {position: absolute; top: 0px; left: 0px; width: 100%; height: 100%; max-width: 853px; max-height: 480px;}
+.youTubeOuter1 {max-width:800px;margin:0 auto; padding:5px; border:1px solid silver;}
+
+
+/* NEWS POSTINGS */
+.newsFPTitle {color:#007F01;}
+.newsFPDate {color:Grey;}
+
+.newsSNFPIcon {width:20%;padding:2px;float:left;margin-right:2px;max-width:150px;}
+
+.newsSingleStoryDate {color:Grey;}
+.newsSingleStoryImage {min-width:300px;max-width:60%;border:1px solid silver;padding:2px;}
+.newsSingleStoryImageBox {min-width:310px;padding:2px;margin-bottom:10px;text-align:center;}
+.newsSingleStoryCaption {color:grey;text-align:center;}
+
+.newsListStoryImage {min-width:270px;max-width:100%;border:1px solid silver;padding:1px;}
+.newsListStoryImageBox {max-width:20%;min-width:280px;padding:2px;float:right;margin-left:5px;margin-bottom:10px;}
+.newsListStoryImageProfile {min-width:200px;max-width:100%;border:1px solid silver;padding:1px;}
+.newsListStoryImageBoxProfile {max-width:20%;min-width:200px;padding:2px;float:right;margin-left:5px;margin-bottom:10px;}
+
+
+/* ABOUT SECTION */
+
+.blogImg {float:right;width:100%;max-width:200px;padding:2px;border:1px solid grey;}
+.blogDate {color:Grey;font-size:10px;}
+.blogHeader {font-size:14px;color:#374551;font-weight:bold;}
+.blogHeaderImg {max-width:100%;min-width:300px;padding-bottom:10px;}
+.blogCEOImg {width:100%;max-width:350px;padding-top:3px;}
+.blogArchiveContainerBox {padding: 1px;width:100%;text-align:center;vertical-align: text-top; font-style: italic;}
+.blogArchivePanel {display:inline-block;padding:1px;margin:1px;margin-top:3px;width:150px;text-align:center;vertical-align: middle;height:147px;}
+.blogADate {color:Grey;margin-top:15px;font-family:"Comic Sans MS", "Comic Sans", cursive, sans-serif; padding-top:10px;font-size:10px;}
+.blogContainerBox {margin-top:5px;padding-top:12px;text-align:center;border: 1px solid silver;background: rgba(255, 255, 255, 0.5);}
+.blogEntrySideTitle {color:White;text-align:center;margin-top:3px;font-family:"Comic Sans MS", "Comic Sans", cursive, sans-serif;padding:10px;font-size:10px;}
+.blogEntrySideDate {font-style: italic;color:Grey;text-align:center;padding-bottom:5px;}
+.blogLink {width:100%;}
+.blogCard {width:100%;max-width:350px;}
+
+.policyTable {width:100%;font-size:11px;}
+/* 0=UNKNOWN, 1=BOARD, 2=FINANCE, 3=DOE, 4=HR, 5=OPERATIONS, 6=PROGRAMS*/
+.policyCategory1,.minuteCategory1 {background-color:rgba(128, 0, 0,0.1);}
+.policyCategory2,.minuteCategory2 {background-color:rgba(173, 216, 230,0.3);}
+.policyCategory3,.minuteCategory3 {background-color:rgba(143, 188, 143,0.3);}
+.policyCategory4,.minuteCategory4 {background-color:rgba(240, 230, 140,0.2);}
+.policyCategory5,.minuteCategory5 {background-color:rgba(221, 160, 221,0.2);}
+.policyCategory6,.minuteCategory6 {background-color:rgba(176, 196, 222,0.2);}
+.policyCategory7,.minuteCategory7 {background-color:rgb(169, 169, 169,0.4);}
+.policyCategory0,.minuteCategory0 {background-color:#FF0000;color:White;}
+
+.legendArea {width:100%;text-align:center;background-color:#E3F1E6;min-height:70px;border:1px solid #007F01;padding:2px;}
+.legendArea .legendIcon {width:19%;text-align:center;float:left;padding-left:2px;}
+
+.meetingTable {width:100%;font-size:11px;}
+
+
+/* TENDERS SECTION*/
+.textStatusCancelled {color:Grey;text-decoration: line-through;}
+.textStatusClosed {color:Grey;}
+.textStatusNormal {color:Black;}		
+.openTenderHeading {color:#1F4279;font-weight:bold;}
+.closedTenderHeading {color:Red;font-weight:bold;}
+.cancelledTenderHeading {color:#4D4C4E;font-weight:bold;}
+.awardedTenderHeading {color:#007F01;font-weight:bold;}
+.archivedTenderHeading {color:Grey;font-weight:bold;}	
+.exceptedTenderHeading {color:#8A2BE2;font-weight:bold;}	
+.tenderFilesTable {font-size: 11px;width:100%;border:0px;}
+.tenderFilesTable .header {background-color:#007F01;color:white;font-size:11px;}
+.openColor {color:Black;}
+.newColor {color:Green;}
+.closedColor {color:Red;}
+.ammendedColor {color:#0000FF;}
+.awardedColor {color:black;}
+.hold {color:#E6A75A;}
+.archivedColor {color:Grey;}
+.tenderDocLinkContainer {float:left;width:160px;text-align:center;}
+.siteHeaders {font-size:16px;color: #1F4279;font-weight: bold; padding-top:10px; margin-bottom:10px;}
+.tenderHeader {color: #007F01;font-weight: bold;}
+.tenStatusOpen {color:Green;}
+.tenStatusClosed {color:Red;}
+.tenStatusHold {color:Grey;}
+.tenderSubHeader {color:#1F4279;font-weight:bold;}
+.tenNumber,.tenClose {vertical-align:center;}
+.tenClose {text-align:center;}
+.tenDocs {text-align:center;bottom:2px;padding-top:5px;}
+.tenStatusHold {color:Grey;}
+.tenOptions {white-space: nowrap;width:100%;margin-bottom:1px;}
+.tenRegion {text-transform:Uppercase;text-align:center;vertical-align:center;vertical-align:center;}
+.tenNew { color:#ffffff;-webkit-animation: flash linear 2s infinite;	animation: flash linear 2s infinite;}
+
+@-webkit-keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
+}
+@keyframes flash {
+	0% { opacity: 1; } 
+	50% { opacity: .1; } 
+	100% { opacity: 1; }
+}
+
+/* ANNUAL REPORTS/STRATEGIC PLANS*/
+ .splanVideo {border:1px solid silver;padding:3px;float:right;margin-bottom:5px;text-align:center; font-style: italic;color:Grey;margin-left:10px;}
+
+/* STUDENTS & FAMILIES SECTION */
+
+.faqHeader {font-size:14px;color:#374551;font-weight:bold;text-transform:Uppercase;}
+.faqQuestion {padding:6px;border:1px solid silver;background:rgba(255,255,255, 1);}
+.faqTitle {font-weight:bold;}
+
+.bullyHeader {font-size:14px;color:#ff00ff;font-weight:bold;text-transform:Uppercase;}
+	.bullyPanel1 {background-color:#ffe6e6;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.bullyPanel2 {background-color:#e6e6ff;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.bullyPanel3 {background-color:#e6ffe6;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.bullyPanelH1 {padding-top:2px;background-color:Red;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.bullyPanelH2 {padding-top:2px;background-color:Navy;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.bullyPanelH3 {padding-top:2px;background-color:Green;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.bullyPanelB1 {color:Black;background-color:#ffe6e6;font-size:11px;padding-top:5px;padding-bottom:2px;}
+	.bullyPanelB2 {color:Black;background-color:#e6e6ff;font-size:11px;padding-top:5px;padding-bottom:2px;}
+	.bullyPanelB3 {color:Black;background-color:#e6ffe6;font-size:11px;padding-top:5px;padding-bottom:2px;}
+
+.code2learnHeader {font-size:14px;color:#0080ff;font-weight:bold;text-transform:Uppercase;}
+	.ctlPanel1 {background-color:#ffe6e6;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.ctlPanel2 {background-color:#e6e6ff;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.ctlPanel3 {background-color:#e6ffe6;padding-top:2px;margin-top:2px;width:33%;min-width:200px;}
+	.ctlPanelH1 {padding-top:2px;background-color:Red;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.ctlPanelH2 {padding-top:2px;background-color:Navy;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.ctlPanelH3 {padding-top:2px;background-color:Green;font-size:14px;font-weight:bold;text-align:center;color:White;white-space:nowrap;text-transform: uppercase;}
+	.ctlPanelB1 {color:Black;background-color:#ffe6e6;font-size:11px;padding-top:5px;padding-bottom:2px;text-align:center;}
+	.ctlPanelB2 {color:Black;background-color:#e6e6ff;font-size:11px;padding-top:5px;padding-bottom:2px;text-align:center;}
+	.ctlPanelB3 {color:Black;background-color:#e6ffe6;font-size:11px;padding-top:5px;padding-bottom:2px;text-align:center;}
+
+
+/* SCHOOLS SECTION */
+.schoolDirectoryTable {width:100%;font-size:11px;}
+.schoolConfigMenu {margin-bottom:5px;margin-top:5px;float:right;}
+.newNotice {font-size:9px;background-color:Red;color:White;border-radius: 25px;}
+.calendarMonth {float:left;width:20%;width:205px;height:180px;padding:5px;}
+
+.schoolPhoto {width:100%;max-width:500px;padding:0px;}
+.schoolHeaderGreen {font-size:18px;color:#008001;font-weight:bold;text-transform:uppercase;}
+
+/* PROGRAMS SECTION */
+.td1 {color:#3c79d8;}
+.td2 {color:#37761d;}
+.td3 {color:#990000;}
+
+#mathM a.td1 { color:#3c79d8;  text-decoration: none;}
+#mathM a.td1:visited { color:#3c79d8;  text-decoration: none;}
+#mathM a.td1:hover {	color: #3c79d8;	text-decoration: underline;} 
+#mathM a.td1:active { color: #3c79d8; text-decoration: none;}
+
+#mathM a.td3 { color:#990000;  text-decoration: none;}
+#mathM a.td3:visited { color:#990000;  text-decoration: none;}
+#mathM a.td3:hover {	color:#990000;	text-decoration: underline;} 
+#mathM a.td3:active { color:#990000; text-decoration: none;}
+
+#mathM a.td2 { color:#37761d;  text-decoration: none;}
+#mathM a.td2:visited { color:#37761d;  text-decoration: none;}
+#mathM a.td2:hover {	color: #37761d;	text-decoration: underline;} 
+#mathM a.td2:active { color: #37761d; text-decoration: none;}
+
+.mathHeader {font-size:14px;color:#374551;font-weight:bold;text-transform:Uppercase;}
+
+
+
+/* CONTACT SECTION */
+.staffDirectoryTable {width:100%;font-size:11px;}
+.staffConfigMenu {margin-bottom:5px;margin-top:5px;float:right;}
+.contactMediaInfoImg {width:100%;max-width:300px;float:right;}
+.pageSideImg {width:100%;max-width:300px;float:right;}
+
+/* ACCESS SECTION */
+
+
+/* OFFICE CARDS SECTION */
+.officeCardLabrador {min-width:300px;max-width:400px;min-height:300px;}
+.officeCardCentral {min-width:300px;max-width:400px;min-height:300px;}
+.officeCardWestern {min-width:300px;max-width:400px;min-height:300px;}
+.officeCardAvalon {min-width:300px;max-width:400px;min-height:300px;}
+
+
+/* BANNER SECTION */
+
+/*jssor slider arrow skin 106 css*/
+.jssora106 {display:block;position:absolute;cursor:pointer;}
+.jssora106 .c {fill:#fff;opacity:.3;}
+.jssora106 .a {fill:none;stroke:#000;stroke-width:350;stroke-miterlimit:10;}
+.jssora106:hover .c {opacity:.5;}
+.jssora106:hover .a {opacity:.8;}
+.jssora106.jssora106dn .c {opacity:.2;}
+.jssora106.jssora106dn .a {opacity:1;}
+.jssora106.jssora106ds {opacity:.3;pointer-events:none;}
+
+/*jssor slider thumbnail skin 101 css*/
+.jssort101 .p {position: absolute;top:0;left:0;box-sizing:border-box;background:#ffffff;}
+.jssort101 .p .cv {position:relative;top:0;left:0;width:100%;height:100%;border:0px solid red;box-sizing:border-box;z-index:1;}
+.jssort101 .a {fill:none;stroke:#fff;stroke-width:400;stroke-miterlimit:10;visibility:hidden;}
+.jssort101 .p:hover .cv, .jssort101 .p.pdn .cv {border:none;border-color:transparent;}
+.jssort101 .p:hover{padding:0px;}
+.jssort101 .p:hover .cv {border:0px solid red;}
+.jssort101 .p:hover.pdn{padding:0;}
+.jssort101 .p:hover.pdn .cv {border:0px solid #fff;background:none;opacity:.35;}
+.jssort101 .pav .cv {border-color:#fff;opacity:.35;}
+.jssort101 .pav .a, .jssort101 .p:hover .a {visibility:visible;}
+.jssort101 .t {position:absolute;top:0;left:0;width:100%;height:100%;border:none;opacity:.3;}
+.jssort101 .pav .t, .jssort101 .p:hover .t{opacity:1;}
+
+
+/* MEDIA QUERIES */
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #ffffff; /* Light background color */
+    color: #000000; /* Dark text color */
+  }
+  html {
+    background-color: #ffffff; /* Light background color */
+    color: #000000; /* Dark text color */
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+		
+		 .socialMediaTop {display:none;}
+		 .registrationTop {display:none;}
+  		 .addressTopSmall {display:block;}
+  		 .topAddress {display:none;}
+		 .searchBoxNavBar {display:none;padding-right:0px;}	
+		 .searchBoxFooter {display:block;}
+		 .navBottom {position:static;}
+		 .navBottomFontSize {position:static;text-align:center; }
+	 	 .quickLinksMainPanel {display:none;}
+		 .topLogoArea {float:none;width:100%;text-align:center;}
+		 .topLogoImg {max-width:340px;padding-top:0px;}
+		 .navbar-toggler {margin-top:-3px;}
+		 .navbar-collapse { background-color: rgba(55, 69, 81, 0.8);color: white;;padding:5px;}		 
+		 .navbar-dark .navbar-nav .nav-link {color:White;}
+		 .gTranslate {float:none;text-align:center;}
+		 .copyright {float:none;text-align:center;display:none;}		
+		 .frontPageSocialMediaArea {display:none;}		 
+		 .searchInput {width:200px;}
+		 .frontPageAcrobatNotice{display:none;}		
+		 .copyrightSmall {display:block;}
+		 .frontPageItemSubBlockSmallScreen{display:block;} 
+ 		 .frontPageNewsCard {display:none;}
+ 		 .frontPageNewsItemSubBlock{min-height:20px;}
+ 		 .frontPageNewsItemSubTitle {font-size:14px;}
+ 		 .frontPageNewsItemDate{font-size:11px;}
+ 		 .tendersB {display:none;}
+}
+
+/* Small devices (landscape phones, 576px and up)*/
+@media (min-width: 576px) and (max-width: 767.98px) { 
+		
+		 .socialMediaTop {display:none;}
+		 .registrationTop {display:none;}
+		 .addressTopSmall {display:block;}
+		 .topAddress {display:none;}
+		 .searchBoxNavBar {display:none;padding-right:0px;}	
+		 .searchBoxFooter {display:block;}
+		 .navBottom {position:static;}
+		 .navBottomFontSize {position:static;text-align:center; }
+	 	 .quickLinksMainPanel {display:none;}
+	 	 .topLogoArea {float:none;width:100%;text-align:center;}
+	 	 .topLogoImg {max-width:380px;padding-top:0px;}
+	 	 .navbar-toggler {margin-top:-3px;}
+	 	  .navbar-collapse { background-color: rgba(55, 69, 81, 0.8);color: white;;padding:5px;}
+		 .navbar-dark .navbar-nav .nav-link {color:White;}		 
+		 .gTranslate {float:none;text-align:center;}
+		 .copyright {float:none;text-align:center;}		
+		 .frontPageSocialMediaArea {display:none;}
+		 .frontPageTwitterBtn {display:block;}
+		 .searchInput {width:200px;}
+		 .frontPageAcrobatNotice{display:none;}
+ 		 .frontPageTwitterBtn {display:block;}
+		 
+ }
+
+/* Medium devices (tablets, 768px and up)*/
+@media (min-width: 768px) and (max-width: 991.98px) {
+
+		 .socialMediaTop {display:none;}
+		 .registrationTop {display:none;}
+		 .addressTopSmall {display:none;}
+		 .topAddress {display:block;}
+		  .topLogoImg {max-width:390px;padding-left:10px;}
+	 	 .searchBoxNavBar {display:none;padding-right:0px;}	
+		 .searchBoxFooter {display:block;}
+		 .navBottom {position:static;}
+		 .navBottomFontSize {position:static;text-align:center; }
+	 	 .quickLinksMainPanel {display:none;}
+ 		 .nav-home-icon {display:block;} 	
+ 		.frontPageTwitterBtn {display:block;}
+  		 
+  		  /* Firefox fix nested within the media query */
+    @-moz-document url-prefix() {
+       .navBottom {position: static !important;}
+       .navBottomFontSize {position: static !important;}
+    }
+  		 
+ }
+ 
+
+/* Large devices (desktops, 992px and up)*/
+@media (min-width: 992px) and (max-width: 1199.98px) {
+		
+ 		.socialMediaTop {display:block;}
+ 		.registrationTop {display:block;}
+		.addressTopSmall {display:none;}
+		.topAddress {display:block;}
+    	.searchBoxNavBar {display:block;padding-top:0px;} 
+    	.searchBoxFooter {display:none;} 
+		.nav-home-icon {display:block;}
+		.frontPageTwitterBtn {display:block;}
+}
+@media (min-width: 1199px) and (max-width: 1246px) {
+ .specialInterestMainPanel{display:none;}	
+}
+
+/* Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) { 
+	    .frontPageTwitterArea {display:block;}
+        .socialMediaTop {display:block;}
+        .registrationTop {display:block;}
+	    .addressTopSmall {display:none;}
+	    .topAddress {display:block;}
+    	.searchBoxNavBar {display:block;padding-top:0px;} 
+    	.searchBoxFooter {display:none;} 
+	    .nav-home-icon {display:block;}
+}
+
+
+

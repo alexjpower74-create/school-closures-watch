@@ -1,0 +1,12 @@
+.worktrees/
+node_modules/
+.wrangler/
+.dev.vars
+worker/SECRETS.txt
+test-results/
+playwright-report/
+data/sources/
+data/scan-latest.json
+.rig/qa/
+.rig/*
+!.rig/config.json

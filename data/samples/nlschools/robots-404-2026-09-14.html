@@ -1,0 +1,91 @@
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>404 - Page Not Found | NLSchools</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://kit.fontawesome.com/053757fa2e.js" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/053757fa2e.js" crossorigin="anonymous"></script>
+    <style>   
+    .error-icon      { font-size: 3.5rem; margin-bottom: 1rem; }
+    .error-code-badge{ font-size: 1rem; letter-spacing: .05em; }
+    .tech-detail-box { background: #1e1e2e;color: #cdd6f4;font-family: "Courier New", monospace;font-size: .80rem;border-radius: 6px; padding: 1rem 1.2rem;white-space: pre-wrap;word-break: break-all;max-height: 320px;overflow-y: auto;text-align: left; }
+</style>
+    
+</head>
+<body>
+ <div class="mainContainer text-center" style="max-width:800px;margin:auto;">
+      <div class="container-fluid">
+        <div id="printJob">
+   <div align="center"><img src="/includes/img/nlschools.png" alt="NLSchools" style="margin-top:50px;width:100%;max-width:400px;" /></div>
+
+  <div class="error-icon"><i class="fas fa-search text-secondary"></i></div>
+    
+        <span class="badge badge-secondary error-code-badge mb-2">HTTP 404</span>
+    
+    <h2 class="h3 font-weight-bold mb-3">Page Not Found</h2>
+    <p class="text-muted mb-3">We could not find the page you were looking for. The link may be broken, the page may have moved, or you may have typed the address incorrectly.</p>
+    
+        <p class="text-muted mb-3">
+            <strong>Requested address:</strong>
+            <code>https://www.nlschools.ca/robots.txt</code>
+        </p>
+    
+
+    <div class="mb-4">
+        <a href="/" class="btn btn-primary btn-sm mr-2"><i class="fas fa-home mr-1"></i> Go to Home Page</a>
+        <button type="button" onclick="window.history.back();" class="btn btn-sm btn-secondary"><i class="fas fa-arrow-left mr-1"></i> Go Back</button>
+    </div>
+
+    
+        <div class="text-center mb-2">
+            <button id="btnToggleDetails" type="button" class="btn btn-danger btn-sm"><i class="fas fa-bug mr-1"></i> See Error Details</button>
+        </div>
+        <div id="techDetailPanel" style="display:none;">
+            <div class="tech-detail-box">Status Code : 404
+Requested   : /robots.txt
+Message     : The requested resource [/robots.txt] is not available
+</div>
+        </div>
+       
+  
+   <div class="text-center py-3">
+        <small style="color:#ccc;">&copy; 2026 NLSchools. All rights reserved.</small>
+    </div>
+  
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#btnToggleDetails').on('click', function () {
+            var $panel = $('#techDetailPanel');
+            var $btn   = $(this);
+            $panel.slideToggle(200, function () {
+                if ($panel.is(':visible')) {
+                    $btn.html('<i class="fas fa-eye-slash mr-1"></i> Hide Error Details');
+                } else {
+                    $btn.html('<i class="fas fa-bug mr-1"></i> See Error Details');
+                }
+            });
+        });
+        
+        
+    });
+</script>
+
+   
+    
+    </div></div>
+    
+</body>
+</html>
+

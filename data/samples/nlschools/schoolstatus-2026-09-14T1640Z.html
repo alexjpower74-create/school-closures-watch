@@ -1,0 +1,67 @@
+<script>
+$(document).ready(function() {
+    $('#schoolStatusTable').DataTable({
+        order: [[0, 'asc']],
+        responsive: true,
+        autoWidth: false,
+        paging: false,
+        info: true,
+        lengthChange: false,
+        layout: {
+            topStart: {
+                buttons: {
+                    buttons: [
+                        {
+                            extend: 'excelHtml5',
+                            text: 'Excel',
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        },
+                        {
+                            extend: 'pdfHtml5',
+                            text: 'PDF',
+                            orientation: 'portrait',
+                            messageTop: 'SCHOOL STATUS REPORT',
+                            messageBottom: null,
+                            exportOptions: {
+                                columns: [0, 1, 2, 3, 4]
+                            }
+                        }
+                    ]
+                }
+            },
+            topEnd: {
+                search: {}
+            }
+        }
+    });
+});
+</script>
+<table id='schoolStatusTable' class='table table-sm responsive table-striped table-bordered' style='font-size:11px;' width='100%'>
+<thead class='thead-dark'><tr style='text-transform:uppercase;font-weight:bold;color:White;'><th>SCHOOL/BUILDING</th><th>STATUS</th><th>DESCRIPTION/NOTES</th><th>FAMILY</th><th>REGION</th></tr></thead>
+<tbody>
+<tr id=695>
+<td><span style='font-size:12px;font-weight:bold;'>Eastside Elementary</span><br/>
+Corner Brook, NL</td>
+<td class='otherStatus' style='vertical-align:middle;'>OTHER STATUS</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>Other</span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> Due to a water main break at the bottom of Massey Dr (the road is closed) the following runs will be delayed (app. 10-15 minutes): CB 4, CB 5, CB 7, CB 8, CB 10, CB 15, CB 17, and CB 23. The following stops will not be able to be serviced this morning: Massy Dr and Mountainview Rd and Massey Dr and Prince Charles. Students can avail of the stop at Massey Dr and the Fire Hall.
+
+</div>
+</td>
+<td class='text-nowrap familyAlign family2' style='vertical-align:middle;'>FOS 02</td>
+<td class='officeWestern' style='text-align:center;vertical-align:middle;font-weight:bold;'>WESTERN</td>
+</tr>
+<tr id=468>
+<td><span style='font-size:12px;font-weight:bold;'>Glovertown Academy</span><br/>
+Glovertown, NL</td>
+<td class='closedAllDay' style='vertical-align:middle;'>CLOSED ALL DAY</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>School closed all day</span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> Water Shut Off</div>
+</td>
+<td class='text-nowrap familyAlign family5' style='vertical-align:middle;'>FOS 05</td>
+<td class='officeCentral' style='text-align:center;vertical-align:middle;font-weight:bold;'>CENTRAL</td>
+</tr>
+</tbody>
+ </table>

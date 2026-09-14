@@ -1,0 +1,20 @@
+<script>
+$('document').ready(function(){$('#schoolStatusTable').DataTable({ 'order': [[ 0, 'asc' ]],'lengthChange': false, responsive: true, 'paging':   false,'lengthMenu': [[10, 20, 50, 100, -1], [10, 20, 50, 100, 'All']],
+dom: 'Bfrtip', buttons: [	'copy','csv','excel',{extend: 'pdf',orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null,exportOptions: { columns: [ 0,1,2,3,4]}},
+{ extend: 'print', orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null, exportOptions: {columns: [ 0,1,2,3,4] } }] });});
+</script>
+<table id='schoolStatusTable' class='table table-sm responsive table-striped table-bordered' style='font-size:11px;' width='100%'>
+<thead class='thead-dark'><tr style='text-transform:uppercase;font-weight:bold;color:White;'><th>SCHOOL/BUILDING</th><th>STATUS</th><th>DESCRIPTION/NOTES</th><th>FAMILY</th><th>REGION</th></tr></thead>
+<tbody>
+<tr id=695>
+<td><span style='font-size:12px;font-weight:bold;'>Eastside Elementary</span><br/>
+Corner Brook, NL</td>
+<td class='closedForPD' style='vertical-align:middle;'>CLOSED FOR PD</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>School closed all day for teacher PD </span>
+
+</td>
+<td class='text-nowrap familyAlign family2' style='vertical-align:middle;'>FOS 02</td>
+<td class='officeWestern' style='text-align:center;vertical-align:middle;font-weight:bold;'>WESTERN</td>
+</tr>
+</tbody>
+ </table>

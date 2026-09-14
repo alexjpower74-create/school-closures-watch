@@ -1,0 +1,20 @@
+{
+  "name": "school-closures-watch",
+  "private": true,
+  "type": "module",
+  "description": "Is my kid's school open, delayed or closed, and is the bus running? Official NL school status, quoted verbatim.",
+  "scripts": {
+    "schools": "node tools/build-schools.mjs",
+    "scan": "node scripts/scan.mjs",
+    "demo": "node scripts/demo.mjs",
+    "dev:worker": "npm --prefix worker run dev",
+    "dev:app": "node app/serve.mjs --port 8201",
+    "test:core": "node --test 'core/tests/**/*.test.mjs'",
+    "test:worker": "npm --prefix worker test",
+    "test:app": "playwright test -c app/playwright.config.mjs",
+    "test": "npm run test:core && npm run test:worker && npm run test:app"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0"
+  }
+}

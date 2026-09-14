@@ -1,0 +1,20 @@
+<script>
+$('document').ready(function(){$('#schoolStatusTable').DataTable({ 'order': [[ 0, 'asc' ]],'lengthChange': false, responsive: true, 'paging':   false,'lengthMenu': [[10, 20, 50, 100, -1], [10, 20, 50, 100, 'All']],
+dom: 'Bfrtip', buttons: [	'copy','csv','excel',{extend: 'pdf',orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null,exportOptions: { columns: [ 0,1,2,3,4]}},
+{ extend: 'print', orientation: 'portrait', messageTop: 'SCHOOL STATUS REPORT',messageBottom: null, exportOptions: {columns: [ 0,1,2,3,4] } }] });});
+</script>
+<table id='schoolStatusTable' class='table table-sm responsive table-striped table-bordered' style='font-size:11px;' width='100%'>
+<thead class='thead-dark'><tr style='text-transform:uppercase;font-weight:bold;color:White;'><th>SCHOOL/BUILDING</th><th>STATUS</th><th>DESCRIPTION/NOTES</th><th>FAMILY</th><th>REGION</th></tr></thead>
+<tbody>
+<tr id=197>
+<td><span style='font-size:12px;font-weight:bold;'>Upper Gullies Elementary</span><br/>
+Conception Bay South, NL</td>
+<td class='closingEarly' style='vertical-align:middle;'>CLOSING EARLY</td>
+<td style='vertical-align:middle;'><span style='font-size:12px;'>School closing early</span>
+<br/><div style='margin-top:5px;'><b>NOTE:</b> School closing at 1:00 pm for summer holidays.</div>
+</td>
+<td class='text-nowrap familyAlign family9' style='vertical-align:middle;'>FOS 09</td>
+<td class='officeAvalon' style='text-align:center;vertical-align:middle;font-weight:bold;'>AVALON</td>
+</tr>
+</tbody>
+ </table>
