@@ -50,6 +50,16 @@ Draft, written as each round lands. Final numbers come from the last pinned QA r
 - `worker/src/index.js` `/api/today`: old-list rows aren't current and are listed under `earlier`; `applies_to`
   carries `reason`.
 
+- sc1's own numbers on the QA ports (7cb9f09): core 90/90, Worker phase 1 1/1 + phase 2 22/22.
+- Round-2 controls (all red, then green again): A exact-name-only (core 9 of 60, Worker 3 of 22); OL old-list guard
+  removed (core 1, Worker 2); R3a region check moved back after similarity (core 1); AMB two regions not → district
+  (core 1). Round-1 controls B–H cover code round 2 didn't touch.
+- Two existing tests changed because the rules changed, not to go green: Glovertown on Tuesday under an old Monday
+  list is now `unknown`/`list_date_old` (was `closed`); the storm notices-map test pins the seed's exact 9 references.
+- `npm run demo` run once by sc1 at 15:14 NDT: migrations, Worker on 8202, one forced live scan (nlschools-status ok,
+  list 2026-09-14, 2 notices; nlschools-notices ok, 0; csfp-news ok, 0), `--watch` skipped everything as not due,
+  Ctrl-C freed 8202.
+
 ## Merges
 - de28cd9 sc1 steps 1–7 (b76085a) · 6c221e8 sc2 round 1 (f3bf596) · 2ab80b5 sc2 round 2 (bff3486: pinned QA
   104 passed, 4 skipped, EXIT=0; the merge changed 24 files, all `app/**` + sc2's report, no deletions).
