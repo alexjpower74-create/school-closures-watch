@@ -43,7 +43,27 @@ Other commands:
 
 ## Tests
 
-_Filled in from the final pinned QA run._
+Final QA from a worktree pinned to **a1a43f7** (`rig qa --ref a1a43f7 --run "bash tools/qa-run.sh"`, QA ports
+8206–8209, OVERALL EXIT=0):
+
+| Stage | What | Result |
+|---|---|---|
+| Core | `node --test`: text, time, schedule, labels, matching, verification, status, adapters on the real saved files, pipeline against a fixture server | **90 passed, 0 failed** |
+| Worker | `node --test` against `wrangler dev --local` (real clock phase + fake clock and `--test-scheduled` phase) | **1/1 + 22/22** |
+| App | Playwright, chromium + webkit, phone 390 + desktop 1280, real taps/clicks/typing, tap targets hit-tested, mock scenarios | **104 passed, 0 failed, 4 skipped** (the integration spec, run in the next stage) |
+| Integration | A real local Worker seeded with `today`, `storm` and `stale`; the app compared with `/api/status`, `/api/today` and `/api/notices/:id` on chromium-390 + webkit-1280 | **each scenario 2 passed** (2 skipped: other projects, by design) |
+
+**Negative controls: 25 went red and were restored.** sc1 19 (core, pipeline and Worker: exact-name-only matching,
+verification skipped, staleness off, region expansion off, busy window shifted, open rule removed, 1.1 s spacing,
+old-list guard, region check order, two regions), sc2 5 (may-apply shown as applied, stale banner removed, sort broken,
+quote guard removed, 30 px tap target), lead 1 (the app stops asking for samples → integration red in all three
+scenarios). One lead control was aimed at code the real-API path doesn't use and is recorded as such in
+`docs/build-report.md`.
+
+**Real scan** (clean start, `npm run demo`, 2026-09-14 15:20 NDT): NLSchools list for Monday, September 14, 2026 with
+2 notices, both matched exactly: Glovertown Academy "CLOSED ALL DAY" ("School closed all day NOTE: Water Shut Off")
+and Eastside Elementary "OTHER STATUS" (a bus-run note). NLSchools important notices: none. CSFP news: no closure post.
+0 quotes dropped. On a normal night the list is often empty, and the app says so.
 
 ## What deploying needs
 
