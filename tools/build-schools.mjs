@@ -13,20 +13,49 @@ const OUT = `${REPO}data/schools.json`
 const FETCHED = '2026-09-14'
 
 // ---------- text helpers (same rules as docs/API.md §0) ----------
-const NAMED = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', ndash: '–', mdash: '—', lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”', hellip: '…', eacute: 'é' }
-const decodeEntities = (s) => s
-  .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
-  .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
-  .replace(/&([a-z]+);/gi, (m, n) => (n in NAMED ? NAMED[n] : m))
+const NAMED = {
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
+  ndash: '–',
+  mdash: '—',
+  lsquo: '‘',
+  rsquo: '’',
+  ldquo: '“',
+  rdquo: '”',
+  hellip: '…',
+  eacute: 'é',
+}
+const decodeEntities = (s) =>
+  s
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCodePoint(parseInt(h, 16)))
+    .replace(/&#(\d+);/g, (_, d) => String.fromCodePoint(Number(d)))
+    .replace(/&([a-z]+);/gi, (m, n) => (n in NAMED ? NAMED[n] : m))
 const normText = (s) => s.replace(/[\s ]+/g, ' ').trim()
-const extractText = (body) => normText(decodeEntities(decodeEntities(body
-  .replace(/<script[\s\S]*?<\/script>/gi, ' ')
-  .replace(/<style[\s\S]*?<\/style>/gi, ' ')
-  .replace(/<!--[\s\S]*?-->/g, ' ')
-  .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
-  .replace(/<[^>]*>/g, ' '))))
-const slug = (s) => s.normalize('NFKD').replace(/[̀-ͯ]/g, '').toLowerCase()
-  .replace(/[’']/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+const extractText = (body) =>
+  normText(
+    decodeEntities(
+      decodeEntities(
+        body
+          .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+          .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+          .replace(/<!--[\s\S]*?-->/g, ' ')
+          .replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g, '$1')
+          .replace(/<[^>]*>/g, ' '),
+      ),
+    ),
+  )
+const slug = (s) =>
+  s
+    .normalize('NFKD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 
 function mustContain(text, quote, where) {
   if (!text.includes(normText(quote))) throw new Error(`quote not found in ${where}: ${quote}`)
@@ -35,7 +64,11 @@ function mustContain(text, quote, where) {
 // ---------- minimal xlsx (zip) reader ----------
 function unzip(buf) {
   let eocd = -1
-  for (let i = buf.length - 22; i >= 0; i--) if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break }
+  for (let i = buf.length - 22; i >= 0; i--)
+    if (buf.readUInt32LE(i) === 0x06054b50) {
+      eocd = i
+      break
+    }
   if (eocd < 0) throw new Error('not a zip file')
   const count = buf.readUInt16LE(eocd + 10)
   let p = buf.readUInt32LE(eocd + 16)
@@ -59,8 +92,9 @@ function unzip(buf) {
 
 function readSheet(path) {
   const files = unzip(readFileSync(path))
-  const shared = [...(files['xl/sharedStrings.xml']?.toString('utf8') ?? '').matchAll(/<si>([\s\S]*?)<\/si>/g)]
-    .map((m) => decodeEntities([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((t) => t[1]).join('')))
+  const shared = [...(files['xl/sharedStrings.xml']?.toString('utf8') ?? '').matchAll(/<si>([\s\S]*?)<\/si>/g)].map((m) =>
+    decodeEntities([...m[1].matchAll(/<t[^>]*>([\s\S]*?)<\/t>/g)].map((t) => t[1]).join('')),
+  )
   const sheet = files['xl/worksheets/sheet1.xml'].toString('utf8')
   const rows = []
   for (const r of sheet.matchAll(/<row[^>]*>([\s\S]*?)<\/row>/g)) {
@@ -80,17 +114,32 @@ function readSheet(path) {
 }
 
 // ---------- public schools (NLSchools + CSFP) ----------
-const GRADE_COLS = [['K', 'K'], ['ONE', '1'], ['TWO', '2'], ['THREE', '3'], ['FOUR', '4'], ['FIVE', '5'], ['SIX', '6'],
-  ['SEVEN', '7'], ['EIGHT', '8'], ['NINE', '9'], ['TEN', '10'], ['ELEVEN', '11'], ['TWELVE', '12']]
+const GRADE_COLS = [
+  ['K', 'K'],
+  ['ONE', '1'],
+  ['TWO', '2'],
+  ['THREE', '3'],
+  ['FOUR', '4'],
+  ['FIVE', '5'],
+  ['SIX', '6'],
+  ['SEVEN', '7'],
+  ['EIGHT', '8'],
+  ['NINE', '9'],
+  ['TEN', '10'],
+  ['ELEVEN', '11'],
+  ['TWELVE', '12'],
+]
 const REGIONS = { Avalon: 'avalon', Central: 'central', Western: 'western', Labrador: 'labrador' }
 
 const dbPage = extractText(readFileSync(`${SAMPLES}schooldatabase-page-2026-09-14.html`, 'utf8'))
-const DB_QUOTE = 'The listed spreadsheets contain enrolment data for 2025-26. These figures are based on enrollment data as of September 30, 2025.'
+const DB_QUOTE =
+  'The listed spreadsheets contain enrolment data for 2025-26. These figures are based on enrollment data as of September 30, 2025.'
 const DB_USE_QUOTE = 'This is a file for your own personal use.'
 mustContain(dbPage, DB_QUOTE, 'schooldatabase page')
 mustContain(dbPage, DB_USE_QUOTE, 'schooldatabase page')
 const disclaimer = extractText(readFileSync(`${SAMPLES}disclaimer-2026-09-14.html`, 'utf8'))
-const GOV_TERMS_QUOTE = 'Where the Government of Newfoundland and Labrador is the owner of copyright in information on this website, government hereby grants permission for the information of this web site to be used by the public and non-government organizations.'
+const GOV_TERMS_QUOTE =
+  'Where the Government of Newfoundland and Labrador is the owner of copyright in information on this website, government hereby grants permission for the information of this web site to be used by the public and non-government organizations.'
 mustContain(disclaimer, GOV_TERMS_QUOTE, 'gov.nl.ca disclaimer')
 
 const XLSX_URL = 'https://www.gov.nl.ca/education/files/PublicEnrollment_FINAL2025-10-31.xlsx'
@@ -132,7 +181,11 @@ function directoryNames(file, { strongOnly = false } = {}) {
   const out = []
   let operator = null
   for (const m of html.matchAll(/<h2[^>]*>([\s\S]*?)<\/h2>|<p[^>]*>([\s\S]*?)<\/p>/g)) {
-    if (m[1] !== undefined) { const h = extractText(m[1]); if (h) operator = h; continue }
+    if (m[1] !== undefined) {
+      const h = extractText(m[1])
+      if (h) operator = h
+      continue
+    }
     const inner = m[2]
     if (strongOnly && !/<strong/.test(inner)) continue
     const name = extractText(inner.replace(/<br\s*\/?>[\s\S]*$/, ''))
@@ -144,40 +197,85 @@ function directoryNames(file, { strongOnly = false } = {}) {
 }
 const DIRS = [
   ['private', 'Private', 'directory-private-2026-09-14.html', 'https://www.gov.nl.ca/education/k12/schooldirectory/private/', {}],
-  ['indigenous', 'Indigenous', 'directory-indigenous-2026-09-14.html', 'https://www.gov.nl.ca/education/k12/schooldirectory/indigenous/', { strongOnly: true }],
+  [
+    'indigenous',
+    'Indigenous',
+    'directory-indigenous-2026-09-14.html',
+    'https://www.gov.nl.ca/education/k12/schooldirectory/indigenous/',
+    { strongOnly: true },
+  ],
   ['other', 'Other', 'directory-other-2026-09-14.html', 'https://www.gov.nl.ca/education/k12/schooldirectory/other/', {}],
 ]
 for (const [key, board, file, url, opts] of DIRS) {
   for (const { name, operator } of directoryNames(file, opts)) {
     schools.push({
-      id: `${key}-${slug(name)}`, name, community: null, region: null, region_name: null, board, coverage: 'none',
-      type_code: null, grades_text: null, phone: null, urban_rural: null, operator,
-      source_id: `govnl-directory-${key}`, source_url: url, source_row: null,
+      id: `${key}-${slug(name)}`,
+      name,
+      community: null,
+      region: null,
+      region_name: null,
+      board,
+      coverage: 'none',
+      type_code: null,
+      grades_text: null,
+      phone: null,
+      urban_rural: null,
+      operator,
+      source_id: `govnl-directory-${key}`,
+      source_url: url,
+      source_row: null,
     })
   }
 }
 
 const ids = new Set()
-for (const s of schools) { if (ids.has(s.id)) throw new Error(`duplicate id ${s.id}`); ids.add(s.id) }
+for (const s of schools) {
+  if (ids.has(s.id)) throw new Error(`duplicate id ${s.id}`)
+  ids.add(s.id)
+}
 const ORDER = { NLSchools: 0, CSFP: 1, Indigenous: 2, Private: 3, Other: 4 }
-schools.sort((a, b) => (ORDER[a.board] - ORDER[b.board]) || (a.region_name ?? '').localeCompare(b.region_name ?? '') || a.name.localeCompare(b.name))
+schools.sort(
+  (a, b) => ORDER[a.board] - ORDER[b.board] || (a.region_name ?? '').localeCompare(b.region_name ?? '') || a.name.localeCompare(b.name),
+)
 
 const count = (f) => schools.filter(f).length
 const out = {
   built_from_fetch: FETCHED,
   note: 'Built by tools/build-schools.mjs from the official files saved in data/samples/govnl/. Principal names, emails and fax numbers are deliberately left out.',
   sources: [
-    { id: 'govnl-public-schools', name: 'Public Schools 2025-26 (spreadsheet)', publisher: 'Government of Newfoundland and Labrador, Department of Education',
-      url: XLSX_URL, page_url: 'https://www.gov.nl.ca/education/faq/schooldatabase/', fetched: FETCHED,
-      saved_as: 'data/samples/govnl/PublicEnrollment_FINAL2025-10-31.xlsx', quote: DB_QUOTE, use_quote: DB_USE_QUOTE,
-      terms_url: 'https://www.gov.nl.ca/disclaimer/', terms_quote: GOV_TERMS_QUOTE },
-    ...DIRS.map(([key, board, file, url]) => ({ id: `govnl-directory-${key}`, name: `${board} Schools (directory page)`,
-      publisher: 'Government of Newfoundland and Labrador, Department of Education', url, page_url: url, fetched: FETCHED,
-      saved_as: `data/samples/govnl/${file}`, quote: null, terms_url: 'https://www.gov.nl.ca/disclaimer/', terms_quote: GOV_TERMS_QUOTE })),
+    {
+      id: 'govnl-public-schools',
+      name: 'Public Schools 2025-26 (spreadsheet)',
+      publisher: 'Government of Newfoundland and Labrador, Department of Education',
+      url: XLSX_URL,
+      page_url: 'https://www.gov.nl.ca/education/faq/schooldatabase/',
+      fetched: FETCHED,
+      saved_as: 'data/samples/govnl/PublicEnrollment_FINAL2025-10-31.xlsx',
+      quote: DB_QUOTE,
+      use_quote: DB_USE_QUOTE,
+      terms_url: 'https://www.gov.nl.ca/disclaimer/',
+      terms_quote: GOV_TERMS_QUOTE,
+    },
+    ...DIRS.map(([key, board, file, url]) => ({
+      id: `govnl-directory-${key}`,
+      name: `${board} Schools (directory page)`,
+      publisher: 'Government of Newfoundland and Labrador, Department of Education',
+      url,
+      page_url: url,
+      fetched: FETCHED,
+      saved_as: `data/samples/govnl/${file}`,
+      quote: null,
+      terms_url: 'https://www.gov.nl.ca/disclaimer/',
+      terms_quote: GOV_TERMS_QUOTE,
+    })),
   ],
   counts: {
-    total: schools.length, NLSchools: count((s) => s.board === 'NLSchools'), CSFP: count((s) => s.board === 'CSFP'),
-    Indigenous: count((s) => s.board === 'Indigenous'), Private: count((s) => s.board === 'Private'), Other: count((s) => s.board === 'Other'),
+    total: schools.length,
+    NLSchools: count((s) => s.board === 'NLSchools'),
+    CSFP: count((s) => s.board === 'CSFP'),
+    Indigenous: count((s) => s.board === 'Indigenous'),
+    Private: count((s) => s.board === 'Private'),
+    Other: count((s) => s.board === 'Other'),
     by_region: Object.fromEntries(Object.values(REGIONS).map((r) => [r, count((s) => s.region === r)])),
   },
   schools,
@@ -185,8 +283,13 @@ const out = {
 const json = `${JSON.stringify(out, null, 2)}\n`
 if (process.argv.includes('--check')) {
   let current = ''
-  try { current = readFileSync(OUT, 'utf8') } catch {}
-  if (current !== json) { console.error('data/schools.json is out of date: run npm run schools'); process.exit(1) }
+  try {
+    current = readFileSync(OUT, 'utf8')
+  } catch {}
+  if (current !== json) {
+    console.error('data/schools.json is out of date: run npm run schools')
+    process.exit(1)
+  }
   console.log(`data/schools.json is up to date (${schools.length} schools)`)
 } else {
   writeFileSync(OUT, json)

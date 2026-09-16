@@ -9,7 +9,7 @@ import { matchRow, csfpSchoolsNamed } from './match.js'
 export const NOTICE_KINDS = ['school_row', 'text_notice', 'feed_post']
 
 /** §5.1 id. `now` is used only when the notice has no list_date. */
-export function noticeId (n, now) {
+export function noticeId(n, now) {
   const day = n.list_date ?? localDate(now)
   const h = fnv1a8(`${n.status_class ?? ''}|${n.status_text ?? ''}|${n.quote ?? ''}`)
   return `${n.source_id}-${day}-${n.row_id}-${h}`
@@ -18,14 +18,13 @@ export function noticeId (n, now) {
 const NONE = { scope_region: null, scope_evidence: null, unmatched_reason: null, matches: [] }
 
 /** §4.4: one region → region; province → province; more than one distinct region named → district (lead 14:50). */
-const regionScope = r => (r.ambiguous
-  ? { ...NONE, scope: 'district' }
-  : { ...NONE, scope: r.scope, scope_region: r.scope_region, scope_evidence: r.scope_evidence })
+const regionScope = (r) =>
+  r.ambiguous ? { ...NONE, scope: 'district' } : { ...NONE, scope: r.scope, scope_region: r.scope_region, scope_evidence: r.scope_evidence }
 
-const SAME_NAME = m => m.how === 'exact' || m.reason === 'name_same_community_differs' || m.reason === 'name_shared'
+const SAME_NAME = (m) => m.how === 'exact' || m.reason === 'name_same_community_differs' || m.reason === 'name_shared'
 
 /** → { notice, unmapped_class } with status, status_basis, status_evidence, scope, scope_*, unmatched_reason, matches set. */
-export function classifyNotice (n, schools) {
+export function classifyNotice(n, schools) {
   const out = { ...n }
   let unmapped_class = null
 
@@ -33,7 +32,7 @@ export function classifyNotice (n, schools) {
     const s = statusFromRow(n.status_class, n.status_text)
     unmapped_class = s.unmapped_class
     Object.assign(out, { status: s.status, status_basis: s.status_basis, status_evidence: s.status_evidence })
-    const nls = schools.filter(x => x.coverage === 'nlschools')
+    const nls = schools.filter((x) => x.coverage === 'nlschools')
     const m = matchRow(n, nls)
     const sameName = m.matches.some(SAME_NAME)
     // §4.2 rule 3a (lead fix 14:55): with no same-name school, a region phrase is checked BEFORE similar names.
@@ -49,8 +48,10 @@ export function classifyNotice (n, schools) {
   } else if (n.kind === 'feed_post') {
     const named = csfpSchoolsNamed(n.source_text, schools)
     const matches = named.length
-      ? named.map(s => ({ school_id: s.id, how: 'may_apply', reason: 'board_feed_names_school' }))
-      : schools.filter(s => s.coverage === 'csfp').map(s => ({ school_id: s.id, how: 'may_apply', reason: 'board_feed_no_school_named' }))
+      ? named.map((s) => ({ school_id: s.id, how: 'may_apply', reason: 'board_feed_names_school' }))
+      : schools
+          .filter((s) => s.coverage === 'csfp')
+          .map((s) => ({ school_id: s.id, how: 'may_apply', reason: 'board_feed_no_school_named' }))
     Object.assign(out, NONE, { status: 'may_apply', status_basis: 'none', status_evidence: null, scope: 'board', matches })
   }
   return { notice: out, unmapped_class }

@@ -147,7 +147,14 @@ function today() {
   return {
     now,
     health: splitHealth(
-      healthySet({ now, last_ok_at: seen, list_date: '2026-09-14', list_date_text: LIST_DATE_TEXT_2026_09_14, interval: 60, counts: { status: 2 } }),
+      healthySet({
+        now,
+        last_ok_at: seen,
+        list_date: '2026-09-14',
+        list_date_text: LIST_DATE_TEXT_2026_09_14,
+        interval: 60,
+        counts: { status: 2 },
+      }),
     ),
     notices: todayRows(seen),
   }
@@ -209,11 +216,25 @@ function storm() {
       { ...o, first_seen_at: later, matches: [{ school_id: 'nls-300422', how: 'may_apply', reason: 'name_similar' }] },
     ),
     rowNotice(
-      sampleRow('sample-2', 'SAMPLE Western Bus Depot', 'otherStatus', 'SAMPLE OTHER STATUS', 'SAMPLE Some bus runs will be delayed', 'WESTERN'),
+      sampleRow(
+        'sample-2',
+        'SAMPLE Western Bus Depot',
+        'otherStatus',
+        'SAMPLE OTHER STATUS',
+        'SAMPLE Some bus runs will be delayed',
+        'WESTERN',
+      ),
       { ...o, first_seen_at: later, scope: 'unmatched', unmatched_reason: 'no_school' },
     ),
     rowNotice(
-      sampleRow('sample-3', 'SAMPLE Gander Academy', 'delayedOpening', 'SAMPLE DELAYED OPENING', 'SAMPLE Delayed opening - 1 hour', 'CENTRAL'),
+      sampleRow(
+        'sample-3',
+        'SAMPLE Gander Academy',
+        'delayedOpening',
+        'SAMPLE DELAYED OPENING',
+        'SAMPLE Delayed opening - 1 hour',
+        'CENTRAL',
+      ),
       {
         ...day,
         first_seen_at: '2024-01-10T09:35:00.000Z',
@@ -249,7 +270,14 @@ function stale() {
   const failed = at(now, -5)
   const lastOk = at(now, -45)
   const set = splitHealth(
-    healthySet({ now, last_ok_at: lastOk, list_date: '2026-09-14', list_date_text: LIST_DATE_TEXT_2026_09_14, interval: 60, counts: { status: 2 } }),
+    healthySet({
+      now,
+      last_ok_at: lastOk,
+      list_date: '2026-09-14',
+      list_date_text: LIST_DATE_TEXT_2026_09_14,
+      interval: 60,
+      counts: { status: 2 },
+    }),
   )
   set['nlschools-status'] = {
     ...set['nlschools-status'],
@@ -304,7 +332,14 @@ function csfp() {
   return {
     now,
     health: splitHealth(
-      healthySet({ now, last_ok_at: at(now, -5), list_date: '2026-09-14', list_date_text: LIST_DATE_TEXT_2026_09_14, interval: 60, counts: { csfp: 1 } }),
+      healthySet({
+        now,
+        last_ok_at: at(now, -5),
+        list_date: '2026-09-14',
+        list_date_text: LIST_DATE_TEXT_2026_09_14,
+        interval: 60,
+        counts: { csfp: 1 },
+      }),
     ),
     notices: [post],
   }
@@ -327,7 +362,12 @@ function checks() {
       region_text: 'CENTRAL',
       source_text: 'SAMPLE Gander Academy SAMPLE CLOSED ALL DAY SAMPLE Water Shut Off CENTRAL',
     },
-    { list_date: '2026-09-14', list_date_text: LIST_DATE_TEXT_2026_09_14, first_seen_at: seen, matches: [{ school_id: 'nls-300417', how: 'exact', reason: null }] },
+    {
+      list_date: '2026-09-14',
+      list_date_text: LIST_DATE_TEXT_2026_09_14,
+      first_seen_at: seen,
+      matches: [{ school_id: 'nls-300417', how: 'exact', reason: null }],
+    },
   )
   const districtQuote = 'SAMPLE Parents: check this page again at 11:00 a.m. for an update.'
   const district = {

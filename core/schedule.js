@@ -3,19 +3,22 @@ import { localParts, localToMs, toMs, iso, fmtTime } from './time.js'
 
 const MIN = 60000
 /** Busy windows, Newfoundland local time, Monday–Friday: [startHour, endHour) */
-export const BUSY_WINDOWS = [[5, 9], [11, 13]]
+export const BUSY_WINDOWS = [
+  [5, 9],
+  [11, 13],
+]
 export const DUE_SLACK_MS = 30 * 1000
 export const STALE_GRACE_MS = 10 * MIN
 
-const idOf = source => (typeof source === 'string' ? source : source?.id)
+const idOf = (source) => (typeof source === 'string' ? source : source?.id)
 
-export function inBusyWindow (t) {
+export function inBusyWindow(t) {
   const p = localParts(t)
   if (p.weekday < 1 || p.weekday > 5) return false
   return BUSY_WINDOWS.some(([a, b]) => p.hh >= a && p.hh < b)
 }
 
-export function intervalMinutes (source, t) {
+export function intervalMinutes(source, t) {
   const busy = inBusyWindow(t)
   const id = idOf(source)
   if (id === 'nlschools-status' || id === 'nlschools-notices') return busy ? 5 : 60
@@ -24,7 +27,7 @@ export function intervalMinutes (source, t) {
 }
 
 /** Start (epoch ms) of the first busy window that starts strictly after t. */
-export function nextBusyStart (t) {
+export function nextBusyStart(t) {
   const ms = toMs(t)
   const p = localParts(ms)
   for (let k = 0; k <= 8; k++) {
@@ -40,7 +43,7 @@ export function nextBusyStart (t) {
 }
 
 /** Epoch ms: the earlier of t + interval and the next busy window start. */
-export function nextDueMs (source, t) {
+export function nextDueMs(source, t) {
   const ms = toMs(t)
   const byInterval = ms + intervalMinutes(source, ms) * MIN
   const busy = nextBusyStart(ms)
@@ -49,13 +52,13 @@ export function nextDueMs (source, t) {
 
 export const nextDue = (source, t) => iso(nextDueMs(source, t))
 
-export function isDue (source, now, health) {
+export function isDue(source, now, health) {
   if (!health?.last_attempt_at) return true
   return toMs(now) >= nextDueMs(source, health.last_attempt_at) - DUE_SLACK_MS
 }
 
 /** → { stale, stale_reason: null | never_checked | last_attempt_failed | overdue } */
-export function staleness (source, now, health) {
+export function staleness(source, now, health) {
   if (!health?.last_ok_at) return { stale: true, stale_reason: 'never_checked' }
   if (health.last_result && health.last_result !== 'ok') return { stale: true, stale_reason: 'last_attempt_failed' }
   if (toMs(now) > nextDueMs(source, health.last_ok_at) + STALE_GRACE_MS) return { stale: true, stale_reason: 'overdue' }
@@ -65,11 +68,11 @@ export function staleness (source, now, health) {
 const SHORT = {
   'nlschools-status': 'the NLSchools list',
   'nlschools-notices': 'NLSchools important notices',
-  'csfp-news': 'the CSFP news feed'
+  'csfp-news': 'the CSFP news feed',
 }
 
 /** Plain-English stale banner text (§5.2 example), or null when not stale. */
-export function staleText (source, reason, health) {
+export function staleText(source, reason, health) {
   if (!reason) return null
   const name = SHORT[idOf(source)] ?? 'this source'
   const from = health?.last_ok_at ? ` Statuses below are from ${fmtTime(health.last_ok_at)}.` : ''

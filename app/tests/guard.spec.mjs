@@ -9,7 +9,10 @@ test('the tampered notice is not shown on My schools, Today or its notice page',
   page.on('console', (m) => {
     if (m.type() === 'warning') warnings.push(m.text())
   })
-  await pickSchools(page, testInfo, 'checks', [['gander academy', 'nls-300417'], ['glover', 'nls-300422']])
+  await pickSchools(page, testInfo, 'checks', [
+    ['gander academy', 'nls-300417'],
+    ['glover', 'nls-300422'],
+  ])
   const gander = card(page, 'nls-300417')
   await expect(gander).toHaveAttribute('data-status', 'unknown')
   await expect(gander.getByTestId('reason')).toContainText("didn't match the words we saved from the source")

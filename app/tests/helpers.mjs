@@ -11,8 +11,7 @@ export async function press(locator, testInfo) {
   else await locator.click()
 }
 
-export const mockUrl = (path, scenario, extra = '') =>
-  `/${path}?mock=1${scenario ? `&scenario=${scenario}` : ''}${extra}`
+export const mockUrl = (path, scenario, extra = '') => `/${path}?mock=1${scenario ? `&scenario=${scenario}` : ''}${extra}`
 
 /** Put the cursor in the search box and replace its text by typing. */
 export async function typeSearch(page, testInfo, text) {
@@ -117,5 +116,4 @@ export async function expectNoHorizontalScroll(page) {
 }
 
 /** Read the saved ids (assert only). */
-export const savedIds = (page) =>
-  page.evaluate(() => JSON.parse(localStorage.getItem('scw.schools.v1') || 'null'))
+export const savedIds = (page) => page.evaluate(() => JSON.parse(localStorage.getItem('scw.schools.v1') || 'null'))

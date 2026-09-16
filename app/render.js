@@ -157,9 +157,7 @@ export function mayApplyCard(n, reasonText, now) {
 /** One card per school on My schools (API.md §8.1). */
 export function schoolCard(st, notices, now) {
   const s = st.school
-  const place = [s.community, s.region_name, s.board && s.board !== 'NLSchools' ? s.board : null]
-    .filter(Boolean)
-    .join(' · ')
+  const place = [s.community, s.region_name, s.board && s.board !== 'NLSchools' ? s.board : null].filter(Boolean).join(' · ')
   const card = el(
     'article',
     { class: `card school-card tone-edge-${st.status}`, 'data-testid': 'school-card', 'data-status': st.status, 'data-school-id': s.id },
@@ -183,17 +181,15 @@ export function schoolCard(st, notices, now) {
     .sort((a, b) => noticesWorstFirst(a.n, b.n))
     // The API's headline notice leads, so the card agrees with it when two notices share a rank.
     .sort((a, b) => (b.n.id === st.headline_notice_id) - (a.n.id === st.headline_notice_id))
-  applied.forEach(({ n, how }, i) => card.append(noticeBlock(n, how, now, i === 0)))
+  applied.forEach(({ n, how }, i) => {
+    card.append(noticeBlock(n, how, now, i === 0))
+  })
 
   if (st.reason_text) card.append(el('p', { class: 'reason', 'data-testid': 'reason' }, st.reason_text))
   if (st.as_of && st.status !== 'unknown') {
     const t = fmtWhen(st.as_of, now)
     const text =
-      st.status === 'open'
-        ? `No notice on the NLSchools list as of ${t}`
-        : st.stale
-          ? `As of ${t}, the last good check`
-          : `As of ${t}`
+      st.status === 'open' ? `No notice on the NLSchools list as of ${t}` : st.stale ? `As of ${t}, the last good check` : `As of ${t}`
     card.append(el('p', { class: 'as-of', 'data-testid': 'as-of' }, text))
   }
 
@@ -240,7 +236,12 @@ export function todayNotice(n, now, { heading = 'school' } = {}) {
     heading === 'school' && named ? el('h3', { class: 'today-school verbatim' }, named) : null,
     statusLabel(n.status, labelFor(n.status), 'mid'),
     n.status_text
-      ? el('p', { class: 'source-status' }, 'On the list as ', el('span', { class: 'verbatim', 'data-testid': 'source-status-text' }, n.status_text))
+      ? el(
+          'p',
+          { class: 'source-status' },
+          'On the list as ',
+          el('span', { class: 'verbatim', 'data-testid': 'source-status-text' }, n.status_text),
+        )
       : null,
     quoteBlock(n),
     region ? el('p', { class: 'region-line', 'data-testid': 'region-wide-line' }, region) : null,
@@ -248,7 +249,12 @@ export function todayNotice(n, now, { heading = 'school' } = {}) {
       ? el('p', { class: 'small' }, 'Matches: ', exact.map((a) => [a.community ? `${a.name} (${a.community})` : a.name]).join('; '))
       : null,
     may.length
-      ? el('p', { class: 'small may-line' }, 'May apply to: ', may.map((a) => (a.community ? `${a.name} (${a.community})` : a.name)).join('; '))
+      ? el(
+          'p',
+          { class: 'small may-line' },
+          'May apply to: ',
+          may.map((a) => (a.community ? `${a.name} (${a.community})` : a.name)).join('; '),
+        )
       : null,
     el('p', { class: 'seen-line' }, seenLineText(n, now)),
     n.removed_at ? el('p', { class: 'small' }, `No longer on the list since ${fmtWhen(n.removed_at, now)}`) : null,

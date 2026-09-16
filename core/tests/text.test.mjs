@@ -9,7 +9,8 @@ test('normText: whitespace runs (NBSP, tabs, newlines) → one space, trimmed', 
 })
 
 test('decodeEntities: every named entity in §0, numeric, unknown kept', () => {
-  const named = '&amp;&lt;&gt;&quot;&apos;&nbsp;&ndash;&mdash;&lsquo;&rsquo;&ldquo;&rdquo;&hellip;&eacute;&egrave;&agrave;&ecirc;&ccedil;&ocirc;&icirc;&laquo;&raquo;'
+  const named =
+    '&amp;&lt;&gt;&quot;&apos;&nbsp;&ndash;&mdash;&lsquo;&rsquo;&ldquo;&rdquo;&hellip;&eacute;&egrave;&agrave;&ecirc;&ccedil;&ocirc;&icirc;&laquo;&raquo;'
   assert.equal(decodeEntities(named), '&<>"\' –—‘’“”…éèàêçôî«»')
   assert.equal(decodeEntities('l&#8217;école &#x2019; &#233;'), 'l’école ’ é')
   assert.equal(decodeEntities('&copy; &bogus;'), '&copy; &bogus;')
@@ -31,7 +32,14 @@ test('fnv1a8: FNV-1a 32-bit over UTF-8 bytes', () => {
   assert.equal(fnv1a8('a'), 'e40c292c')
   assert.equal(fnv1a8('foobar'), 'bf9cf968')
   // UTF-8, not UTF-16: an independent byte-wise computation
-  const ref = s => { let h = 0x811c9dc5; for (const b of Buffer.from(s, 'utf8')) { h ^= b; h = Math.imul(h, 0x01000193) >>> 0 } return h.toString(16).padStart(8, '0') }
+  const ref = (s) => {
+    let h = 0x811c9dc5
+    for (const b of Buffer.from(s, 'utf8')) {
+      h ^= b
+      h = Math.imul(h, 0x01000193) >>> 0
+    }
+    return h.toString(16).padStart(8, '0')
+  }
   assert.equal(fnv1a8('École Boréale'), ref('École Boréale'))
   assert.notEqual(fnv1a8('é'), fnv1a8('é'.normalize('NFD')))
 })
@@ -57,6 +65,9 @@ test('normName / normCommunity (§4.2 examples)', () => {
 test('wordTokens spans slice back to the original text', () => {
   const s = 'All Schools in the  CENTRAL Region'
   const t = wordTokens(s)
-  assert.deepEqual(t.map(x => x.norm), ['all', 'schools', 'in', 'the', 'central', 'region'])
+  assert.deepEqual(
+    t.map((x) => x.norm),
+    ['all', 'schools', 'in', 'the', 'central', 'region'],
+  )
   assert.equal(s.slice(t[4].start, t[5].end), 'CENTRAL Region')
 })

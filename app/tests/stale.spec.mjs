@@ -22,15 +22,16 @@ async function expectBanner(page) {
 }
 
 test('stale banner on all five screens; unlisted school Unknown with the stale reason', async ({ page }, testInfo) => {
-  await pickSchools(page, testInfo, 'stale', [['gander elementary', 'nls-300495'], ['glover', 'nls-300422']])
+  await pickSchools(page, testInfo, 'stale', [
+    ['gander elementary', 'nls-300495'],
+    ['glover', 'nls-300422'],
+  ])
   await expectBanner(page) // My schools
 
   const gander = card(page, 'nls-300495')
   await expect(gander).toHaveAttribute('data-status', 'unknown')
   await expect(gander.getByTestId('status-label')).toHaveText('Unknown')
-  await expect(gander.getByTestId('reason')).toHaveText(
-    "We couldn't check NLSchools since 2:15 PM. Check nlschools.ca or call the school.",
-  )
+  await expect(gander.getByTestId('reason')).toHaveText("We couldn't check NLSchools since 2:15 PM. Check nlschools.ca or call the school.")
   await expect(page.locator('[data-testid="school-card"][data-status="open"]')).toHaveCount(0)
   const glover = card(page, 'nls-300422')
   await expect(glover).toHaveAttribute('data-status', 'closed')

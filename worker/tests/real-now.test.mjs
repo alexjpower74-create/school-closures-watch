@@ -16,7 +16,7 @@ test('now is ignored unless ALLOW_FAKE_NOW=1 (GET and ingest); the reset endpoin
   const [p] = await scenarioPayloads('today', OLD)
   const r = await post('/api/admin/ingest', p, { params: { now: OLD } })
   assert.equal(r.status, 200)
-  const src = (await get('/api/sources', { now: OLD })).body.sources.find(x => x.id === 'nlschools-status')
+  const src = (await get('/api/sources', { now: OLD })).body.sources.find((x) => x.id === 'nlschools-status')
   assert.ok(Date.parse(src.last_ok_at) >= before - 60000, `ingest used the fake time: ${src.last_ok_at}`)
   const reset = await post('/api/admin/reset')
   assert.equal(reset.status, 404)

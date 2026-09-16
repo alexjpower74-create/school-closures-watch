@@ -45,7 +45,8 @@ function renderSelected() {
   if (ids.length === 0) {
     put(selectedBox, title, el('p', { class: 'small' }, 'No schools picked yet. Search below.'))
   } else {
-    put(selectedBox, 
+    put(
+      selectedBox,
       title,
       el(
         'ul',
@@ -109,8 +110,13 @@ function renderResults() {
     put(results, el('p', { class: 'small' }, 'No school matches that. Try fewer letters.'))
     return
   }
-  put(results, 
-    el('p', { class: 'small' }, found.length > RESULT_LIMIT ? `Showing ${RESULT_LIMIT} of ${found.length}. Type more to narrow it.` : `${found.length} found`),
+  put(
+    results,
+    el(
+      'p',
+      { class: 'small' },
+      found.length > RESULT_LIMIT ? `Showing ${RESULT_LIMIT} of ${found.length}. Type more to narrow it.` : `${found.length} found`,
+    ),
     found.slice(0, RESULT_LIMIT).map(resultButton),
   )
 }
@@ -136,8 +142,11 @@ function toggle(id) {
   }
 }
 
-put(root, 
-  el('div', { class: 'narrow' },
+put(
+  root,
+  el(
+    'div',
+    { class: 'narrow' },
     el('h1', { class: 'page-title' }, 'Pick your schools'),
     el('p', { class: 'lead' }, `Search, then tap a school to add it. Up to ${MAX_SCHOOLS} schools.`),
     selectedBox,

@@ -20,9 +20,18 @@ export const adapter = {
   id: ENTRY.id,
   due: (now, health) => isDue(ENTRY.id, now, health),
   fetchPlan: () => planFor(ENTRY),
-  parse (raws, ctx) {
-    const raw = raws.find(r => r.name === 'feed') ?? raws[0]
-    const base = { result: 'ok', error: null, list_date: null, list_date_text: null, open_rule_quote: null, notices: [], rows_skipped: 0, unmapped_classes: [] }
+  parse(raws, ctx) {
+    const raw = raws.find((r) => r.name === 'feed') ?? raws[0]
+    const base = {
+      result: 'ok',
+      error: null,
+      list_date: null,
+      list_date_text: null,
+      open_rule_quote: null,
+      notices: [],
+      rows_skipped: 0,
+      unmapped_classes: [],
+    }
     const body = String(raw?.body ?? '')
     if (!/<rss\b|<channel\b/i.test(body)) return { ...base, result: 'format_changed', error: 'not an RSS feed' }
     const now = toMs(ctx.now)
@@ -32,15 +41,28 @@ export const adapter = {
       const description = extractText(tag(xml, 'description'))
       const posted_text = normText(extractText(tag(xml, 'pubDate'))) || null
       const posted_at = parseRfc822(posted_text)
-      if (!title || !posted_at) { base.rows_skipped++; continue }
+      if (!title || !posted_at) {
+        base.rows_skipped++
+        continue
+      }
       const t = Date.parse(posted_at)
       if (t < now - KEEP_BEFORE_MS || t > now + KEEP_AFTER_MS) continue
       if (!hasCsfpWord(`${title} ${description}`)) continue
       const guid = extractText(tag(xml, 'guid')) || extractText(tag(xml, 'link')) || title
       const n = {
-        id: null, source_id: ENTRY.id, sample: !!ctx.sample, kind: 'feed_post',
-        list_date: null, list_date_text: null, row_id: fnv1a8(guid),
-        school_text: null, community_text: null, family_text: null, region_text: null, status_class: null, status_text: null,
+        id: null,
+        source_id: ENTRY.id,
+        sample: !!ctx.sample,
+        kind: 'feed_post',
+        list_date: null,
+        list_date_text: null,
+        row_id: fnv1a8(guid),
+        school_text: null,
+        community_text: null,
+        family_text: null,
+        region_text: null,
+        status_class: null,
+        status_text: null,
         title,
         quote: title,
         // The whole <item> as text: one contiguous place in the raw copy that holds both title and description
@@ -49,14 +71,14 @@ export const adapter = {
         posted_at,
         posted_text,
         link: extractText(tag(xml, 'link')) || ENTRY.human_url,
-        raw_refs: [raw.raw_ref]
+        raw_refs: [raw.raw_ref],
       }
       const { notice } = classifyNotice(n, ctx.schools)
       notice.id = noticeId(notice, ctx.now)
       base.notices.push(notice)
     }
     return base
-  }
+  },
 }
 
 export default adapter

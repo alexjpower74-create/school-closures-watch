@@ -11,12 +11,33 @@ const read = (p) => readFileSync(REPO + p, 'utf8')
 
 // API.md §0 text extraction (mock-build copy).
 const NAMED = {
-  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', ndash: '–', mdash: '—',
-  lsquo: '‘', rsquo: '’', ldquo: '“', rdquo: '”', hellip: '…', eacute: 'é',
-  egrave: 'è', agrave: 'à', ecirc: 'ê', ccedil: 'ç', ocirc: 'ô', icirc: 'î',
-  laquo: '«', raquo: '»',
+  amp: '&',
+  lt: '<',
+  gt: '>',
+  quot: '"',
+  apos: "'",
+  nbsp: ' ',
+  ndash: '–',
+  mdash: '—',
+  lsquo: '‘',
+  rsquo: '’',
+  ldquo: '“',
+  rdquo: '”',
+  hellip: '…',
+  eacute: 'é',
+  egrave: 'è',
+  agrave: 'à',
+  ecirc: 'ê',
+  ccedil: 'ç',
+  ocirc: 'ô',
+  icirc: 'î',
+  laquo: '«',
+  raquo: '»',
 }
-const normText = (s) => String(s).replace(/[\s ]+/g, ' ').trim()
+const normText = (s) =>
+  String(s)
+    .replace(/[\s ]+/g, ' ')
+    .trim()
 const decodeEntities = (s) =>
   s.replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (m, e) => {
     if (e[0] === '#') {
@@ -79,17 +100,41 @@ const schoolsFile = JSON.parse(read('data/schools.json'))
 const all = schoolsFile.schools
 const IDS = [
   // The six schools in the real rows.
-  'nls-300422', 'nls-200498', 'nls-300407', 'nls-400240', 'nls-400430', 'nls-400371',
+  'nls-300422',
+  'nls-200498',
+  'nls-300407',
+  'nls-400240',
+  'nls-400430',
+  'nls-400371',
   // Central (with the four above from the real rows: 12 in all).
-  'nls-300180', 'nls-300132', 'nls-400235', 'nls-300480', 'nls-300414', 'nls-300417', 'nls-300418', 'nls-300495',
+  'nls-300180',
+  'nls-300132',
+  'nls-400235',
+  'nls-300480',
+  'nls-300414',
+  'nls-300417',
+  'nls-300418',
+  'nls-300495',
   // Western (with Eastside: 4).
-  'nls-200060', 'nls-200485', 'nls-200389',
+  'nls-200060',
+  'nls-200485',
+  'nls-200389',
   // Avalon and Labrador.
-  'nls-400265', 'nls-400497', 'nls-100008', 'nls-200046',
+  'nls-400265',
+  'nls-400497',
+  'nls-100008',
+  'nls-200046',
   // All six CSFP schools.
-  'csfp-500460', 'csfp-500499', 'csfp-500472', 'csfp-500459', 'csfp-500095', 'csfp-500107',
+  'csfp-500460',
+  'csfp-500499',
+  'csfp-500472',
+  'csfp-500459',
+  'csfp-500095',
+  'csfp-500107',
   // Private, Indigenous and Other.
-  'private-anchor-academy', 'private-st-bonaventures-college', 'indigenous-sheshatshiu-innu-school',
+  'private-anchor-academy',
+  'private-st-bonaventures-college',
+  'indigenous-sheshatshiu-innu-school',
   'other-murphy-centre',
 ]
 const schools = IDS.map((id) => {

@@ -10,31 +10,42 @@
 import { scenarioPayloads, SCENARIOS } from './payloads.mjs'
 
 const args = process.argv.slice(2)
-const value = f => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : null }
+const value = (f) => {
+  const i = args.indexOf(f)
+  return i >= 0 ? args[i + 1] : null
+}
 const url = (value('--url') ?? process.env.SC_WORKER_URL ?? `http://127.0.0.1:${process.env.SC_WORKER_PORT ?? 8202}`).replace(/\/+$/, '')
 const token = value('--token') ?? process.env.SC_ADMIN_TOKEN ?? 'local-dev-token'
 const scenario = value('--scenario') ?? 'today'
-if (!SCENARIOS[scenario]) { console.error(`unknown scenario ${scenario}: ${Object.keys(SCENARIOS).join(', ')}`); process.exit(2) }
+if (!SCENARIOS[scenario]) {
+  console.error(`unknown scenario ${scenario}: ${Object.keys(SCENARIOS).join(', ')}`)
+  process.exit(2)
+}
 const now = value('--now') ?? (scenario === 'csfp' ? '2026-09-14T18:00:00.000Z' : new Date().toISOString())
-if (Number.isNaN(Date.parse(now))) { console.error('--now needs an ISO time'); process.exit(2) }
+if (Number.isNaN(Date.parse(now))) {
+  console.error('--now needs an ISO time')
+  process.exit(2)
+}
 const MIN = 60000
-const at = ms => new Date(Date.parse(now) + ms).toISOString()
+const at = (ms) => new Date(Date.parse(now) + ms).toISOString()
 
-async function post (path, body, nowParam) {
+async function post(path, body, nowParam) {
   const res = await fetch(`${url}${path}?now=${encodeURIComponent(nowParam)}`, {
     method: 'POST',
     headers: { authorization: `Bearer ${token}`, 'content-type': 'application/json' },
-    body: body ? JSON.stringify(body) : undefined
+    body: body ? JSON.stringify(body) : undefined,
   })
   const text = await res.text()
   if (!res.ok) throw new Error(`${path}: HTTP ${res.status} ${text.slice(0, 200)}`)
   return JSON.parse(text)
 }
 
-async function ingest (name, when, only = null) {
+async function ingest(name, when, only = null) {
   for (const p of await scenarioPayloads(name, when, { only })) {
     const r = await post('/api/admin/ingest', p, when)
-    console.log(`  ${name.padEnd(9)} ${p.source_id.padEnd(18)} ${p.result.padEnd(6)} accepted ${r.accepted} dropped ${r.quotes_dropped} removed ${r.removed} current ${r.notices_current}`)
+    console.log(
+      `  ${name.padEnd(9)} ${p.source_id.padEnd(18)} ${p.result.padEnd(6)} accepted ${r.accepted} dropped ${r.quotes_dropped} removed ${r.removed} current ${r.notices_current}`,
+    )
   }
 }
 

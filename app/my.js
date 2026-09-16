@@ -12,7 +12,8 @@ const root = main()
 let lastLoad = 0
 
 function welcome() {
-  put(root, 
+  put(
+    root,
     el(
       'section',
       { class: 'card welcome narrow' },
@@ -48,7 +49,8 @@ async function load() {
   }
   renderStale(body.sources)
   const statuses = [...body.schools].sort(byRankThenName)
-  put(root, 
+  put(
+    root,
     el('h1', { class: 'page-title' }, 'My schools'),
     el(
       'div',

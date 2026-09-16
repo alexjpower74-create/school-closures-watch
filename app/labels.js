@@ -22,8 +22,7 @@ export const REASON_TEXT = {
   stale_never: "We haven't been able to check NLSchools yet. Check nlschools.ca or call the school.",
   list_date_old: 'The NLSchools list is still showing {list_date_text}.',
   list_date_missing: "We couldn't read which day the NLSchools list is for.",
-  open_rule_missing:
-    "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open.",
+  open_rule_missing: "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open.",
   csfp_no_online_status: "CSFP schools don't post closures online. The school tells families directly.",
   no_official_source: 'This school has no official online closure list. Call the school.',
 }

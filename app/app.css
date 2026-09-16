@@ -22,7 +22,7 @@
   --open: #22c55e;
   --radius: 16px;
   --shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  --font: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 *,
@@ -50,15 +50,14 @@ body {
 
 /* Faint aurora, behind everything, never hit by taps. */
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   opacity: 0.2;
   background:
-    radial-gradient(60% 40% at 15% 0%, #2bd6b4 0%, transparent 70%),
-    radial-gradient(50% 40% at 85% 5%, #6d7cff 0%, transparent 70%),
+    radial-gradient(60% 40% at 15% 0%, #2bd6b4 0%, transparent 70%), radial-gradient(50% 40% at 85% 5%, #6d7cff 0%, transparent 70%),
     radial-gradient(45% 30% at 50% 62%, #1e90ff 0%, transparent 70%);
   /* Every glow fades out before the bottom edge of the layer, so no edge can show where the page is taller than
      the viewport (a full-page capture, or anywhere the fixed layer ends). */
@@ -152,7 +151,7 @@ summary:focus-visible {
   font-weight: 600;
 }
 
-.nav-link[aria-current='page'] {
+.nav-link[aria-current="page"] {
   background: rgba(159, 208, 255, 0.14);
   box-shadow: inset 0 0 0 1px var(--hairline-strong);
 }
@@ -303,27 +302,67 @@ main {
 }
 
 /* Status colours: words + colour + icon, always. */
-.tone-closed { color: var(--closed); }
-.tone-closed_part { color: #f87171; }
-.tone-buses_cancelled { color: var(--buses-cancelled); }
-.tone-early_dismissal { color: var(--early); }
-.tone-delayed { color: var(--delayed); }
-.tone-buses_delayed { color: var(--buses-delayed); }
-.tone-other { color: #b4c6e2; }
-.tone-may_apply { color: var(--may); }
-.tone-unknown { color: #b6c2d2; }
-.tone-open { color: var(--open); }
+.tone-closed {
+  color: var(--closed);
+}
+.tone-closed_part {
+  color: #f87171;
+}
+.tone-buses_cancelled {
+  color: var(--buses-cancelled);
+}
+.tone-early_dismissal {
+  color: var(--early);
+}
+.tone-delayed {
+  color: var(--delayed);
+}
+.tone-buses_delayed {
+  color: var(--buses-delayed);
+}
+.tone-other {
+  color: #b4c6e2;
+}
+.tone-may_apply {
+  color: var(--may);
+}
+.tone-unknown {
+  color: #b6c2d2;
+}
+.tone-open {
+  color: var(--open);
+}
 
-.tone-edge-closed { border-left: 8px solid var(--closed); }
-.tone-edge-closed_part { border-left: 8px solid var(--closed-part); }
-.tone-edge-buses_cancelled { border-left: 8px solid var(--buses-cancelled); }
-.tone-edge-early_dismissal { border-left: 8px solid var(--early); }
-.tone-edge-delayed { border-left: 8px solid var(--delayed); }
-.tone-edge-buses_delayed { border-left: 8px solid var(--buses-delayed); }
-.tone-edge-other { border-left: 8px solid var(--other); }
-.tone-edge-may_apply { border-left: 8px dashed var(--may); }
-.tone-edge-unknown { border-left: 8px solid var(--unknown); }
-.tone-edge-open { border-left: 8px solid var(--open); }
+.tone-edge-closed {
+  border-left: 8px solid var(--closed);
+}
+.tone-edge-closed_part {
+  border-left: 8px solid var(--closed-part);
+}
+.tone-edge-buses_cancelled {
+  border-left: 8px solid var(--buses-cancelled);
+}
+.tone-edge-early_dismissal {
+  border-left: 8px solid var(--early);
+}
+.tone-edge-delayed {
+  border-left: 8px solid var(--delayed);
+}
+.tone-edge-buses_delayed {
+  border-left: 8px solid var(--buses-delayed);
+}
+.tone-edge-other {
+  border-left: 8px solid var(--other);
+}
+.tone-edge-may_apply {
+  border-left: 8px dashed var(--may);
+}
+.tone-edge-unknown {
+  border-left: 8px solid var(--unknown);
+}
+.tone-edge-open {
+  border-left: 8px solid var(--open);
+}
 
 .status-label {
   display: flex;
@@ -407,7 +446,7 @@ main {
 }
 
 .notice-words-summary::before {
-  content: '+';
+  content: "+";
   display: inline-block;
   width: 1em;
   text-align: center;
@@ -415,7 +454,7 @@ main {
 }
 
 .notice-words[open] > .notice-words-summary::before {
-  content: '−';
+  content: "−";
 }
 
 .empty-regions {
@@ -557,7 +596,7 @@ main {
   cursor: pointer;
 }
 
-.result[aria-pressed='true'] {
+.result[aria-pressed="true"] {
   border-color: var(--open);
   background: rgba(34, 197, 94, 0.1);
 }
@@ -583,7 +622,7 @@ main {
   font-size: 16px;
 }
 
-.result[aria-pressed='true'] .result-state {
+.result[aria-pressed="true"] .result-state {
   border-color: var(--open);
   color: var(--open);
 }
@@ -620,14 +659,14 @@ main {
 }
 
 .region-summary::after {
-  content: 'Show';
+  content: "Show";
   color: var(--link);
   font-size: 16px;
   font-weight: 600;
 }
 
 details[open] > .region-summary::after {
-  content: 'Hide';
+  content: "Hide";
 }
 
 .region-body {

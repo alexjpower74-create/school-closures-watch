@@ -25,7 +25,10 @@ test('today (real rows): Glovertown Closed and Eastside Other notice, verbatim',
 })
 
 test('today (real rows): My schools shows Glovertown Closed with its words', async ({ page }, testInfo) => {
-  await pickSchools(page, testInfo, 'today', [['glover', 'nls-300422'], ['eastside', 'nls-200498']])
+  await pickSchools(page, testInfo, 'today', [
+    ['glover', 'nls-300422'],
+    ['eastside', 'nls-200498'],
+  ])
   const glover = card(page, 'nls-300422')
   await expect(glover.getByTestId('status-label')).toHaveText('Closed')
   await expect(glover.getByTestId('source-status-text')).toHaveText('CLOSED ALL DAY')

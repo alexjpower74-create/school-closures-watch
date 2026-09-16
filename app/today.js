@@ -26,12 +26,26 @@ function regionSection(r, now) {
       'div',
       { class: 'region-body' },
       count === 0 ? el('p', { class: 'empty' }, 'No school in this region is on the list.') : null,
-      el('div', { 'data-testid': 'region-current' }, notices.map((n) => todayNotice(n, now))),
+      el(
+        'div',
+        { 'data-testid': 'region-current' },
+        notices.map((n) => todayNotice(n, now)),
+      ),
       unmatched.length
-        ? el('div', { 'data-testid': 'region-unmatched' }, el('h3', {}, 'Not matched to a school in the provincial list'), unmatched.map((n) => todayNotice(n, now)))
+        ? el(
+            'div',
+            { 'data-testid': 'region-unmatched' },
+            el('h3', {}, 'Not matched to a school in the provincial list'),
+            unmatched.map((n) => todayNotice(n, now)),
+          )
         : null,
       earlier.length
-        ? el('div', { 'data-testid': 'region-earlier' }, el('h3', {}, 'Earlier today (no longer listed)'), earlier.map((n) => todayNotice(n, now)))
+        ? el(
+            'div',
+            { 'data-testid': 'region-earlier' },
+            el('h3', {}, 'Earlier today (no longer listed)'),
+            earlier.map((n) => todayNotice(n, now)),
+          )
         : null,
     ),
   )
@@ -52,7 +66,11 @@ function regionsBlock(regions, now) {
   const quiet = regions.filter((r) => !hasNotices(r))
   return [
     busy.length
-      ? el('div', { class: `grid${busy.length > 1 ? ' two' : ''}` }, busy.map((r) => regionSection(r, now)))
+      ? el(
+          'div',
+          { class: `grid${busy.length > 1 ? ' two' : ''}` },
+          busy.map((r) => regionSection(r, now)),
+        )
       : null,
     quiet.length
       ? el(
@@ -83,13 +101,11 @@ async function load() {
   const district = guardNotices(body.district)
   const regionWide = guardNotices(body.region_wide)
   const csfp = guardNotices(body.csfp)
-  const regionCount = (body.regions || []).reduce(
-    (k, r) => k + guardNotices(r.notices).length + guardNotices(r.unmatched).length,
-    0,
-  )
+  const regionCount = (body.regions || []).reduce((k, r) => k + guardNotices(r.notices).length + guardNotices(r.unmatched).length, 0)
   const empty = district.length + regionWide.length + regionCount === 0
 
-  put(root, 
+  put(
+    root,
     el('h1', { class: 'page-title' }, 'Today'),
     el(
       'p',

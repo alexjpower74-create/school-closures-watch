@@ -11,13 +11,16 @@ function engine() {
 }
 
 // Resolve on a later task, like a network call, so pages never depend on synchronous data.
-const later = (fn) => new Promise((resolve, reject) => setTimeout(() => {
-  try {
-    resolve(structuredClone(fn()))
-  } catch (e) {
-    reject(e)
-  }
-}, 0))
+const later = (fn) =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      try {
+        resolve(structuredClone(fn()))
+      } catch (e) {
+        reject(e)
+      }
+    }, 0),
+  )
 
 export const getSchools = () => later(() => engine().schools())
 export const getStatus = (ids) => later(() => engine().status(ids))

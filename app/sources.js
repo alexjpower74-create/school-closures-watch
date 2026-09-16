@@ -58,7 +58,12 @@ function sourceCard(s, now) {
           'figure',
           { class: 'quote-figure' },
           el('blockquote', { class: 'quote', 'data-testid': 'terms-quote' }, s.terms_quote),
-          el('figcaption', { class: 'quote-source' }, 'Terms of use', s.terms_url ? [' · ', el('a', { href: s.terms_url, rel: 'noopener' }, 'Read the terms')] : null),
+          el(
+            'figcaption',
+            { class: 'quote-source' },
+            'Terms of use',
+            s.terms_url ? [' · ', el('a', { href: s.terms_url, rel: 'noopener' }, 'Read the terms')] : null,
+          ),
         )
       : used
         ? el('p', { class: 'small' }, 'No terms of use found on this site.')
@@ -80,13 +85,22 @@ function schoolsCard(schools) {
       `${c.total ?? '?'} schools: ${c.NLSchools ?? '?'} NLSchools, ${c.CSFP ?? '?'} CSFP, ${c.Private ?? '?'} private, ${c.Indigenous ?? '?'} Indigenous and ${c.Other ?? '?'} other.`,
     ),
     Object.keys(r).length
-      ? el('p', { class: 'small' }, `Public schools by region: Avalon ${r.avalon}, Central ${r.central}, Western ${r.western}, Labrador ${r.labrador}.`)
+      ? el(
+          'p',
+          { class: 'small' },
+          `Public schools by region: Avalon ${r.avalon}, Central ${r.central}, Western ${r.western}, Labrador ${r.labrador}.`,
+        )
       : null,
     el(
       'ul',
       {},
       (schools?.sources || []).map((s) =>
-        el('li', {}, `${s.name}${s.publisher ? `, ${s.publisher}` : ''} `, s.page_url || s.url ? el('a', { href: s.page_url || s.url, rel: 'noopener' }, 'Open') : null),
+        el(
+          'li',
+          {},
+          `${s.name}${s.publisher ? `, ${s.publisher}` : ''} `,
+          s.page_url || s.url ? el('a', { href: s.page_url || s.url, rel: 'noopener' }, 'Open') : null,
+        ),
       ),
     ),
   )
@@ -100,9 +114,17 @@ function gapsCard() {
     el(
       'ul',
       {},
-      el('li', {}, "CSFP (French-language) schools don't post closures online. The principal decides and tells families directly, so we show these schools as Unknown."),
+      el(
+        'li',
+        {},
+        "CSFP (French-language) schools don't post closures online. The principal decides and tells families directly, so we show these schools as Unknown.",
+      ),
       el('li', {}, 'Private, Indigenous and other schools have no official online closure list. Call the school.'),
-      el('li', {}, "Bus delays and cancellations in BusPlanner need a login, so we don't read them. We only show bus notes that NLSchools puts on its own status list, in its words."),
+      el(
+        'li',
+        {},
+        "Bus delays and cancellations in BusPlanner need a login, so we don't read them. We only show bus notes that NLSchools puts on its own status list, in its words.",
+      ),
       el('li', {}, "NLSchools doesn't show when a notice was posted. We show when we first saw it."),
     ),
     el(
@@ -123,10 +145,15 @@ async function load() {
     return
   }
   renderStale(body.sources)
-  put(root, 
+  put(
+    root,
     el('h1', { class: 'page-title' }, 'Sources'),
     el('p', { class: 'lead' }, 'Where every status comes from, and when we last checked.'),
-    el('div', { class: 'grid two' }, body.sources.map((s) => sourceCard(s, body.now))),
+    el(
+      'div',
+      { class: 'grid two' },
+      body.sources.map((s) => sourceCard(s, body.now)),
+    ),
     schoolsCard(body.schools),
     gapsCard(),
   )

@@ -2,7 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { localParts, localDate, localToMs, isNdt, fmtTime, parseRfc822, parseListDate, refStamp } from '../time.js'
 
-const at = s => localParts(s)
+const at = (s) => localParts(s)
 
 test('September is NDT (UTC−2:30): Monday 2026-09-14', () => {
   assert.deepEqual(at('2026-09-14T09:10:00Z'), { y: 2026, m: 9, d: 14, hh: 6, mm: 40, weekday: 1 })

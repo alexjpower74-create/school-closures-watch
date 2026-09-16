@@ -39,5 +39,5 @@ export function fmtWhen(iso, now) {
 
 /** Fill "{name}" placeholders. */
 export function fill(template, vars) {
-  return String(template ?? '').replace(/\{(\w+)\}/g, (m, k) => (vars[k] ?? m))
+  return String(template ?? '').replace(/\{(\w+)\}/g, (m, k) => vars[k] ?? m)
 }

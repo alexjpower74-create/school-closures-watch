@@ -5,23 +5,56 @@ import { classifyNotice } from '../notice.js'
 import { SCHOOLS, schoolsInRegion } from '../schools.js'
 import { MON_0640, healthyNls } from './helpers.mjs'
 
-const byName = name => SCHOOLS.find(s => s.name === name)
+const byName = (name) => SCHOOLS.find((s) => s.name === name)
 const GLOVERTOWN = byName('Glovertown Academy')
 const EASTSIDE = byName('Eastside Elementary')
-const OTHER_CENTRAL = schoolsInRegion('central').find(s => s.id !== GLOVERTOWN.id)
+const OTHER_CENTRAL = schoolsInRegion('central').find((s) => s.id !== GLOVERTOWN.id)
 const BOREALE = byName('École Boréale')
 const SAINTE_ANNE = byName('École Sainte-Anne')
-const PRIVATE = SCHOOLS.find(s => s.board === 'Private')
+const PRIVATE = SCHOOLS.find((s) => s.board === 'Private')
 const NOW = MON_0640
 
 let seq = 0
-const row = (school_text, community_text, status_class, patch = {}) => classifyNotice({
-  id: `n${++seq}`, source_id: 'nlschools-status', kind: 'school_row', row_id: String(seq), list_date: '2026-09-14',
-  school_text, community_text, region_text: 'CENTRAL', status_class, status_text: 'SAMPLE STATUS', quote: 'SAMPLE note',
-  source_text: 'SAMPLE row', first_seen_at: NOW, removed_at: null, ...patch
-}, SCHOOLS).notice
-const text = (quote, patch = {}) => classifyNotice({ id: `t${++seq}`, source_id: 'nlschools-notices', kind: 'text_notice', row_id: String(seq), quote, source_text: quote, removed_at: null, ...patch }, SCHOOLS).notice
-const feed = (source_text) => classifyNotice({ id: `f${++seq}`, source_id: 'csfp-news', kind: 'feed_post', row_id: String(seq), quote: source_text, source_text, removed_at: null }, SCHOOLS).notice
+const row = (school_text, community_text, status_class, patch = {}) =>
+  classifyNotice(
+    {
+      id: `n${++seq}`,
+      source_id: 'nlschools-status',
+      kind: 'school_row',
+      row_id: String(seq),
+      list_date: '2026-09-14',
+      school_text,
+      community_text,
+      region_text: 'CENTRAL',
+      status_class,
+      status_text: 'SAMPLE STATUS',
+      quote: 'SAMPLE note',
+      source_text: 'SAMPLE row',
+      first_seen_at: NOW,
+      removed_at: null,
+      ...patch,
+    },
+    SCHOOLS,
+  ).notice
+const text = (quote, patch = {}) =>
+  classifyNotice(
+    {
+      id: `t${++seq}`,
+      source_id: 'nlschools-notices',
+      kind: 'text_notice',
+      row_id: String(seq),
+      quote,
+      source_text: quote,
+      removed_at: null,
+      ...patch,
+    },
+    SCHOOLS,
+  ).notice
+const feed = (source_text) =>
+  classifyNotice(
+    { id: `f${++seq}`, source_id: 'csfp-news', kind: 'feed_post', row_id: String(seq), quote: source_text, source_text, removed_at: null },
+    SCHOOLS,
+  ).notice
 
 const st = (school, notices, health = healthyNls(NOW), now = NOW) => schoolStatus(school, indexNotices(notices), health, now)
 
@@ -52,13 +85,22 @@ test('open only with a healthy, current list and the open rule', () => {
 
 test('unknown reasons: list_date_old, list_date_missing, open_rule_missing', () => {
   const old = st(OTHER_CENTRAL, [], healthyNls(NOW, { list_date: '2026-09-11', list_date_text: 'Friday, September 11, 2026' }))
-  assert.deepEqual([old.status, old.reason, old.reason_text], ['unknown', 'list_date_old', 'The NLSchools list is still showing Friday, September 11, 2026.'])
+  assert.deepEqual(
+    [old.status, old.reason, old.reason_text],
+    ['unknown', 'list_date_old', 'The NLSchools list is still showing Friday, September 11, 2026.'],
+  )
   // a list for tomorrow (after 6 PM) is fine
   assert.equal(st(OTHER_CENTRAL, [], healthyNls(NOW, { list_date: '2026-09-15' })).status, 'open')
   const missing = st(OTHER_CENTRAL, [], healthyNls(NOW, { list_date: null, list_date_text: null }))
-  assert.deepEqual([missing.status, missing.reason, missing.reason_text], ['unknown', 'list_date_missing', "We couldn't read which day the NLSchools list is for."])
+  assert.deepEqual(
+    [missing.status, missing.reason, missing.reason_text],
+    ['unknown', 'list_date_missing', "We couldn't read which day the NLSchools list is for."],
+  )
   const rule = st(OTHER_CENTRAL, [], healthyNls(NOW, { open_rule_quote: null }))
-  assert.deepEqual([rule.status, rule.reason, rule.reason_text], ['unknown', 'open_rule_missing', "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open."])
+  assert.deepEqual(
+    [rule.status, rule.reason, rule.reason_text],
+    ['unknown', 'open_rule_missing', "The NLSchools page no longer says unlisted schools are open, so we can't say this school is open."],
+  )
 })
 
 test('stale: applying notices keep their status with stale true; everything else unknown "stale"', () => {
@@ -87,7 +129,9 @@ test('may_apply: ambiguous row is NOT applied', () => {
   assert.equal(s.status, 'may_apply')
   assert.equal(s.label, 'A notice may apply')
   assert.deepEqual(s.applies, [])
-  assert.deepEqual(s.may_apply, [{ notice_id: amb.id, reason: 'name_similar', reason_text: 'The notice names a similar school: "SAMPLE Glovertown".' }])
+  assert.deepEqual(s.may_apply, [
+    { notice_id: amb.id, reason: 'name_similar', reason_text: 'The notice names a similar school: "SAMPLE Glovertown".' },
+  ])
   assert.equal(s.headline_notice_id, amb.id)
   const diff = row('Glovertown Academy', 'Gander, NL', 'closedAllDay')
   assert.equal(st(GLOVERTOWN, [diff]).may_apply[0].reason_text, 'The notice names this school but a different community: "Gander, NL".')
@@ -108,7 +152,10 @@ test("old lists never set today's status (lead fix 14:55): a 2026-09-11 closed e
   assert.equal(st(OTHER_CENTRAL, [oldUn], h, now).unmatched_in_region, 0)
   // today's list still applies, and list_date null (important notices, feed posts) is never "old"
   assert.equal(st(GLOVERTOWN, [glovClosed()], h, now).status, 'closed')
-  assert.equal(st(OTHER_CENTRAL, [text('SAMPLE All schools in the Central region are closed for the day', { list_date: null })], h, now).status, 'closed')
+  assert.equal(
+    st(OTHER_CENTRAL, [text('SAMPLE All schools in the Central region are closed for the day', { list_date: null })], h, now).status,
+    'closed',
+  )
 })
 
 test('may_apply reason text when the row gives no community (lead 15:10)', () => {
@@ -119,9 +166,9 @@ test('may_apply reason text when the row gives no community (lead 15:10)', () =>
 test('region-wide: every Central NLSchools school, no Western, no CSFP', () => {
   const r = row('SAMPLE All Central Region Schools', null, 'closedAllDay', { status_text: 'CLOSED ALL DAY' })
   const idx = indexNotices([r])
-  const central = schoolsInRegion('central').map(s => schoolStatus(s, idx, healthyNls(NOW), NOW))
+  const central = schoolsInRegion('central').map((s) => schoolStatus(s, idx, healthyNls(NOW), NOW))
   assert.equal(central.length, 77)
-  assert.ok(central.every(s => s.status === 'closed' && s.applies[0].how === 'region'))
+  assert.ok(central.every((s) => s.status === 'closed' && s.applies[0].how === 'region'))
   assert.equal(schoolStatus(EASTSIDE, idx, healthyNls(NOW), NOW).status, 'open')
   assert.equal(schoolStatus(SAINTE_ANNE, idx, healthyNls(NOW), NOW).status, 'unknown')
   const tn = text('SAMPLE All schools in the Central region are closed for the day')
@@ -141,20 +188,29 @@ test('worst applying notice wins; removed notices are ignored', () => {
   const region = text('SAMPLE All schools in the Central region are closed for the day')
   const s = st(GLOVERTOWN, [delayed, region])
   assert.equal(s.status, 'closed')
-  assert.deepEqual(s.applies.map(a => a.how), ['region', 'exact'])
+  assert.deepEqual(
+    s.applies.map((a) => a.how),
+    ['region', 'exact'],
+  )
   assert.equal(st(GLOVERTOWN, [{ ...glovClosed(), removed_at: NOW }]).status, 'open')
 })
 
 test('CSFP: unknown csfp_no_online_status, may_apply from the feed; private: no_official_source', () => {
   const b = st(BOREALE, [])
-  assert.deepEqual([b.status, b.reason, b.reason_text], ['unknown', 'csfp_no_online_status', "CSFP schools don't post closures online. The school tells families directly."])
+  assert.deepEqual(
+    [b.status, b.reason, b.reason_text],
+    ['unknown', 'csfp_no_online_status', "CSFP schools don't post closures online. The school tells families directly."],
+  )
   assert.equal(b.as_of, NOW)
   const post = feed("SAMPLE École Boréale fermée aujourd'hui en raison de la tempête")
   const bm = st(BOREALE, [post])
   assert.deepEqual([bm.status, bm.may_apply[0].reason_text], ['may_apply', 'A CSFP news post mentions this school.'])
   assert.equal(st(SAINTE_ANNE, [post]).status, 'unknown')
   const p = st(PRIVATE, [glovClosed()])
-  assert.deepEqual([p.status, p.reason, p.reason_text, p.as_of], ['unknown', 'no_official_source', 'This school has no official online closure list. Call the school.', null])
+  assert.deepEqual(
+    [p.status, p.reason, p.reason_text, p.as_of],
+    ['unknown', 'no_official_source', 'This school has no official online closure list. Call the school.', null],
+  )
 })
 
 test('unmatched_in_region counts unmatched rows by region; sorting is rank then name', () => {
@@ -167,6 +223,9 @@ test('unmatched_in_region counts unmatched rows by region; sorting is rank then 
   assert.equal(st(SAINTE_ANNE, [west]).unmatched_in_region, 0)
   assert.equal(st(PRIVATE, [west]).unmatched_in_region, 0)
   const list = sortStatuses([st(PRIVATE, []), st(EASTSIDE, []), st(GLOVERTOWN, [glovClosed()]), st(BOREALE, [])])
-  assert.deepEqual(list.map(s => s.status), ['closed', 'unknown', 'unknown', 'open'])
+  assert.deepEqual(
+    list.map((s) => s.status),
+    ['closed', 'unknown', 'unknown', 'open'],
+  )
   assert.equal(list[1].school.name.localeCompare(list[2].school.name, 'en') < 0, true)
 })

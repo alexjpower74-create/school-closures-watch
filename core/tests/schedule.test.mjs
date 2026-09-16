@@ -81,7 +81,10 @@ test('staleness reasons and plain text', () => {
   assert.deepEqual(staleness(S, t, null), { stale: true, stale_reason: 'never_checked' })
   const failed = { last_attempt_at: t, last_ok_at: nf(2026, 9, 14, 6, 35), last_result: 'error' }
   assert.deepEqual(staleness(S, t, failed), { stale: true, stale_reason: 'last_attempt_failed' })
-  assert.equal(staleText(S, 'last_attempt_failed', failed), "We couldn't reach the NLSchools list at 6:40 AM. Statuses below are from 6:35 AM.")
+  assert.equal(
+    staleText(S, 'last_attempt_failed', failed),
+    "We couldn't reach the NLSchools list at 6:40 AM. Statuses below are from 6:35 AM.",
+  )
   assert.equal(staleness(S, t, { ...failed, last_result: 'format_changed' }).stale, true)
   assert.equal(staleText(S, null, failed), null)
 })
@@ -91,6 +94,9 @@ test('stale_text when no check was ever good but an attempt failed (lead 15:10)'
   const h = { last_attempt_at: t, last_ok_at: null, last_result: 'error' }
   assert.equal(staleness(S, t, h).stale_reason, 'never_checked')
   assert.equal(staleText(S, 'never_checked', h), "We couldn't reach the NLSchools list at 6:40 AM. We haven't had a good check yet.")
-  assert.equal(staleText('csfp-news', 'never_checked', h), "We couldn't reach the CSFP news feed at 6:40 AM. We haven't had a good check yet.")
+  assert.equal(
+    staleText('csfp-news', 'never_checked', h),
+    "We couldn't reach the CSFP news feed at 6:40 AM. We haven't had a good check yet.",
+  )
   assert.equal(staleText(S, 'never_checked', null), "We haven't checked the NLSchools list yet.")
 })

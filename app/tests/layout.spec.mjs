@@ -5,7 +5,11 @@ import { pickSchools, typeSearch, openRegion, mockUrl, expectTargetsHittable, ex
 test.describe.configure({ timeout: 240_000 })
 
 test('My schools (storm, with may-apply and unmatched)', async ({ page }, testInfo) => {
-  await pickSchools(page, testInfo, 'storm', [['glover', 'nls-300422'], ['loughlin', 'nls-200060'], ["bay d'espoir", 'nls-300407']])
+  await pickSchools(page, testInfo, 'storm', [
+    ['glover', 'nls-300422'],
+    ['loughlin', 'nls-200060'],
+    ["bay d'espoir", 'nls-300407'],
+  ])
   await expectNoHorizontalScroll(page)
   await expectTargetsHittable(page)
 })

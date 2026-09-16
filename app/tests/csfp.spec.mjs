@@ -20,9 +20,7 @@ test('csfp: Boréale may-apply, another CSFP school Unknown, a private school Un
 
   const anne = card(page, 'csfp-500107')
   await expect(anne).toHaveAttribute('data-status', 'unknown')
-  await expect(anne.getByTestId('reason')).toHaveText(
-    "CSFP schools don't post closures online. The school tells families directly.",
-  )
+  await expect(anne.getByTestId('reason')).toHaveText("CSFP schools don't post closures online. The school tells families directly.")
   await expect(anne.getByTestId('may-apply')).toHaveCount(0)
 
   const anchor = card(page, 'private-anchor-academy')

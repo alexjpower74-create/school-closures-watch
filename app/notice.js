@@ -38,20 +38,30 @@ async function load() {
     body = await api.getNotice(id)
   } catch (e) {
     if (e.status === 404) {
-      put(root, 
-        el('section', { class: 'card' }, el('h1', { class: 'page-title' }, 'Notice not found'),
+      put(
+        root,
+        el(
+          'section',
+          { class: 'card' },
+          el('h1', { class: 'page-title' }, 'Notice not found'),
           el('p', {}, 'We no longer keep that notice. It may be from an older list.'),
-          el('a', { class: 'button-link', href: href('today.html') }, "See today's list")),
+          el('a', { class: 'button-link', href: href('today.html') }, "See today's list"),
+        ),
       )
     } else put(root, errorCard(`The notice didn't load (${e.message}).`, load))
     return
   }
   const n = body.notice
   if (guardNotices([n]).length === 0) {
-    put(root, 
-      el('section', { class: 'card' }, el('h1', { class: 'page-title' }, "This notice can't be shown"),
+    put(
+      root,
+      el(
+        'section',
+        { class: 'card' },
+        el('h1', { class: 'page-title' }, "This notice can't be shown"),
         el('p', {}, "Its words didn't match the copy we saved from the source, so we don't show it. Check the official page."),
-        body.source?.human_url ? el('a', { class: 'button-link', href: body.source.human_url }, `Open ${body.source.name}`) : null),
+        body.source?.human_url ? el('a', { class: 'button-link', href: body.source.human_url }, `Open ${body.source.name}`) : null,
+      ),
     )
     return
   }
@@ -61,7 +71,8 @@ async function load() {
   const region = regionLineText(n)
   const isNls = n.source_id?.startsWith('nlschools')
 
-  put(root, 
+  put(
+    root,
     el(
       'article',
       { class: 'card narrow', 'data-testid': 'notice-detail', 'data-notice-id': n.id, 'data-status': n.status },
@@ -69,7 +80,12 @@ async function load() {
       el('h1', { class: 'page-title verbatim' }, named || n.title || 'Notice'),
       statusLabel(n.status, labelFor(n.status)),
       n.status_text
-        ? el('p', { class: 'source-status' }, 'On the list as ', el('span', { class: 'verbatim', 'data-testid': 'source-status-text' }, n.status_text))
+        ? el(
+            'p',
+            { class: 'source-status' },
+            'On the list as ',
+            el('span', { class: 'verbatim', 'data-testid': 'source-status-text' }, n.status_text),
+          )
         : null,
       quoteBlock(n),
       region ? el('p', { class: 'region-line', 'data-testid': 'region-wide-line' }, region) : null,
@@ -92,12 +108,20 @@ async function load() {
       el('p', { class: 'seen-line' }, seenLineText(n, now)),
       el('h2', { class: 'card-title' }, 'Applies to'),
       body.applies_to?.length
-        ? el('ul', { 'data-testid': 'applies-to' }, body.applies_to.map((a) => el('li', {}, `${schoolText(a.school)}: ${HOW_WORDS[a.how] || a.how}`)))
+        ? el(
+            'ul',
+            { 'data-testid': 'applies-to' },
+            body.applies_to.map((a) => el('li', {}, `${schoolText(a.school)}: ${HOW_WORDS[a.how] || a.how}`)),
+          )
         : el('p', { class: 'small', 'data-testid': 'applies-to' }, 'No school for certain.'),
       body.may_apply_to?.length
         ? [
             el('h2', { class: 'card-title' }, 'May apply to'),
-            el('ul', { 'data-testid': 'may-apply-to' }, body.may_apply_to.map((m) => el('li', {}, `${schoolText(m.school)}: ${m.reason_text}`))),
+            el(
+              'ul',
+              { 'data-testid': 'may-apply-to' },
+              body.may_apply_to.map((m) => el('li', {}, `${schoolText(m.school)}: ${m.reason_text}`)),
+            ),
           ]
         : null,
       el('h2', { class: 'card-title' }, 'Saved copies'),

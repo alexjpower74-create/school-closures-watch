@@ -76,11 +76,15 @@ export function statusIcon(code, size = 24) {
 }
 
 function wordmarkIcon() {
-  return svg(30, [
-    ['path', { d: 'M3 11l9-7 9 7' }],
-    ['path', { d: 'M5.5 9.5V20h13V9.5' }],
-    ['path', { d: 'M10 20v-5h4v5' }],
-  ], 'wordmark-icon')
+  return svg(
+    30,
+    [
+      ['path', { d: 'M3 11l9-7 9 7' }],
+      ['path', { d: 'M5.5 9.5V20h13V9.5' }],
+      ['path', { d: 'M10 20v-5h4v5' }],
+    ],
+    'wordmark-icon',
+  )
 }
 
 const NAV = [
@@ -93,7 +97,8 @@ const NAV = [
 export function mountChrome(active) {
   const chrome = document.getElementById('chrome')
   chrome.className = 'site-header'
-  put(chrome, 
+  put(
+    chrome,
     el(
       'div',
       { class: 'wrap header-inner' },
@@ -111,9 +116,7 @@ export function mountChrome(active) {
         ),
       ),
     ),
-    isMock
-      ? el('p', { class: 'wrap mock-note' }, 'Test data: these notices are samples, not today’s real list.')
-      : null,
+    isMock ? el('p', { class: 'wrap mock-note' }, 'Test data: these notices are samples, not today’s real list.') : null,
   )
 }
 
@@ -129,7 +132,8 @@ export function renderStale(sources) {
     put(box)
     return
   }
-  put(box, 
+  put(
+    box,
     el(
       'div',
       { class: 'stale-banner', role: 'alert', 'data-testid': 'stale-banner' },

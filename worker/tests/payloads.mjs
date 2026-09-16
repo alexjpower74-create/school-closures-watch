@@ -7,9 +7,9 @@ export { SCENARIOS }
 
 const FIXTURE_ORIGIN = 'http://fixture.invalid'
 
-export async function scenarioPayloads (name, now, { only = null } = {}) {
+export async function scenarioPayloads(name, now, { only = null } = {}) {
   if (!SCENARIOS[name]) throw new Error(`unknown scenario ${name}`)
-  const fetchImpl = async url => {
+  const fetchImpl = async (url) => {
     const out = scenarioBody(name, new URL(url).pathname)
     if (!out) return new Response('not in fixtures', { status: 404 })
     return new Response(out.body, { status: out.status, headers: { 'content-type': out.type } })
@@ -21,7 +21,7 @@ export async function scenarioPayloads (name, now, { only = null } = {}) {
     fetchImpl,
     originMap: { 'https://www.nlschools.ca': FIXTURE_ORIGIN, 'https://csfp.nl.ca': FIXTURE_ORIGIN },
     sleep: async () => {},
-    trigger: 'admin'
+    trigger: 'admin',
   })
   return scan.sources.map(({ requests, quotes_dropped, ...payload }) => payload)
 }

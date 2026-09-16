@@ -24,69 +24,112 @@ let fixture = null
 
 const log = (...a) => console.log('[run]', ...a)
 
-function portInUse (port) {
-  return new Promise(resolve => {
+function portInUse(port) {
+  return new Promise((resolve) => {
     const s = createConnection({ port, host: '127.0.0.1' })
-    s.once('connect', () => { s.destroy(); resolve(true) })
+    s.once('connect', () => {
+      s.destroy()
+      resolve(true)
+    })
     s.once('error', () => resolve(false))
   })
 }
 
-function run (cmd, args, opts = {}) {
-  return new Promise(resolve => {
+function run(cmd, args, opts = {}) {
+  return new Promise((resolve) => {
     const child = spawn(cmd, args, { cwd: WORKER_DIR, stdio: 'inherit', env, ...opts })
     children.add(child)
-    child.on('exit', code => { children.delete(child); resolve(code ?? 1) })
+    child.on('exit', (code) => {
+      children.delete(child)
+      resolve(code ?? 1)
+    })
   })
 }
 
-function kill (child) {
-  try { process.kill(-child.pid, 'SIGTERM') } catch { try { child.kill('SIGTERM') } catch {} }
+function kill(child) {
+  try {
+    process.kill(-child.pid, 'SIGTERM')
+  } catch {
+    try {
+      child.kill('SIGTERM')
+    } catch {}
+  }
 }
 
-async function cleanup () {
+async function cleanup() {
   for (const c of children) kill(c)
   if (fixture) await fixture.close().catch(() => {})
 }
-for (const sig of ['SIGINT', 'SIGTERM']) process.on(sig, async () => { await cleanup(); process.exit(130) })
+for (const sig of ['SIGINT', 'SIGTERM'])
+  process.on(sig, async () => {
+    await cleanup()
+    process.exit(130)
+  })
 
-async function waitFor (check, ms, every = 300) {
+async function waitFor(check, ms, every = 300) {
   const until = Date.now() + ms
   while (Date.now() < until) {
     if (await check()) return true
-    await new Promise(r => setTimeout(r, every))
+    await new Promise((r) => setTimeout(r, every))
   }
   return false
 }
 
-async function startWorker ({ fakeNow, envFile }) {
+async function startWorker({ fakeNow, envFile }) {
   if (await portInUse(PORT)) throw new Error(`port ${PORT} is already in use: refusing to reuse another server`)
-  const args = ['dev', '--local', '--ip', '127.0.0.1', '--port', String(PORT), '--persist-to', STATE, '--env-file', envFile,
-    '--var', `ADMIN_TOKEN:${TOKEN}`, '--var', `ALLOW_FAKE_NOW:${fakeNow ? '1' : '0'}`]
+  const args = [
+    'dev',
+    '--local',
+    '--ip',
+    '127.0.0.1',
+    '--port',
+    String(PORT),
+    '--persist-to',
+    STATE,
+    '--env-file',
+    envFile,
+    '--var',
+    `ADMIN_TOKEN:${TOKEN}`,
+    '--var',
+    `ALLOW_FAKE_NOW:${fakeNow ? '1' : '0'}`,
+  ]
   if (fakeNow) args.push('--test-scheduled')
   const dev = spawn('wrangler', args, { cwd: WORKER_DIR, env, stdio: ['ignore', 'pipe', 'pipe'], detached: true })
   children.add(dev)
   const out = []
-  dev.stdout.on('data', d => out.push(String(d)))
-  dev.stderr.on('data', d => out.push(String(d)))
-  const exited = new Promise(resolve => dev.on('exit', () => { children.delete(dev); resolve() }))
+  dev.stdout.on('data', (d) => out.push(String(d)))
+  dev.stderr.on('data', (d) => out.push(String(d)))
+  const exited = new Promise((resolve) =>
+    dev.on('exit', () => {
+      children.delete(dev)
+      resolve()
+    }),
+  )
   const up = await waitFor(async () => {
-    try { return (await fetch(`http://127.0.0.1:${PORT}/api/health`)).ok } catch { return false }
+    try {
+      return (await fetch(`http://127.0.0.1:${PORT}/api/health`)).ok
+    } catch {
+      return false
+    }
   }, 90000)
-  if (!up) { console.error(out.join('')); throw new Error('Worker did not answer /api/health') }
+  if (!up) {
+    console.error(out.join(''))
+    throw new Error('Worker did not answer /api/health')
+  }
   return {
     output: () => out.join(''),
-    async stop () {
+    async stop() {
       kill(dev)
-      await Promise.race([exited, new Promise(r => setTimeout(r, 10000))])
+      await Promise.race([exited, new Promise((r) => setTimeout(r, 10000))])
       await waitFor(async () => !(await portInUse(PORT)), 15000)
-    }
+    },
   }
 }
 
-const runTests = files => run(process.execPath, ['--test', '--test-concurrency=1', ...files], {
-  env: { ...process.env, SC_WORKER_URL: `http://127.0.0.1:${PORT}`, SC_FIXTURE_URL: fixture.origin, SC_ADMIN_TOKEN: TOKEN }
-})
+const runTests = (files) =>
+  run(process.execPath, ['--test', '--test-concurrency=1', ...files], {
+    env: { ...process.env, SC_WORKER_URL: `http://127.0.0.1:${PORT}`, SC_FIXTURE_URL: fixture.origin, SC_ADMIN_TOKEN: TOKEN },
+  })
 
 let exitCode = 1
 try {
@@ -103,11 +146,16 @@ try {
 
   // Only this env file is loaded (not worker/.dev.vars).
   const envFile = `${STATE}/test.env`
-  writeFileSync(WORKER_DIR + envFile, `SOURCE_ORIGIN_MAP=${JSON.stringify({ 'https://www.nlschools.ca': fixture.origin, 'https://csfp.nl.ca': fixture.origin })}\n`)
+  writeFileSync(
+    WORKER_DIR + envFile,
+    `SOURCE_ORIGIN_MAP=${JSON.stringify({ 'https://www.nlschools.ca': fixture.origin, 'https://csfp.nl.ca': fixture.origin })}\n`,
+  )
 
-  const tests = readdirSync(WORKER_DIR + 'tests').filter(f => f.endsWith('.test.mjs')).sort()
-  const realNow = tests.filter(f => f === 'real-now.test.mjs').map(f => `tests/${f}`)
-  const fakeNow = tests.filter(f => f !== 'real-now.test.mjs').map(f => `tests/${f}`)
+  const tests = readdirSync(WORKER_DIR + 'tests')
+    .filter((f) => f.endsWith('.test.mjs'))
+    .sort()
+  const realNow = tests.filter((f) => f === 'real-now.test.mjs').map((f) => `tests/${f}`)
+  const fakeNow = tests.filter((f) => f !== 'real-now.test.mjs').map((f) => `tests/${f}`)
 
   log(`phase 1: wrangler dev --local on ${PORT}, ALLOW_FAKE_NOW=0`)
   let w = await startWorker({ fakeNow: false, envFile })

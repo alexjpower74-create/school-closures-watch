@@ -47,7 +47,7 @@ test.describe('storm', () => {
     await expect(bishop.getByTestId('quote')).toHaveText('Delayed opening - 2 hours. NOTE: Delayed opening due to icy roads.')
   })
 
-  test("a second applying notice is compact; its words open on tap, verbatim", async ({ page }, testInfo) => {
+  test('a second applying notice is compact; its words open on tap, verbatim', async ({ page }, testInfo) => {
     const own = card(page, BAY).locator('[data-notice-status="closed_part"]')
     await expect(own).toHaveClass(/is-compact/)
     await expect(own.locator('.notice-mini-label')).toHaveText('Closed part of the day · CLOSED FOR MORNING')
@@ -92,9 +92,7 @@ test.describe('storm', () => {
     await expect(west.getByTestId('status-label')).toHaveText('Open, no notice')
     await expect(west.locator('.notice-block')).toHaveCount(0)
     await expect(west.getByTestId('region-wide-line')).toHaveCount(0)
-    await expect(west.getByTestId('unmatched-count')).toContainText(
-      "1 notice in the Western region couldn't be matched to a school",
-    )
+    await expect(west.getByTestId('unmatched-count')).toContainText("1 notice in the Western region couldn't be matched to a school")
     await expect(card(page, BOTWOOD).getByTestId('unmatched-count')).toHaveCount(0)
   })
 })

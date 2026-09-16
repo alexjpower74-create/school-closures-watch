@@ -11,10 +11,7 @@ export const REGISTRY = [
     kind: 'used',
     covers: 'NLSchools schools',
     human_url: 'https://www.nlschools.ca/schools/statusreport.jsp',
-    fetch_urls: [
-      'https://www.nlschools.ca/schools/statusreport.jsp',
-      'https://www.nlschools.ca/schools/generated/schoolstatus.html',
-    ],
+    fetch_urls: ['https://www.nlschools.ca/schools/statusreport.jsp', 'https://www.nlschools.ca/schools/generated/schoolstatus.html'],
     format: 'html',
     terms_url: NLS_TERMS_URL,
     terms_quote: NLS_TERMS,

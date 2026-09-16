@@ -82,9 +82,7 @@ export function createEngine({ now, health, notices }) {
     }
 
     if (school.coverage === 'nlschools') {
-      const applying = current
-        .map((n) => ({ n, how: howApplies(n, school) }))
-        .filter((x) => x.how && x.n.source_id !== 'csfp-news')
+      const applying = current.map((n) => ({ n, how: howApplies(n, school) })).filter((x) => x.how && x.n.source_id !== 'csfp-news')
       st.applies = applying.map((x) => ({ notice_id: x.n.id, how: x.how }))
       st.may_apply = mayApplyEntries(school, ['nlschools-status', 'nlschools-notices'])
       st.as_of = nls.last_ok_at
@@ -126,7 +124,9 @@ export function createEngine({ now, health, notices }) {
     applies_to: (n.matches || [])
       .map((m) => {
         const s = schoolById[m.school_id]
-        return s && { school_id: s.id, name: s.name, community: s.community, how: m.how, ...(m.how === 'may_apply' ? { reason: m.reason } : {}) }
+        return (
+          s && { school_id: s.id, name: s.name, community: s.community, how: m.how, ...(m.how === 'may_apply' ? { reason: m.reason } : {}) }
+        )
       })
       .filter(Boolean),
   })
@@ -170,9 +170,7 @@ export function createEngine({ now, health, notices }) {
         region_wide: current.filter((n) => n.scope === 'region' || n.scope === 'province'),
         regions: REGIONS.map((r) => ({
           ...r,
-          notices: current
-            .filter((n) => n.kind === 'school_row' && n.scope === 'school' && regionOf(n) === r.region)
-            .map(withAppliesTo),
+          notices: current.filter((n) => n.kind === 'school_row' && n.scope === 'school' && regionOf(n) === r.region).map(withAppliesTo),
           unmatched: current.filter((n) => n.scope === 'unmatched' && regionOf(n) === r.region),
           earlier: notices
             .filter((n) => ((n.removed_at && n.list_date === nls.list_date) || (!n.removed_at && isOld(n))) && regionOf(n) === r.region)
