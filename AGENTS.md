@@ -9,7 +9,7 @@ isn't one. Nothing is rewritten into new claims.
 - `core/`: pure ESM with zero dependencies. Text extraction, quote verification, Newfoundland time, the scan
   schedule, source adapters (NLSchools status list, NLSchools important notices, CSFP news feed), school matching,
   status rules, `runScan`. Runs in Node (`npm run scan`) and inside the Worker (`scheduled()`).
-- `worker/`: Cloudflare Worker + D1 (`school-closures-watch`, binding `DB`). Local only: `wrangler dev --local`.
+- `worker/`: Cloudflare Worker + D1 (`school-closures-watch`, binding `DB`). Live on workers.dev; local dev: `wrangler dev --local`.
 - `app/`: static HTML/CSS/JS, no build step, served by `node app/serve.mjs`.
 - `scripts/scan.mjs` runs a live scan into the local Worker; `scripts/demo.mjs` starts Worker + app and scans on
   the schedule.
@@ -45,7 +45,8 @@ QA: app 8209, worker 8208, fixtures 8207 / 8206.
   User-Agent `APCO-Software-Tools-research/1.0 (+https://apcosoftwaretools.ca)`. No logins. Never fetch a Link
   only or Not used source. Keep raw copies.
 - AI: none.
-- **No deploys** of any kind (no `wrangler deploy`, `secret put`, `d1 create`, nothing `--remote`). Nothing is sent.
-  Private repo only.
+- **Deploys only when Alexander says so** (he did on 2026-09-15: Worker + D1 + static app, see `docs/DEPLOY.md`).
+  Nothing is sent. Public repo: `check-no-personal-data .` must print clean before every push; secrets live in
+  `~/.config/school-closures-watch/env`, never in the tree.
 - Plain English for Newfoundland parents, readable at a glance at 6:30 AM. No emoji as icons. No devils or demons
   imagery.

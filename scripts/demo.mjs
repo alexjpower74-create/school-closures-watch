@@ -2,7 +2,7 @@
 // npm run demo
 // Applies local D1 migrations, starts the Worker (wrangler dev --local, port 8202) and the app
 // (node app/serve.mjs --port 8201, sc2's server), runs one forced live scan, then `scan.mjs --watch` (every minute,
-// whatever §6 says is due). Ctrl-C stops every child. Local only: nothing is deployed, nothing --remote.
+// whatever §6 says is due). Ctrl-C stops every child. Local demo: talks only to the local Worker, nothing --remote.
 import { spawn } from 'node:child_process'
 import { existsSync, copyFileSync } from 'node:fs'
 import { createConnection } from 'node:net'

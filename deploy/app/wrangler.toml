@@ -1,0 +1,7 @@
+# The app as a static-assets Worker. Run scripts/deploy-app.sh, not wrangler by hand: the script builds ../dist from
+# app/ with the production api-base first. The API Worker (worker/) deploys separately.
+name = "school-closures-watch-app"
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "../dist"

@@ -4,6 +4,10 @@ Is my kid's school open, delayed or closed, and is the bus running? Pick your sc
 from the official NLSchools list, in the source's own words, with "No notice on the NLSchools list as of 6:42 AM" when
 there isn't one.
 
+**Live:** [https://school-closures-watch-app.alexjpower74.workers.dev](https://school-closures-watch-app.alexjpower74.workers.dev) (app) · API [https://school-closures-watch.alexjpower74.workers.dev/api/health](https://school-closures-watch.alexjpower74.workers.dev/api/health). Deployed 2026-09-15 on Cloudflare Workers + D1; the
+Worker scans the real NLSchools sources on its own schedule (every 5 minutes on weekday mornings, hourly otherwise).
+Real data on the live page; the SAMPLE scenarios are at `?mock=1&scenario=storm` (also `today`, `quiet`, `stale`, `csfp`).
+
 ## Run it locally
 
 ```bash
@@ -65,22 +69,16 @@ scenarios). One lead control was aimed at code the real-API path doesn't use and
 and Eastside Elementary "OTHER STATUS" (a bus-run note). NLSchools important notices: none. CSFP news: no closure post.
 0 quotes dropped. On a normal night the list is often empty, and the app says so.
 
-## What deploying needs
+## Deploying
 
-Nothing has been deployed. Full checklist: `docs/DEPLOY.md`.
-- **Decide first:** NLSchools' terms only allow non-commercial, unmodified reuse without written permission; the
-  school spreadsheet page says "for your own personal use". Both need Alexander's call (DECISIONS.md §1).
-- D1 `school-closures-watch` (`wrangler d1 create`, then the id in `worker/wrangler.toml`, then
-  `wrangler d1 migrations apply school-closures-watch --remote`).
-- Secret `ADMIN_TOKEN`. Vars `SOURCE_ORIGIN_MAP=""`, `ALLOW_FAKE_NOW="0"`.
-- Cron `*/5 * * * *` (already in `wrangler.toml`; `core/schedule.js` decides what's due).
-- Worker `school-closures-watch` + the static `app/` (Pages or Workers static assets) with `<meta name="api-base">`
-  pointing at the Worker. A domain such as `schools.apcosoftwaretools.ca`.
+Deployed 2026-09-15: Worker `school-closures-watch` (D1 + cron) and static-assets Worker `school-closures-watch-app`
+(`scripts/deploy-app.sh` builds `deploy/dist` from `app/` with the production `<meta name="api-base">`). Full
+checklist, ids and the open questions (NLSchools terms, school spreadsheet terms, a custom domain): `docs/DEPLOY.md`.
 
 ## Where to pick this up
 
 - `PLAN.md` (the build contract), `docs/API.md` (data + HTTP contract), `DECISIONS.md` (source evidence),
   `docs/build-report.md` (final numbers, negative controls, known gaps), slice reports `docs/build-report-sc1.md`,
   `docs/build-report-sc2.md`.
-- Built overnight 2026-09-14 by a lead + two slices (sc1 core/Worker, sc2 app). Private repo
-  `alexjpower74-create/school-closures-watch`.
+- Built overnight 2026-09-14 by a lead + two slices (sc1 core/Worker, sc2 app). Public repo
+  `alexjpower74-create/school-closures-watch`; `check-no-personal-data .` runs before every push.

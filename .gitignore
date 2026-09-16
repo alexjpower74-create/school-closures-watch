@@ -10,3 +10,4 @@ data/scan-latest.json
 .rig/qa/
 .rig/*
 !.rig/config.json
+deploy/dist/

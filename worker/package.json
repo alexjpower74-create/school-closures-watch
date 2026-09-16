@@ -2,7 +2,7 @@
   "name": "school-closures-watch-worker",
   "private": true,
   "type": "module",
-  "description": "School Closures Watch Worker + D1. Local only: never deploy from here.",
+  "description": "School Closures Watch Worker + D1. Deploy with `npx wrangler deploy` only when Alexander says so.",
   "scripts": {
     "dev": "wrangler dev --local --port 8202",
     "migrate:local": "wrangler d1 migrations apply school-closures-watch --local",
